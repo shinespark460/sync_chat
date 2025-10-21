@@ -10,10 +10,10 @@ function App() {
 
   return (
     <>
-      <div style={{
+      <div className='w-full h-screen relative' style={{
         backgroundImage:`url(${bgImage})`,
         backgroundPosition:"center",
-        backgroundSize:"cever"
+        backgroundSize:"cover"
       }} >
         <Routes>
           <Route path="/" element={<HomePage />} />
