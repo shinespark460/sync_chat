@@ -1,20 +1,22 @@
 
-import { Routes ,  Route } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 import './App.css'
 import HomePage from './pages/HomePage'
 import LoginPage from './pages/LoginPage'
 import ProfilePage from './pages/ProfilePage'
 import bgImage from "../src/assets/images/bg_image.jpg"
+import { Toaster } from 'react-hot-toast'
 function App() {
 
 
   return (
     <>
       <div className='w-full h-screen relative' style={{
-        backgroundImage:`url(${bgImage})`,
-        backgroundPosition:"center",
-        backgroundSize:"cover"
+        backgroundImage: `url(${bgImage})`,
+        backgroundPosition: "center",
+        backgroundSize: "cover"
       }} >
+        <Toaster />
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
