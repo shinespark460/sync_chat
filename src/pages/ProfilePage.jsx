@@ -1,15 +1,33 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import assets from '../assets/assets';
+import { AppContext } from '../context/AppContext';
+import toast from 'react-hot-toast';
 
 const ProfilePage = () => {
+  const { authUser, updateProfile } = useContext(AppContext)
   const [selectedImage, setSelectedImage] = useState(null)
-  const [name, setName] = useState("John Cena");
-  const [bio, setBio] = useState("I am using chat shot");
+  const [name, setName] = useState(authUser?.fullName);
+  const [bio, setBio] = useState(authUser?.bio);
   const navigate = useNavigate()
   const handleSubmit = async (e) => {
     e.preventDefault();
-    navigate("/")
+    if (!selectedImage) {
+      await updateProfile({ fullName: name, bio })
+      navigate("/")
+      toast.success("Profile Updated Successfully");
+      return;
+    }
+    const render = new FileReader();
+    render.readAsDataURL(selectedImage);
+    render.onload = async () => {
+      const base64Image = render.result;
+      await updateProfile({ profilePic: base64Image, fullName: name, bio })
+      navigate("/")
+      toast.success("Profile Updated Successfully");
+      return;
+
+    }
   }
   return (
     <div className='min-h-screen bg-cover bg-no-repeat flex items-center justify-center'>
@@ -32,7 +50,7 @@ const ProfilePage = () => {
         <div className='flex justify-center items-center'>
 
 
-        <img src={assets.logo_icon} className='max-w-44 aspect-square rounded-full mx-10 max-sm:mt-10' />
+          <img src={authUser.profilePic || assets.logo_icon} className={`max-w-44 aspect-square rounded-full mx-10 max-sm:mt-10  ${selectedImage && 'rounded-full'}`} />
 
         </div>
       </div>

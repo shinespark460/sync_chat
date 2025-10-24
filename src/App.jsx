@@ -1,14 +1,17 @@
 
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import './App.css'
 import HomePage from './pages/HomePage'
 import LoginPage from './pages/LoginPage'
 import ProfilePage from './pages/ProfilePage'
 import bgImage from "../src/assets/images/bg_image.jpg"
 import { Toaster } from 'react-hot-toast'
+import { useContext } from 'react'
+import { AppContext } from './context/AppContext'
 function App() {
 
 
+  const { authUser } = useContext(AppContext)
   return (
     <>
       <div className='w-full h-screen relative' style={{
@@ -18,9 +21,9 @@ function App() {
       }} >
         <Toaster />
         <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/" element={authUser ? <HomePage /> : <Navigate to="/login" />} />
+          <Route path="/login" element={!authUser ? <LoginPage /> : <Navigate to="/" />} />
+          <Route path="/profile" element={authUser ? <ProfilePage /> : <Navigate to="/login" />} />
         </Routes>
       </div>
     </>

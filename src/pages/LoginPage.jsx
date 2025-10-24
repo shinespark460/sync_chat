@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import assets from '../assets/assets'
+import { AppContext } from '../context/AppContext';
 
 const LoginPage = () => {
   const [currState, setCurrState] = useState('Sign Up');
@@ -8,15 +9,14 @@ const LoginPage = () => {
   const [password, setPassword] = useState('');
   const [bio, setBio] = useState('');
   const [isDataSubmitted, setIsDataSubmitted] = useState(false);
+  const { login } = useContext(AppContext);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (currState === "Sign Up" && !isDataSubmitted) {
       setIsDataSubmitted(true); // show bio after first submit
-    } else {
-      console.log("Form Data:", { fullName, email, password, bio });
-      alert(`${currState} Successful!`);
     }
+    login(currState === "Sign Up" ? "signup" : "login", { fullName, email, password, bio });
   };
 
   return (
@@ -32,7 +32,7 @@ const LoginPage = () => {
           {
             isDataSubmitted && (<img onClick={() => setIsDataSubmitted(false)} src={assets.arrow_icon} alt="arrow" className="w-5 cursor-pointer" />)
           }
-          
+
         </h2>
 
         {currState === "Sign Up" && !isDataSubmitted && (
