@@ -1,11 +1,25 @@
-import React, { useContext } from 'react'
-import assets, { userDummyData } from '../assets/assets'
+import React, { useContext, useEffect, useState } from 'react'
+import assets from '../assets/assets'
 import { useNavigate } from 'react-router-dom'
 import { AppContext } from '../context/AppContext'
+import { ChatContext } from '../context/ChatContext'
 
-const SideBar = ({ selectedUser, setSelectedUser }) => {
+const SideBar = () => {
+
+    const { getUsers, users, selectedUser, setSelectedUser, unseenMessages, setUnseenMessages
+    } = useContext(ChatContext)
     const navigate = useNavigate()
-    const { logout } = useContext(AppContext)
+    const { logout, onlineUsers } = useContext(AppContext)
+
+    const [input, setInput] = useState("")
+
+    const filteredUsers = users ? users.filter((user) =>
+        user.fullName.toLowerCase().includes(input.toLowerCase())
+    ) : [];
+
+    useEffect(() => {
+        getUsers()
+    }, [onlineUsers])
     return (
         <div className={`bg-[#1885b2]/10 h-full p-5 rounded-r-xl text-white overflow-y-hidden ${selectedUser ? 'mx-md-hidden' : ''}`}>
 
@@ -23,14 +37,18 @@ const SideBar = ({ selectedUser, setSelectedUser }) => {
                 </div>
                 <div className='flex items-center px-5 py-2 mt-5 rounded-full  gap-3 bg-[#282142] '>
                     <img src={assets.search_icon} alt='' className='w-3' />
-                    <input type='text' placeholder='Search or start new chat' className='bg-transparent border-none text-white text-sm flex-1 placeholder:text-[#8c8c8c] outline-none' />
+                    <input type='text' onChange={(e) => setInput(e.target.value)} placeholder='Search or start new chat' className='bg-transparent border-none text-white text-sm flex-1 placeholder:text-[#8c8c8c] outline-none' />
                 </div>
             </div>
             <div className='flex flex-col gap-3 '>
                 {
-                    userDummyData.map((user, index) => (
+                    filteredUsers.map((user, index) => (
 
-                        <div key={index} onClick={() => setSelectedUser(user)} className={`relative flex items-center gap-2 p-2 pl-4 rounded-2xl cursor-pointer max-sm:text-xs  ${selectedUser?._id === user._id ? 'bg-[#1885b2]/30' : 'hover:bg-[#1885b2]/20'}`}>
+                        <div key={index} onClick={() => {
+                            setSelectedUser(user); setUnseenMessages(
+                                prev => ({ ...prev, [user._id]: 0 })
+                            )
+                        }} className={`relative flex items-center gap-2 p-2 pl-4 rounded-2xl cursor-pointer max-sm:text-xs  ${selectedUser?._id === user._id ? 'bg-[#1885b2]/30' : 'hover:bg-[#1885b2]/20'}`}>
 
                             <img src={user?.profilePic || assets.avatar_icon} className='w-[35px] aspect-[1/1] rounded-full' />
                             <div className='flex flex-col leading-5 '>
@@ -38,12 +56,15 @@ const SideBar = ({ selectedUser, setSelectedUser }) => {
                                     {user.fullName}
                                 </p>
                                 {
-                                    index > 3 ? <span className='text-green-500 text-xs'>Online</span> : <span className='text-gray-500 text-xs'>Offline</span>
+                                    onlineUsers.includes(user._id) ? <span className='text-green-500 text-xs'>Online</span> : <span className='text-gray-500 text-xs'>Offline</span>
                                 }
                             </div>
-                            {
-                                index > 2 && <p className='top-4 right-4 rounded-full text-xs absolute flex justify-center items-center w-4 h-4 bg-violet-500/50'>{index}</p>
-                            }
+                            {unseenMessages[user._id] > 0 && (
+                                <p className='top-4 right-4 rounded-full text-xs absolute flex justify-center items-center w-4 h-4 bg-violet-500/50'>
+                                    {unseenMessages[user._id]}
+                                </p>
+                            )}
+
                         </div>))
                 }
             </div>

@@ -15,20 +15,22 @@ export const ChatProvider = ({ children }) => {
 
     const getUsers = async () => {
         try {
-            const { data } = await axios.get("/api/auth/users");
+            const { data } = await axios.get("/api/messages/users");
             if (data.success) {
                 setUsers(data.users);
                 setUnseenMessages(data.unseenMessages);
             }
+            console.log(data);
             return data;
         } catch (error) {
             toast.error("Error: " + error.message);
+            console.log(error);
         }
     };
 
     const getMessages = async (userId) => {
         try {
-            const { data } = await axios.get(`/api/message/${userId}`);
+            const { data } = await axios.get(`/api/messages/${userId}`);
             if (data.success) {
                 setMessages(data.messages);
             }
@@ -40,7 +42,7 @@ export const ChatProvider = ({ children }) => {
 
     const sendMessage = async (messageData) => {
         try {
-            const { data } = await axios.post(`/api/message/send/${selectedUser._id}`, messageData);
+            const { data } = await axios.post(`/api/messages/send/${selectedUser._id}`, messageData);
             if (data.success) {
                 setMessages((prev) => [...prev, data.message]);
             } else {
@@ -55,23 +57,36 @@ export const ChatProvider = ({ children }) => {
         if (!socket) return;
 
         const handleNewMessage = async (newMessage) => {
-            if (selectedUser && newMessage.senderId === selectedUser._id) {
+            // ✅ Both sender and receiver should see it live
+            if (
+                selectedUser &&
+                (newMessage.senderId === selectedUser._id || newMessage.recieverId === selectedUser._id)
+            ) {
                 newMessage.seen = true;
                 setMessages((prev) => [...prev, newMessage]);
-                await axios.put(`/api/message/mark/${newMessage._id}`);
+
+                // Optional: mark as seen
+                try {
+                    await axios.put(`/api/messages/mark/${newMessage._id}`);
+                } catch (err) {
+                    console.error("Mark seen failed:", err.message);
+                }
             } else {
+                // ✅ Increment unseen count for other chats
                 setUnseenMessages((prev) => ({
                     ...prev,
-                    [newMessage.senderId]:
-                        (prev[newMessage.senderId] || 0) + 1,
+                    [newMessage.senderId]: (prev[newMessage.senderId] || 0) + 1,
                 }));
             }
         };
 
-        socket.on("newMessages", handleNewMessage);
+        // ✅ Correct event name from backend
+        socket.on("newMessage", handleNewMessage);
 
-        return () => socket.off("newMessages", handleNewMessage);
+        // ✅ Cleanup listener
+        return () => socket.off("newMessage", handleNewMessage);
     };
+
 
     useEffect(() => {
         const unsubscribe = subscribeToMessages();

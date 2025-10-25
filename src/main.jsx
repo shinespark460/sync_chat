@@ -3,14 +3,14 @@ import './index.css'
 import App from './App.jsx'
 import { BrowserRouter } from 'react-router-dom'
 import { AppProvider } from './context/AppContext.jsx'
-import { ChatConext } from './context/ChatContext.jsx'
+import { ChatContext, ChatProvider } from './context/ChatContext.jsx'
 createRoot(document.getElementById('root')).render(
   <>
     <BrowserRouter>
       <AppProvider>
-        <ChatConext>
-        </ChatConext>
-        <App />
+        <ChatProvider>
+          <App />
+        </ChatProvider>
       </AppProvider>
     </BrowserRouter>
   </>
