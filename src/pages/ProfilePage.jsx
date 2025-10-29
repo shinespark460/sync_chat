@@ -31,7 +31,7 @@ const ProfilePage = () => {
   }
   return (
     <div className='min-h-screen bg-cover bg-no-repeat flex items-center justify-center'>
-      <div className='w-5/6 max-w-3xl backdrop-blur-2xl text-gray-300 grid grid-cols-2 border-2 border-gray-600  items-center justify-between max-sm:flex-col-reverse rounded-lg'>
+      <div className='w-5/6 max-w-3xl backdrop-blur-2xl text-gray-300 grid md:grid-cols-2 grid-cols-1 border-2 border-gray-600  items-center justify-between max-sm:flex-col-reverse rounded-lg'>
         <form onSubmit={handleSubmit} className='flex flex-col gap-5 flex-1 p-6'>
           <h3 className='text-xl text-white'>Profile</h3>
           <label htmlFor='avatar' className='flex items-center gap-5 cursor-pointer'>
@@ -47,11 +47,8 @@ const ProfilePage = () => {
             Submit
           </button>
         </form>
-        <div className='flex justify-center items-center'>
-
-
-          <img src={authUser.profilePic || assets.logo_icon} className={`max-w-44 aspect-square rounded-full mx-10 max-sm:mt-10  ${selectedImage && 'rounded-full'}`} />
-
+        <div className='flex justify-center items-center lg:mb-0 mb-10'>
+          <img src={authUser.profilePic || assets.logo_icon} className={`lg:w-44 w-28 aspect-square rounded-full mx-10 max-sm:mt-10  ${selectedImage && 'rounded-full'}`} />
         </div>
       </div>
 

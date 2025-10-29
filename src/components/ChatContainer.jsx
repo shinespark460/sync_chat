@@ -4,16 +4,13 @@ import { formatMessageDate } from '../lib/utils';
 import { ChatContext } from '../context/ChatContext';
 import { AppContext } from '../context/AppContext';
 import toast from 'react-hot-toast';
-
 const ChatContainer = () => {
     const { messages, selectedUser, setSelectedUser, getMessages,
         sendMessage, } = useContext(ChatContext)
     const { authUser, onlineUsers } = useContext(AppContext)
     const [input, setInput] = useState("")
     const scrollEnd = React.useRef();
-
     const handleSubmit = async () => {
-
         if (input.trim() === "") return;
         await sendMessage({ text: input.trim() });
         setInput("")
@@ -21,13 +18,11 @@ const ChatContainer = () => {
     const handleSendImage = async (e) => {
         const file = e.target.files[0];
         if (!file) return;
-
         // ✅ check MIME type properly
         if (!file.type.startsWith("image/")) {
             toast.error("Please select a valid image file");
             return;
         }
-
         const reader = new FileReader();
         reader.onloadend = async () => {
             await sendMessage({ image: reader.result });
@@ -35,13 +30,11 @@ const ChatContainer = () => {
         };
         reader.readAsDataURL(file);
     };
-
     useEffect(() => {
         if (selectedUser) {
             getMessages(selectedUser._id)
         }
     }, [selectedUser])
-
     useEffect(() => {
         if (scrollEnd.current && messages) {
             scrollEnd.current.scrollIntoView({ behavior: "smooth" });
@@ -104,7 +97,6 @@ const ChatContainer = () => {
                 }
                 <div ref={scrollEnd}></div>
             </div>
-
             {/* Bottom Area */}
             <div className='absolute bottom-0 left-0 flex items-center gap-3 p-3 w-full z-30 bg-black/20 backdrop-blur-lg'>
                 <div className='flex items-center flex-1 bg-gray-100/10 rounded-full px-4 py-2'>
