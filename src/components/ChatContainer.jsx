@@ -4,12 +4,14 @@ import { formatMessageDate } from '../lib/utils';
 import { ChatContext } from '../context/ChatContext';
 import { AppContext } from '../context/AppContext';
 import toast from 'react-hot-toast';
+import ProfileModal from './Profilemodel';
 const ChatContainer = () => {
     const { messages, selectedUser, setSelectedUser, getMessages,
         sendMessage, } = useContext(ChatContext)
     const { authUser, onlineUsers } = useContext(AppContext)
     const [input, setInput] = useState("")
     const scrollEnd = React.useRef();
+    const [showProfile, setShowProfile] = useState(false)
     const handleSubmit = async () => {
         if (input.trim() === "") return;
         await sendMessage({ text: input.trim() });
@@ -44,7 +46,8 @@ const ChatContainer = () => {
         <div className=' backdrop-blur-lg overflow-scroll h-full relative m-2'>
             {/* Header Part */}
             <div className='flex items-center gap-3 border-b border-stone-500 px-6 py-3'>
-                <img src={selectedUser.profilePic || assets.avatar_icon} alt='' className='w-8 rounded-full' />
+                <img src={selectedUser.profilePic || assets.avatar_icon} alt='' className='w-8 rounded-full hidden md:block' />
+                <img src={selectedUser.profilePic || assets.avatar_icon} alt='' className='w-8 rounded-full block md:hidden' onClick={() => setShowProfile(true)} />
                 <p className='flex items-center flex-1 gap-2 text-lg text-white font-semibold'>
                     {selectedUser.fullName}
                     {
@@ -96,6 +99,13 @@ const ChatContainer = () => {
                     ))
                 }
                 <div ref={scrollEnd}></div>
+                {showProfile && (
+                    <ProfileModal
+                        user={selectedUser}
+                        images={messages ? messages.filter((m) => m.image) : []}
+                        onClose={() => setShowProfile(false)}
+                    />
+                )}
             </div>
             {/* Bottom Area */}
             <div className='absolute bottom-0 left-0 flex items-center gap-3 p-3 w-full z-30 bg-black/20 backdrop-blur-lg'>
