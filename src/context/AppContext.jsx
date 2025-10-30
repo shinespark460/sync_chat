@@ -24,7 +24,7 @@ export const AppProvider = ({ children }) => {
                 connectSocket(data.user);
             }
         } catch (error) {
-            toast.error("Error: " + error.message);
+            console.error("Error: " + error.message);
         }
     };
 
