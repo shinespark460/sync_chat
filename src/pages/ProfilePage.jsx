@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import assets from '../assets/assets';
 import { AppContext } from '../context/AppContext';
 import toast from 'react-hot-toast';
@@ -33,7 +33,7 @@ const ProfilePage = () => {
     <div className='min-h-screen bg-cover bg-no-repeat flex items-center justify-center'>
       <div className='w-5/6 max-w-3xl backdrop-blur-2xl text-gray-300 grid md:grid-cols-2 grid-cols-1 border-2 border-gray-600  items-center justify-between max-sm:flex-col-reverse rounded-lg'>
         <form onSubmit={handleSubmit} className='flex flex-col gap-5 flex-1 p-6'>
-          <h3 className='text-xl text-white'>Profile</h3>
+          <h3 className='text-xl text-white flex justify-between'><span>Porfile</span> <Link to="/" className='text-emerald-300'>Cancel</Link></h3>
           <label htmlFor='avatar' className='flex items-center gap-5 cursor-pointer'>
             <input onChange={(e) => setSelectedImage(e.target.files[0])} type="file" id='avatar' hidden accept='image/jpg, image/jpeg' />
             <img src={selectedImage ? URL.createObjectURL(selectedImage) : assets.avatar_icon} className={`w-12 h-12 ${selectedImage && 'rounded-full'}`} />
