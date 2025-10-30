@@ -42,7 +42,7 @@ const SideBar = () => {
             alt="logo"
             className="w-24 sm:w-32 max-w-[120px]"
           />
-          <div className="relative py-2" onBlur={() => setShowMenu(false)}>
+          <div className="relative py-2">
             <button onClick={() => setShowMenu((prev) => !prev)}>
               <img
                 src={assets.menu_icon}
