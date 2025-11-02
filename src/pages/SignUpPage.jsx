@@ -1,98 +1,260 @@
-import React from "react";
-import loginImg from "../assets/images/login/login-01.png";
-const SignUpPage = () => {
+import React, { useContext, useState } from 'react';
+import { LogIn, User, Mail, Lock, MessageSquare, Eye, EyeOff } from 'lucide-react';
+import signupIllustrator from "../assets/images/login/login-01.png"
+import { AppContext } from '../context/AppContext';
+import Loader from '../components/Loading';
+// Main App component
+const App = () => {
+  const { login, loading } = useContext(AppContext)
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: '',
+    bio: '',
+    agreed: false,
+  });
+
+  const [currState, setCurrState] = useState('Sign Up');
+  const [showPassword, setShowPassword] = useState(false);
+  // Simple state update handler
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value,
+    }));
+
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    // In a real application, you would handle authentication here.
+    console.log("Form Submitted:", formData);
+    login(currState === "Sign Up" ? "signup" : "login", formData);
+
+    // Note: Alert() is replaced by console log or custom UI for real apps.
   };
+
+  // SVG component for the Synk Logo (Message Bubble Icon + Text)
+  const SynkLogo = () => (
+    <div className="flex items-center space-x-2">
+      {/* Icon: Modern, Gradient Message Bubble */}
+      <svg
+        width="32"
+        height="32"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        className="w-8 h-8 md:w-10 md:h-10"
+      >
+        <path
+          d="M21 15V19C21 20.1046 20.1046 21 19 21H7C5.89543 21 5 20.1046 5 19V15C5 13.8954 5.89543 13 7 13H19C20.1046 13 21 13.8954 21 15Z"
+          fill="url(#synkGradient)"
+          className="opacity-70"
+        />
+        <path
+          d="M17 11H7C5.89543 11 5 10.1046 5 9V5C5 3.89543 5.89543 3 7 3H17C18.1046 3 19 3.89543 19 5V9C19 10.1046 18.1046 11 17 11Z"
+          fill="url(#synkGradient)"
+        />
+        <circle cx="12" cy="17" r="1.5" fill="#FFFFFF" />
+        <defs>
+          <linearGradient id="synkGradient" x1="5" y1="3" x2="21" y2="21" gradientUnits="userSpaceOnUse">
+            <stop stopColor="#67e8f9" />
+            <stop offset="1" stopColor="#a78bfa" />
+          </linearGradient>
+        </defs>
+      </svg>
+      <span className="text-2xl md:text-3xl font-extrabold text-[#4eac6d] md:text-white tracking-tight">
+        Synk
+      </span>
+    </div>
+  );
+
+
+  // The single-page responsive layout
   return (
-    <div className="w-full h-screen bg-[#4eac6d] p-4">
-      <div className="grid grid-cols-[3fr_9fr]">
-        <div className="">
-          <div className="">
-            <img
-              src={loginImg}
-              alt="login-img"
-              className="w-full h-full object-cover"
-            />
-          </div>
+    <div className="min-h-screen bg-[#4eac6d] flex items-center relative justify-center p-4 font-inter">
+
+      {
+        loading && <div className='text-8xl absolute w-full h-full top-0 z-50 bg-[#dddddd8a] flex justify-center items-center text-red-500'> <Loader />
         </div>
-        <div className="w-full h-full py-16 relative rounded-lg flex justify-center flex-col items-center bg-white">
-          <div className="flex flex-col gap-3 justify-center items-center ">
-            <h1 className="text-[1.5rem] font-medium text-[#555555]">
-              Register Account
-            </h1>
-            <p className="font-medium text-xl text-[#555555]">
-              Get your free{" "}
-              <span className="text-[#4eac6d] font-bold">Synk</span> account now
-            </p>
-            <form onSubmit={() => handleSubmit()} className="text-[16px] mt-12">
-              {/* Name Field */}
-              <div className="my-2">
-                <label className="block text-[#555555] font-medium  mb-2 mx-3">
-                  Name
-                </label>
-                <input
-                  type="text"
-                  placeholder="Enter your name"
-                  className="w-[500px] py-2 border border-gray-300 rounded-lg px-5 focus:outline-none focus:ring-2 focus:ring-[#4eac6d]"
-                />
-              </div>
-              <div className="my-2">
-                <label className="block text-[#555555] font-medium  mb-2 mx-3">
-                  Email
-                </label>
-                <input
-                  type="email"
-                  placeholder="Enter your name"
-                  className="w-[500px] py-2 border border-gray-300 rounded-lg px-5 focus:outline-none focus:ring-2 focus:ring-[#4eac6d]"
-                />
-              </div>
-              <div className="my-2">
-                <label className="block text-[#555555] font-medium  mb-2 mx-3">
-                  Password
-                </label>
-                <input
-                  type="text"
-                  placeholder="Enter your name"
-                  className="w-[500px] py-2 border border-gray-300 rounded-lg px-5 focus:outline-none focus:ring-2 focus:ring-[#4eac6d]"
-                />
-              </div>
-              <div className="my-2">
-                <label className="block text-[#555555] font-medium  mb-2 mx-3">
-                  Bio
-                </label>
-                <textarea
-                  rows={4}
-                  type="text"
-                  placeholder="Enter your name"
-                  className="w-[500px] py-2 border resize-none border-gray-300 rounded-lg px-5 focus:outline-none focus:ring-2 focus:ring-[#4eac6d]"
-                />
-              </div>
-              <div className=" text-gray-500 flex flex-row gap-2 my-2 items-center">
-                <input type="checkbox" required />{" "}
-                <p className="">Agree with terms and user policy</p>
-              </div>
-              <button className="w-full rounded-lg text-white py-2 bg-[#4eac6d]">
-                Register
-              </button>
-            </form>
+      }
+      {/* Container: Max width for desktop, full width for mobile */}
+      <div className="w-full max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-12 rounded-xl  overflow-hidden">
+
+        {/* LEFT COLUMN: VISUAL/MARKETING (Hidden on mobile, visible on medium screens) */}
+        <div className="md:col-span-5 lg:col-span-4  p-6 lg:p-10 relative hidden md:flex flex-col justify-between items-center text-white">
+          <div className="w-full">
+            <SynkLogo />
           </div>
-          <div className="mb-16 mt-6">
-            <p className="text-[#555555]">
-              Already have an account?{" "}
-              <span className="text-[#4eac6d] font-bold cursor-pointer">
-                Login
-              </span>
+
+          <div className="flex flex-col items-center justify-center text-center py-5">
+            <h1 className="text-3xl lg:text-4xl font-extrabold mb-4 leading-tight">
+              Join the future of instant connection.
+            </h1>
+            <p className="text-lg opacity-90">
+              Synk provides secure and seamless communication across all your devices.
             </p>
           </div>
 
-          <div className="absolute bottom-3">
-            <p className="text-[#555555]">
-              Sink 2025 &copy; | All rights reserved. | Crafted By &nbsp;
-              <a className="text-[#4eac6d] font-bold cursor-pointer">
-                Himanshu
-              </a>
+          <img
+            src={signupIllustrator}
+            alt="Chat Application Illustration"
+            className="w-full max-w-xs md:max-w-full z-10 "
+          />
+        </div>
+
+        {/* RIGHT COLUMN: SIGN UP FORM */}
+        <div className="md:col-span-7 lg:col-span-8 w-full p-6 sm:p-10 2xl:p-16 relative flex flex-col justify-between bg-white rounded-xl">
+
+          <div className="flex flex-col gap-5 justify-center items-center w-full">
+
+            {/* Logo for Mobile View */}
+            <div className="md:hidden mb-4 ">
+              <SynkLogo />
+            </div>
+
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-800">
+              {
+                currState === 'Sign Up' ? 'Create Your Account' : 'Welcome Back'
+              }
+            </h1>
+            <p className="font-semibold text-lg text-gray-600 text-center">
+              Get your free{' '}
+              <span className="text-[#4eac6d] font-bold">Synk</span> account now
             </p>
+
+            {/* FORM SECTION: Center the form content and constrain its max width */}
+            <form onSubmit={handleSubmit} className="text-base mt-8 w-full max-w-md">
+
+              {/* Name Field */}
+              {
+                currState === 'Sign Up' && (<div className="mb-4">
+                  <label className="flex items-center text-gray-700 font-semibold mb-2 text-sm">
+                    <User className="w-4 h-4 mr-2 text-[#4eac6d]" /> Name
+                  </label>
+                  <input
+                    type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    placeholder="Enter your full name"
+                    className="w-full p-3 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-[#4eac6d] transition duration-200"
+                    required
+                  />
+                </div>)
+              }
+
+
+              {/* Email Field */}
+              <div className="mb-4">
+                <label className="flex items-center text-gray-700 font-semibold mb-2 text-sm">
+                  <Mail className="w-4 h-4 mr-2 text-[#4eac6d]" /> Email
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="Enter your email address"
+                  className="w-full p-3 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-[#4eac6d] transition duration-200"
+                  required
+                />
+              </div>
+
+              {/* Password Field */}
+              <div className="mb-4 relative">
+                <label className="flex items-center text-gray-700 font-semibold mb-2 text-sm">
+                  <Lock className="w-4 h-4 mr-2 text-[#4eac6d]" /> Password
+                </label>
+                <input
+                  type={!showPassword ? "password" : "text"}
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  placeholder="Create a password"
+                  className="w-full p-3 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-[#4eac6d] transition duration-200"
+                  required
+                />
+
+                <span onClick={() => setShowPassword(!showPassword)} className="w-5 h-5 text-gray-400 absolute right-5 top-1/2 cursor-pointer" >
+                  {showPassword ? <Eye /> : <EyeOff />}
+                </span>
+
+
+
+              </div>
+
+              {/* Bio Field (Changed from text to textarea and added icon) */}
+              {
+                currState === 'Sign Up' && (<div className="mb-6">
+                  <label className="flex items-center text-gray-700 font-semibold mb-2 text-sm">
+                    <MessageSquare className="w-4 h-4 mr-2 text-[#4eac6d]" /> Bio
+                  </label>
+                  <textarea
+                    rows={3}
+                    name="bio"
+                    value={formData.bio}
+                    onChange={handleChange}
+                    placeholder="A short introduction about yourself"
+                    className="w-full p-3 border resize-none border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-[#4eac6d] transition duration-200"
+                  />
+                </div>)
+              }
+
+
+              {/* Terms Checkbox */}
+              <div className="text-gray-500 flex flex-row gap-3 my-4 items-start">
+                <input
+                  type="checkbox"
+                  name="agreed"
+                  checked={formData.agreed}
+                  onChange={handleChange}
+                  className="mt-1 w-4 h-4 text-[#4eac6d] bg-gray-100 border-gray-300 rounded focus:ring-[#4eac6d]"
+                  required
+                />
+                <p className="text-sm">
+                  I agree with the <span className="font-medium text-[#4eac6d] cursor-pointer hover:underline">Terms of Service</span> and <span className="font-medium text-[#4eac6d] cursor-pointer hover:underline">Privacy Policy</span>.
+                </p>
+              </div>
+
+              {/* Register Button */}
+              <button
+                type="submit"
+                className="w-full rounded-xl text-white py-3 mt-4 bg-[#4eac6d] hover:bg-[#3a8b54] transition cursor-pointer duration-300 shadow-lg flex flex-row gap-2 justify-center items-center font-bold text-lg"
+              >
+                <LogIn />
+                {
+                  currState === 'Sign Up' ? 'Sign Up Accuont' : 'Login Account'
+                }
+              </button>
+            </form>
+          </div>
+
+          {/* Footer Links and Copyright */}
+          <div className={` ${currState === 'Sing Up' ? 'mt-8' : 'mt-4'} mt-8 text-center text-gray-600`}>
+            <p className="text-sm sm:text-base mb-2">
+
+              {
+                currState === "Sign Up" ? 'Already have an account?' : ' Don\'t have an account?'
+              }
+              <span onClick={() => setCurrState(currState === "Sign Up" ? "Login" : "Sign Up")}
+                className="text-[#4eac6d] font-bold cursor-pointer hover:underline">
+
+                {
+                  currState === "Sign Up" ? ' Loigin' : ' Sign Up'
+                }
+              </span>
+            </p>
+
+            <div className="border-t border-gray-100 pt-4 mt-auto">
+              <p className="text-xs text-gray-500">
+                Synk 2025 &copy; | All rights reserved. | Crafted By &nbsp;
+                <a className="text-[#4eac6d] font-bold cursor-pointer hover:underline">
+                  Himanshu
+                </a>
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -100,4 +262,4 @@ const SignUpPage = () => {
   );
 };
 
-export default SignUpPage;
+export default App;

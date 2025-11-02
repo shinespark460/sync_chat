@@ -24,17 +24,17 @@ function App() {
         <Routes>
           <Route
             path="/"
-            element={authUser ? <HomePage /> : <Navigate to="/login" />}
+            element={authUser ? <HomePage /> : <Navigate to="/signup" />}
           />
           <Route
-            path="/login"
-            element={!authUser ? <LoginPage /> : <Navigate to="/" />}
+            path="/signup"
+            element={!authUser ? <SignUpPage /> : <Navigate to="/" />}
           />
           <Route
             path="/profile"
-            element={authUser ? <ProfilePage /> : <Navigate to="/login" />}
+            element={authUser ? <ProfilePage /> : <Navigate to="/signup" />}
           />
-          <Route path="/signup" element={<SignUpPage />} />
+    
         </Routes>
       </div>
     </>

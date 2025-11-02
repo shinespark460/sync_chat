@@ -15,6 +15,8 @@ export const AppProvider = ({ children }) => {
     const [authUser, setAuthUser] = useState(null);
     const [onlineUsers, setOnlineUsers] = useState([]);
     const [socket, setSocket] = useState(null);
+    const [loading, setLoading] = useState(false);
+
 
     const checkAuth = async () => {
         try {
@@ -30,6 +32,8 @@ export const AppProvider = ({ children }) => {
 
     const login = async (state, credential) => {
         try {
+            setLoading(true);
+
             const { data } = await axios.post(`/api/auth/${state}`, credential);
             if (data.success) {
                 setAuthUser(data.userData);
@@ -38,10 +42,13 @@ export const AppProvider = ({ children }) => {
                 setToken(data.token);
                 localStorage.setItem("token", data.token);
                 toast.success(data.message);
+                 setLoading(false);
             } else {
+                setLoading(false);
                 toast.error(data.message);
             }
         } catch (error) {
+            setLoading(false);
             toast.error("Error: " + error.message);
         }
     };
@@ -94,6 +101,7 @@ export const AppProvider = ({ children }) => {
         socket,
         login,
         logout,
+        loading,
         updateProfile,
     };
 
