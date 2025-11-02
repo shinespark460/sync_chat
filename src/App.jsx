@@ -12,14 +12,7 @@ function App() {
   const { authUser } = useContext(AppContext);
   return (
     <>
-      <div
-        // className="w-full h-full relative"
-        // style={{
-        //   backgroundImage: `url(${bgImage})`,
-        //   backgroundPosition: "center",
-        //   backgroundSize: "cover",
-        // }}
-      >
+      <div>
         <Toaster />
         <Routes>
           <Route
