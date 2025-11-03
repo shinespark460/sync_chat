@@ -27,7 +27,7 @@ function App() {
             path="/profile"
             element={authUser ? <ProfilePage /> : <Navigate to="/signup" />}
           />
-          <Route path="/dahsboard" element={<HomeDashboard />} />
+          <Route path="/dashboard" element={<HomeDashboard />} />
         </Routes>
       </div>
     </>
