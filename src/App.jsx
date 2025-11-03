@@ -1,13 +1,13 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import "./App.css";
 import HomePage from "./pages/HomePage";
-import LoginPage from "./pages/LoginPage";
 import ProfilePage from "./pages/ProfilePage";
 // import bgImage from "../src/assets/images/bg_image.jpg";
 import { Toaster } from "react-hot-toast";
 import { useContext } from "react";
 import { AppContext } from "./context/AppContext";
 import SignUpPage from "./pages/SignUpPage";
+import HomeDashboard from "./pages/HomeDashboard";
 function App() {
   const { authUser } = useContext(AppContext);
   return (
@@ -27,7 +27,7 @@ function App() {
             path="/profile"
             element={authUser ? <ProfilePage /> : <Navigate to="/signup" />}
           />
-    
+          <Route path="/dahsboard" element={<HomeDashboard />} />
         </Routes>
       </div>
     </>

@@ -137,8 +137,8 @@ const App = () => {
               </p>
             ) : (
               <p className="font-semibold text-lg text-gray-600 text-center">
-                Please login to your{" "}
-                <span className="text-[#4eac6d] font-bold">Synk</span> account
+               Sign in to continue to
+                <span className="text-[#4eac6d] font-bold">Synk</span>
               </p>
             )}
             {/* FORM SECTION: Center the form content and constrain its max width */}
