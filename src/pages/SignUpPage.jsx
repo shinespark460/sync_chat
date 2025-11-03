@@ -86,7 +86,7 @@ const App = () => {
 
   // The single-page responsive layout
   return (
-    <div className="min-h-screen bg-[#4eac6d] flex items-center relative justify-center p-4 font-inter">
+    <div className="min-h-screen bg-[#4eac6d] flex items-center relative justify-center lg:p-4 p-0 py-4 font-inter">
       {loading && (
         <div className="text-8xl absolute w-full h-full top-0 z-50 bg-[#dddddd8a] flex justify-center items-center text-red-500">
           {" "}
@@ -120,7 +120,7 @@ const App = () => {
 
         {/* RIGHT COLUMN: SIGN UP FORM */}
         <div className="md:col-span-7 lg:col-span-8 w-full p-6 sm:p-10 2xl:p-16 relative flex flex-col justify-between bg-white rounded-xl">
-          <div className="flex flex-col gap-5 justify-center items-center w-full">
+          <div className="flex flex-col lg:gap-5 justify-center items-center w-full">
             {/* Logo for Mobile View */}
             <div className="md:hidden mb-4 ">
               <SynkLogo />
@@ -129,15 +129,22 @@ const App = () => {
             <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-800">
               {currState === "Sign Up" ? "Create Your Account" : "Welcome Back"}
             </h1>
-            <p className="font-semibold text-lg text-gray-600 text-center">
-              Get your free{" "}
-              <span className="text-[#4eac6d] font-bold">Synk</span> account now
-            </p>
-
+            {currState === "Sign Up" ? (
+              <p className="font-semibold text-lg text-gray-600 text-center">
+                Get your free{" "}
+                <span className="text-[#4eac6d] font-bold">Synk</span> account
+                now
+              </p>
+            ) : (
+              <p className="font-semibold text-lg text-gray-600 text-center">
+                Please login to your{" "}
+                <span className="text-[#4eac6d] font-bold">Synk</span> account
+              </p>
+            )}
             {/* FORM SECTION: Center the form content and constrain its max width */}
             <form
               onSubmit={handleSubmit}
-              className="text-base mt-8 w-full max-w-md"
+              className="text-base lg:mt-8 mt-4 w-full max-w-md"
             >
               {/* Name Field */}
               {currState === "Sign Up" && (
@@ -204,7 +211,7 @@ const App = () => {
                     Bio
                   </label>
                   <textarea
-                    rows={3}
+                    rows={4}
                     name="bio"
                     value={formData.bio}
                     onChange={handleChange}
@@ -269,7 +276,7 @@ const App = () => {
             </p>
 
             <div className="border-t border-gray-100 pt-4 mt-auto">
-              <p className="text-xs text-gray-500">
+              <p className="lg:text-lg text-sm text-gray-500">
                 Synk 2025 &copy; | All rights reserved. | Crafted By &nbsp;
                 <a className="text-[#4eac6d] font-bold cursor-pointer hover:underline">
                   Himanshu
