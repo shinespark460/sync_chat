@@ -1,29 +1,36 @@
-import React, { useContext, useState } from 'react';
-import { LogIn, User, Mail, Lock, MessageSquare, Eye, EyeOff } from 'lucide-react';
-import signupIllustrator from "../assets/images/login/login-01.png"
-import { AppContext } from '../context/AppContext';
-import Loader from '../components/Loading';
+import React, { useContext, useState } from "react";
+import {
+  LogIn,
+  User,
+  Mail,
+  Lock,
+  MessageSquare,
+  Eye,
+  EyeOff,
+} from "lucide-react";
+import signupIllustrator from "../assets/images/login/login-01.png";
+import { AppContext } from "../context/AppContext";
+import Loader from "../components/Loading";
 // Main App component
 const App = () => {
-  const { login, loading } = useContext(AppContext)
+  const { login, loading } = useContext(AppContext);
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    bio: '',
+    name: "",
+    email: "",
+    password: "",
+    bio: "",
     agreed: false,
   });
 
-  const [currState, setCurrState] = useState('Sign Up');
+  const [currState, setCurrState] = useState("Sign Up");
   const [showPassword, setShowPassword] = useState(false);
   // Simple state update handler
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value,
+      [name]: type === "checkbox" ? checked : value,
     }));
-
   };
 
   const handleSubmit = (e) => {
@@ -58,7 +65,14 @@ const App = () => {
         />
         <circle cx="12" cy="17" r="1.5" fill="#FFFFFF" />
         <defs>
-          <linearGradient id="synkGradient" x1="5" y1="3" x2="21" y2="21" gradientUnits="userSpaceOnUse">
+          <linearGradient
+            id="synkGradient"
+            x1="5"
+            y1="3"
+            x2="21"
+            y2="21"
+            gradientUnits="userSpaceOnUse"
+          >
             <stop stopColor="#67e8f9" />
             <stop offset="1" stopColor="#a78bfa" />
           </linearGradient>
@@ -70,18 +84,17 @@ const App = () => {
     </div>
   );
 
-
   // The single-page responsive layout
   return (
     <div className="min-h-screen bg-[#4eac6d] flex items-center relative justify-center p-4 font-inter">
-
-      {
-        loading && <div className='text-8xl absolute w-full h-full top-0 z-50 bg-[#dddddd8a] flex justify-center items-center text-red-500'> <Loader />
+      {loading && (
+        <div className="text-8xl absolute w-full h-full top-0 z-50 bg-[#dddddd8a] flex justify-center items-center text-red-500">
+          {" "}
+          <Loader />
         </div>
-      }
+      )}
       {/* Container: Max width for desktop, full width for mobile */}
-      <div className="w-full max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-12 rounded-xl  overflow-hidden">
-
+      <div className="w-full max-w-11/12 mx-auto grid grid-cols-1 md:grid-cols-12 rounded-xl  overflow-hidden">
         {/* LEFT COLUMN: VISUAL/MARKETING (Hidden on mobile, visible on medium screens) */}
         <div className="md:col-span-5 lg:col-span-4  p-6 lg:p-10 relative hidden md:flex flex-col justify-between items-center text-white">
           <div className="w-full">
@@ -93,7 +106,8 @@ const App = () => {
               Join the future of instant connection.
             </h1>
             <p className="text-lg opacity-90">
-              Synk provides secure and seamless communication across all your devices.
+              Synk provides secure and seamless communication across all your
+              devices.
             </p>
           </div>
 
@@ -106,30 +120,28 @@ const App = () => {
 
         {/* RIGHT COLUMN: SIGN UP FORM */}
         <div className="md:col-span-7 lg:col-span-8 w-full p-6 sm:p-10 2xl:p-16 relative flex flex-col justify-between bg-white rounded-xl">
-
           <div className="flex flex-col gap-5 justify-center items-center w-full">
-
             {/* Logo for Mobile View */}
             <div className="md:hidden mb-4 ">
               <SynkLogo />
             </div>
 
             <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-800">
-              {
-                currState === 'Sign Up' ? 'Create Your Account' : 'Welcome Back'
-              }
+              {currState === "Sign Up" ? "Create Your Account" : "Welcome Back"}
             </h1>
             <p className="font-semibold text-lg text-gray-600 text-center">
-              Get your free{' '}
+              Get your free{" "}
               <span className="text-[#4eac6d] font-bold">Synk</span> account now
             </p>
 
             {/* FORM SECTION: Center the form content and constrain its max width */}
-            <form onSubmit={handleSubmit} className="text-base mt-8 w-full max-w-md">
-
+            <form
+              onSubmit={handleSubmit}
+              className="text-base mt-8 w-full max-w-md"
+            >
               {/* Name Field */}
-              {
-                currState === 'Sign Up' && (<div className="mb-4">
+              {currState === "Sign Up" && (
+                <div className="mb-4">
                   <label className="flex items-center text-gray-700 font-semibold mb-2 text-sm">
                     <User className="w-4 h-4 mr-2 text-[#4eac6d]" /> Name
                   </label>
@@ -142,9 +154,8 @@ const App = () => {
                     className="w-full p-3 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-[#4eac6d] transition duration-200"
                     required
                   />
-                </div>)
-              }
-
+                </div>
+              )}
 
               {/* Email Field */}
               <div className="mb-4">
@@ -177,19 +188,20 @@ const App = () => {
                   required
                 />
 
-                <span onClick={() => setShowPassword(!showPassword)} className="w-5 h-5 text-gray-400 absolute right-5 top-1/2 cursor-pointer" >
+                <span
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="w-5 h-5 text-gray-400 absolute right-5 top-1/2 cursor-pointer"
+                >
                   {showPassword ? <Eye /> : <EyeOff />}
                 </span>
-
-
-
               </div>
 
               {/* Bio Field (Changed from text to textarea and added icon) */}
-              {
-                currState === 'Sign Up' && (<div className="mb-6">
+              {currState === "Sign Up" && (
+                <div className="mb-6">
                   <label className="flex items-center text-gray-700 font-semibold mb-2 text-sm">
-                    <MessageSquare className="w-4 h-4 mr-2 text-[#4eac6d]" /> Bio
+                    <MessageSquare className="w-4 h-4 mr-2 text-[#4eac6d]" />{" "}
+                    Bio
                   </label>
                   <textarea
                     rows={3}
@@ -199,9 +211,8 @@ const App = () => {
                     placeholder="A short introduction about yourself"
                     className="w-full p-3 border resize-none border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-[#4eac6d] transition duration-200"
                   />
-                </div>)
-              }
-
+                </div>
+              )}
 
               {/* Terms Checkbox */}
               <div className="text-gray-500 flex flex-row gap-3 my-4 items-start">
@@ -214,7 +225,15 @@ const App = () => {
                   required
                 />
                 <p className="text-sm">
-                  I agree with the <span className="font-medium text-[#4eac6d] cursor-pointer hover:underline">Terms of Service</span> and <span className="font-medium text-[#4eac6d] cursor-pointer hover:underline">Privacy Policy</span>.
+                  I agree with the{" "}
+                  <span className="font-medium text-[#4eac6d] cursor-pointer hover:underline">
+                    Terms of Service
+                  </span>{" "}
+                  and{" "}
+                  <span className="font-medium text-[#4eac6d] cursor-pointer hover:underline">
+                    Privacy Policy
+                  </span>
+                  .
                 </p>
               </div>
 
@@ -224,26 +243,28 @@ const App = () => {
                 className="w-full rounded-xl text-white py-3 mt-4 bg-[#4eac6d] hover:bg-[#3a8b54] transition cursor-pointer duration-300 shadow-lg flex flex-row gap-2 justify-center items-center font-bold text-lg"
               >
                 <LogIn />
-                {
-                  currState === 'Sign Up' ? 'Sign Up Accuont' : 'Login Account'
-                }
+                {currState === "Sign Up" ? "Sign Up Accuont" : "Login Account"}
               </button>
             </form>
           </div>
 
           {/* Footer Links and Copyright */}
-          <div className={` ${currState === 'Sing Up' ? 'mt-8' : 'mt-4'} mt-8 text-center text-gray-600`}>
+          <div
+            className={` ${
+              currState === "Sing Up" ? "mt-8" : "mt-4"
+            } mt-8 text-center text-gray-600`}
+          >
             <p className="text-sm sm:text-base mb-2">
-
-              {
-                currState === "Sign Up" ? 'Already have an account?' : ' Don\'t have an account?'
-              }
-              <span onClick={() => setCurrState(currState === "Sign Up" ? "Login" : "Sign Up")}
-                className="text-[#4eac6d] font-bold cursor-pointer hover:underline">
-
-                {
-                  currState === "Sign Up" ? ' Loigin' : ' Sign Up'
+              {currState === "Sign Up"
+                ? "Already have an account?"
+                : " Don't have an account?"}
+              <span
+                onClick={() =>
+                  setCurrState(currState === "Sign Up" ? "Login" : "Sign Up")
                 }
+                className="text-[#4eac6d] font-bold cursor-pointer hover:underline"
+              >
+                {currState === "Sign Up" ? " Login" : " Sign Up"}
               </span>
             </p>
 
