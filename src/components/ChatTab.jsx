@@ -1,6 +1,16 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import bg_image from "../assets/images/chatBox/bg_chat_img.png";
-import { MessageSquareText, Plus, Smile, Send } from "lucide-react";
+import {
+  MessageSquareText,
+  Plus,
+  Smile,
+  Send,
+  FileText,
+  Images,
+  Headphones,
+  Link,
+  MapPin,
+} from "lucide-react";
 import assets from "../assets/assets";
 import { formatMessageDate } from "../lib/utils";
 import { ChatContext } from "../context/ChatContext";
@@ -8,7 +18,12 @@ import { AppContext } from "../context/AppContext";
 import toast from "react-hot-toast";
 import CircularProgress from "@mui/material/CircularProgress";
 import EmojiPicker from "emoji-picker-react";
-
+import Dialog from "@mui/material/Dialog";
+import Button from "@mui/material/Button";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 const ChatTab = () => {
   const {
     messages,
@@ -22,6 +37,7 @@ const ChatTab = () => {
   const [input, setInput] = useState("");
   const scrollEnd = useRef(null);
   const [openEmoji, setOpenEmoji] = useState(false);
+  const [openAttachment, setOpenAttachment] = useState(false);
   const handleEmojiClick = (emojiData) => {
     setInput((prevInput) => prevInput + emojiData.emoji);
   };
@@ -32,6 +48,16 @@ const ChatTab = () => {
     setInput("");
   };
 
+  const [open, setOpen] = React.useState(false);
+
+  // Function to open upcoming feature dialog
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
   // Handle Image Send
   const handleSendImage = async (e) => {
     const file = e.target.files[0];
@@ -58,6 +84,22 @@ const ChatTab = () => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  const attachMentRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        attachMentRef.current &&
+        !attachMentRef.current.contains(event.target)
+      ) {
+        setOpenAttachment(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   // Fetch messages when selectedUser changes
   useEffect(() => {
     if (selectedUser) getMessages(selectedUser._id);
@@ -82,43 +124,48 @@ const ChatTab = () => {
         <>
           {/* Header */}
           <div
-            className={`fixed top-0 w-full z-20 flex items-center gap-3 px-4 py-4  g-white/20  shadow-[0_4px_30px_rgba(0,0,0,0.1)] backdrop-blur-sm border border-white/30 `}
+            className={`fixed top-0 w-full z-20 flex items-center justify-between gap-3 px-4 py-4 cursor-pointer g-white/20  shadow-[0_4px_30px_rgba(0,0,0,0.1)] backdrop-blur-sm border border-white/30 `}
           >
-            {selectedUser.profilePic ? (
-              <img
-                src={selectedUser.profilePic || assets.avatar_icon}
-                alt=""
-                className="w-10 h-10 rounded-full object-cover cursor-pointer"
-              />
-            ) : (
-              <div className="w-10 h-10 rounded-full bg-gray-300 flex justify-center items-center text-gray-600 font-semibold">
-                {selectedUser.fullName
-                  .split(" ")
-                  .map((n) => n[0])
-                  .join("")
-                  .toUpperCase()}
-              </div>
-            )}
-
-            <div className="flex-1">
-              <p className="font-semibold text-[#536158] leading-5 text-lg">
-                {selectedUser.fullName}
-              </p>
-              {onlineUsers.includes(selectedUser._id) && (
-                <span className="text-green-400 text-[15px]">online</span>
+            <div className="flex items-center gap-3">
+              {selectedUser.profilePic ? (
+                <img
+                  src={selectedUser.profilePic || assets.avatar_icon}
+                  alt=""
+                  className="w-10 h-10 rounded-full object-cover cursor-pointer"
+                />
+              ) : (
+                <div className="w-10 h-10 rounded-full bg-gray-300 flex justify-center items-center text-gray-600 font-semibold">
+                  {selectedUser.fullName
+                    .split(" ")
+                    .map((n) => n[0])
+                    .join("")
+                    .toUpperCase()}
+                </div>
               )}
+
+              <div className="flex-1">
+                <p className="font-semibold text-[#536158] leading-5 text-lg">
+                  {selectedUser.fullName}
+                </p>
+                {onlineUsers.includes(selectedUser._id) && (
+                  <span className="text-green-400 text-[15px]">online</span>
+                )}
+              </div>
+              <img
+                src={assets.arrow_icon}
+                alt="back"
+                onClick={() => setSelectedUser(null)}
+                className="w-6 cursor-pointer block md:hidden"
+              />
+              {/* <img
+                src={assets.help_icon}
+                alt="help"
+                className="w-5 hidden md:block opacity-80 hover:opacity-100 cursor-pointer"
+              /> */}
             </div>
-            <img
-              src={assets.arrow_icon}
-              alt="back"
-              onClick={() => setSelectedUser(null)}
-              className="w-6 cursor-pointer block md:hidden"
-            />
-            <img
-              src={assets.help_icon}
-              alt="help"
-              className="w-5 hidden md:block opacity-80 hover:opacity-100 cursor-pointer"
-            />
+            <div className="">
+              lifnhvusionhv io
+            </div>
           </div>
 
           {/* Messages Area */}
@@ -228,13 +275,73 @@ const ChatTab = () => {
           )}
 
           {/* Input Area */}
-          <div className="relative z-20 bg-white/20 shadow-[0_4px_30px_rgba(0,0,0,0.1)] backdrop-blur-sm border border-white/30 px-3 py-4 flex items-center gap-3">
+          <div
+            ref={attachMentRef}
+            className="relative z-20 bg-white/20 shadow-[0_4px_30px_rgba(0,0,0,0.1)] backdrop-blur-sm border border-white/30 px-3 py-4 flex items-center gap-3"
+          >
             {/* Plus Button */}
-            <div className="flex relative justify-center items-center h-9 w-9 rounded-full hover:bg-gray-200/30 transition">
+            <div
+              onClick={() => setOpenAttachment(!openAttachment)}
+              className="flex relative justify-center items-center h-9 w-9 rounded-full hover:bg-gray-200/30 transition"
+            >
               <Plus size={22} color="gray" />
-              <div className="absolute bottom-12 left-1/2 -translate-x-1/2">
-
-              </div>
+              {openAttachment && (
+                <div className="absolute bottom-12 left-1/2 -translate-x-1/2  bg-[#ffffff] rounded-[8px] shadow-lg border border-gray-200">
+                  <ul className="py-2">
+                    <li
+                      onClick={handleClickOpen}
+                      className="flex hover:bg-green-200 justify-start gap-4 py-1.5 my-1 text-lg ps-4 pe-8 items-center cursor-pointer"
+                    >
+                      <span className="text-green-400">
+                        <FileText size={20} />
+                      </span>{" "}
+                      <span>Document</span>
+                    </li>
+                    <li className="flex hover:bg-green-200 justify-start gap-4 py-1.5 my-1 text-lg ps-4 pe-8 items-center cursor-pointer">
+                      <span className="text-green-400">
+                        <Images size={20} />
+                      </span>{" "}
+                      <input
+                        type="file"
+                        id="image"
+                        onChange={handleSendImage}
+                        hidden
+                        accept="image/*"
+                      />
+                      <label htmlFor="image" className="cursor-pointer">
+                        Photos
+                      </label>{" "}
+                    </li>
+                    <li
+                      onClick={handleClickOpen}
+                      className="flex hover:bg-green-200 justify-start gap-4 py-1.5 my-1 text-lg ps-4 pe-8 items-center cursor-pointer"
+                    >
+                      <span className="text-green-400">
+                        <Headphones size={20} />
+                      </span>{" "}
+                      <span>Audio</span>
+                    </li>
+                    <li
+                      onClick={handleClickOpen}
+                      className="flex hover:bg-green-200 justify-start gap-4 py-1.5 my-1 text-lg ps-4 pe-8 items-center cursor-pointer"
+                    >
+                      <span className="text-green-400">
+                        <Link size={20} />
+                      </span>{" "}
+                      <span>Link</span>
+                    </li>
+                    <li
+                      onClick={handleClickOpen}
+                      className="flex hover:bg-green-200 justify-start gap-4 py-1.5 my-1 text-lg ps-4 pe-8 items-center cursor-pointer"
+                    >
+                      <span className="text-green-400">
+                        <MapPin size={20} />
+                      </span>{" "}
+                      <span>Loaction</span>
+                    </li>
+                  </ul>
+                </div>
+              )}
             </div>
 
             {/* Emoji Picker */}
@@ -271,13 +378,6 @@ const ChatTab = () => {
               />
             </div>
 
-            {/* Send Button */}
-            {/* <img
-              src={assets.send_button}
-              onClick={handleSubmit}
-              alt="send"
-              className="w-8 cursor-pointer hover:scale-110 transition-transform"
-            /> */}
             <button
               onClick={handleSubmit}
               className="flex justify-center items-center p-3 rounded-xl cursor-pointer bg-green-400"
@@ -285,19 +385,46 @@ const ChatTab = () => {
               <Send size={22} color="white" className="mr-0.5" />
             </button>
           </div>
+
+          {/* Dialog Box for upcoming features */}
+          <Dialog
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">
+              {"🛠️ Feature Unavailable"}
+            </DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                This option isn’t available yet. I am working to roll it out
+                soon. Stay tuned for updates.
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose}>Okay</Button>
+            </DialogActions>
+          </Dialog>
         </>
       ) : (
         // Empty State
-        <div className="flex flex-col items-center justify-center h-full text-center z-20">
-          <div className="w-28 h-28 bg-green-400/40 rounded-full flex items-center justify-center">
-            <MessageSquareText size={60} className="text-green-500" />
-          </div>
-          <h2 className="mt-3 text-xl text-white font-semibold">
-            Welcome to Synk Chat
-          </h2>
-          <p className="text-gray-300 text-sm mt-1">
-            Select a user to start your conversation.
-          </p>
+        <div className="w-full h-full flex justify-center items-center">
+          {" "}
+          <div className="flex flex-col gap-2 items-center">
+            {" "}
+            <div className="w-28 h-28 rounded-full bg-green-300/50 flex justify-center items-center mx-auto">
+              {" "}
+              <MessageSquareText className="text-green-500" size={60} />{" "}
+            </div>{" "}
+            <h2 className="text-xl font-medium">
+              {" "}
+              Welcome to the Synk Chat Web App{" "}
+            </h2>{" "}
+            <p className="text-lg text-gray-500 font-medium">
+              Select a user. Start chatting with your friends now!
+            </p>{" "}
+          </div>{" "}
         </div>
       )}
     </div>
@@ -305,20 +432,3 @@ const ChatTab = () => {
 };
 
 export default ChatTab;
-
-{
-  /* <input
-                type="file"
-                id="image"
-                onChange={handleSendImage}
-                hidden
-                accept="image/*"
-              />
-              <label htmlFor="image" className="cursor-pointer">
-                <img
-                  src={assets.gallery_icon}
-                  alt="gallery"
-                  className="w-5 opacity-70 hover:opacity-100 transition"
-                />
-              </label> */
-}
