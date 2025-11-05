@@ -282,7 +282,7 @@ const ChatTab = () => {
             {/* Plus Button */}
             <div
               onClick={() => setOpenAttachment(!openAttachment)}
-              className="flex relative justify-center items-center h-9 w-9 rounded-full hover:bg-gray-200/30 transition"
+              className="flex relative justify-center items-center h-9 w-9 rounded-full hover:bg-gray-200/30 transition cursor-pointer"
             >
               <Plus size={22} color="gray" />
               {openAttachment && (
