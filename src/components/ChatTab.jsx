@@ -10,6 +10,7 @@ import {
   Headphones,
   Link,
   MapPin,
+  
 } from "lucide-react";
 import assets from "../assets/assets";
 import { formatMessageDate } from "../lib/utils";
@@ -33,7 +34,7 @@ const ChatTab = () => {
     sendMessage,
     loadMsgs,
   } = useContext(ChatContext);
-  const { authUser, onlineUsers } = useContext(AppContext);
+  const { authUser, onlineUsers , openProfileUser, setOpenProfileUser } = useContext(AppContext);
   const [input, setInput] = useState("");
   const scrollEnd = useRef(null);
   const [openEmoji, setOpenEmoji] = useState(false);
@@ -103,6 +104,7 @@ const ChatTab = () => {
   // Fetch messages when selectedUser changes
   useEffect(() => {
     if (selectedUser) getMessages(selectedUser._id);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedUser]);
 
   // Auto scroll to bottom
@@ -113,7 +115,7 @@ const ChatTab = () => {
 
   return (
     <div
-      className="w-full h-screen relative flex flex-col"
+      className=" w-full h-screen relative flex flex-col"
       style={{
         backgroundImage: `url(${bg_image})`,
       }}
@@ -124,9 +126,9 @@ const ChatTab = () => {
         <>
           {/* Header */}
           <div
-            className={`fixed top-0 w-full z-20 flex items-center justify-between gap-3 px-4 py-4 cursor-pointer g-white/20  shadow-[0_4px_30px_rgba(0,0,0,0.1)] backdrop-blur-sm border border-white/30 `}
+            className={`fixed top-0 w-full z-20 flex items-center justify-start flex-row px-4 py-4  g-white/20  shadow-[0_4px_30px_rgba(0,0,0,0.1)] backdrop-blur-sm border border-white/30 `}
           >
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 cursor-pointer w-3/4">
               {selectedUser.profilePic ? (
                 <img
                   src={selectedUser.profilePic || assets.avatar_icon}
@@ -157,14 +159,13 @@ const ChatTab = () => {
                 onClick={() => setSelectedUser(null)}
                 className="w-6 cursor-pointer block md:hidden"
               />
-              {/* <img
+            </div>
+            <div className="text-xl bg-red-500 text-green-500 ">
+              <img
                 src={assets.help_icon}
                 alt="help"
-                className="w-5 hidden md:block opacity-80 hover:opacity-100 cursor-pointer"
-              /> */}
-            </div>
-            <div className="">
-              lifnhvusionhv io
+                className="w-5 hidden md:block opacity-80 hover:opacity-100 " onClick={() => setOpenProfileUser(!openProfileUser)}
+              />
             </div>
           </div>
 
@@ -286,7 +287,7 @@ const ChatTab = () => {
             >
               <Plus size={22} color="gray" />
               {openAttachment && (
-                <div className="absolute bottom-12 left-1/2 -translate-x-1/2  bg-[#ffffff] rounded-[8px] shadow-lg border border-gray-200">
+                <div className="absolute bottom-12 left-1/2 -translate-x-1/2 z-50  bg-[#ffffff] rounded-[8px] shadow-lg border border-gray-200">
                   <ul className="py-2">
                     <li
                       onClick={handleClickOpen}
@@ -356,7 +357,7 @@ const ChatTab = () => {
                 onClick={() => setOpenEmoji(!openEmoji)}
               />
               {openEmoji && (
-                <div className="absolute bottom-12 left-1/2 -translate-x-1/2">
+                <div className="absolute bottom-12 left-1/2 z-50 -translate-x-1/2">
                   <EmojiPicker
                     open={openEmoji}
                     skinTonesDisabled={true}
