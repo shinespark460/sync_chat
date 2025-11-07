@@ -10,7 +10,7 @@ const HomeDashboard = () => {
     <div
       className={`grid ${
         openProfileUser
-          ? "grid-cols-[2fr_7.5fr_2.5fr] transition-all duration-200"
+          ? "2xl:grid-cols-[2fr_7.5fr_2.5fr] xl:grid-cols-[2fr_6.5fr_3.5fr] lg:grid-cols-[3.5fr_5fr_3.5fr] md:grid-cols-[4fr_8fr] transition-all duration-200"
           : "grid-cols-[2fr_10fr]"
       } `}
     >

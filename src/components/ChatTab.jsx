@@ -45,6 +45,7 @@ const ChatTab = () => {
   const [openEmoji, setOpenEmoji] = useState(false);
   const [openAttachment, setOpenAttachment] = useState(false);
   const [openSearchBox, setOpenSearchBox] = useState(false);
+  const [showOptions, setShowOptions] = useState(false);
   const [search, setSearch] = useState("");
   const handleEmojiClick = (emojiData) => {
     setInput((prevInput) => prevInput + emojiData.emoji);
@@ -114,6 +115,17 @@ const ChatTab = () => {
     }
   }, [search, messages]);
 
+  const optionref = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (optionref.current && !optionref.current.contains(event.target)) {
+        setShowOptions(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
   const searchref = useRef(null);
 
   useEffect(() => {
@@ -165,6 +177,7 @@ const ChatTab = () => {
   }, [messages]);
 
   return (
+    
     <div
       className=" w-full h-screen relative flex flex-col"
       style={{
@@ -176,16 +189,16 @@ const ChatTab = () => {
       {selectedUser ? (
         <>
           {/* Header */}
+
           <div
-            className={`fixed top-0  z-10 flex ${
-              openProfileUser ? "w-3/5" : "w-full"
-            } items-center justify-start flex-row px-4 py-4  bg-white/20  shadow-[0_4px_30px_rgba(0,0,0,0.1)] backdrop-blur-sm border border-white/30 `}
+            className={` top-0 left-0 z-10 flex w-full  items-center justify-between px-4 py-4 bg-white/20 shadow-[0_4px_30px_rgba(0,0,0,0.1)] backdrop-blur-sm border border-white/30`}
           >
+         
+            {/* ===== Left Section (Profile Info) ===== */}
             <div
               onClick={() => setOpenProfileUser(true)}
-              className={`flex items-center gap-3 cursor-pointer ${
-                !openProfileUser ? "w-[70%]" : "w-full"
-              }`}
+              className={`flex items-center gap-3 cursor-pointer ${!openProfileUser ? "w-[70%]" : "w-full"
+                }`}
             >
               {selectedUser.profilePic ? (
                 <img
@@ -203,14 +216,15 @@ const ChatTab = () => {
                 </div>
               )}
 
-              <div className="flex-1">
-                <p className="font-semibold text-[#536158] leading-5 text-lg">
+              <div className="flex-1 overflow-hidden">
+                <p className="font-semibold text-[#536158] leading-5 text-lg truncate">
                   {selectedUser.fullName}
                 </p>
                 {onlineUsers.includes(selectedUser._id) && (
                   <span className="text-green-400 text-[15px]">online</span>
                 )}
               </div>
+
               <img
                 src={assets.arrow_icon}
                 alt="back"
@@ -218,10 +232,13 @@ const ChatTab = () => {
                 className="w-6 cursor-pointer block md:hidden"
               />
             </div>
-            <div className="text-xl flex flex-row gap-8 justify-center items-center ">
+
+            {/* ===== Right Section (Icons + Dropdowns) ===== */}
+            <div className="flex items-center gap-6 relative">
+              {/* 🔍 Search Icon */}
               <span className="relative">
                 <Search
-                  ref={searchref}
+                
                   size={22}
                   color="gray"
                   fontWeight={600}
@@ -229,17 +246,19 @@ const ChatTab = () => {
                   className="cursor-pointer"
                 />
                 {openSearchBox && (
-                  <div className="bg-white  absolute top-8 right-0 p-2 flex justify-center items-center ">
+                  <div   ref={searchref} className="bg-white absolute top-full right-0 mt-2 p-2 rounded-lg shadow-lg">
                     <input
                       type="text"
                       placeholder="Search message..."
                       value={search}
                       onChange={handleSearchChange}
-                      className=" px-3 py-1.5 border-[1px] text-[16px] border-gray-300 rounded-md  outline-none"
+                      className="px-3 py-1.5 border border-gray-300 rounded-md text-[16px] outline-none"
                     />
                   </div>
                 )}
               </span>
+
+              {/* ℹ️ Info Icon */}
               <span>
                 <Info
                   size={22}
@@ -249,42 +268,38 @@ const ChatTab = () => {
                   onClick={() => setOpenProfileUser(!openProfileUser)}
                 />
               </span>
+
+              {/* ⋮ Options Icon */}
               <span className="relative">
                 <EllipsisVertical
                   size={22}
                   color="gray"
                   fontWeight={600}
                   className="cursor-pointer"
+                  onClick={() => setShowOptions(!showOptions)}
                 />
-                <div className="bg-white  absolute top-8 right-0 p-2 flex justify-center items-center ">
-                  <ul className="flex flex-col gap-3 p-2 text-sm">
-                    <li className="flex justify-between items-center gap-8">
-                      <span>Archive</span>{" "}
-                      <span>
-                        <Archive size={22} color="gray" fontWeight={600} />
-                      </span>
-                    </li>
-                    <li className="flex justify-between items-center gap-5">
-                      <span>Mute</span>{" "}
-                      <span>
-                        <BellOff size={22} color="gray" fontWeight={600} />
-                      </span>
-                    </li>
-                  </ul>
-                </div>
+                {showOptions && (
+                  <div ref={optionref} className="bg-white absolute top-full right-0 mt-3 p-3 rounded-lg shadow-lg border border-gray-100 w-40">
+                    <ul className="flex flex-col gap-3 text-sm">
+                      <li className="flex justify-between items-center cursor-pointer hover:text-blue-500 transition">
+                        <span>Archive</span>
+                        <Archive size={18} color="gray" />
+                      </li>
+                      <li className="flex justify-between items-center cursor-pointer hover:text-blue-500 transition">
+                        <span>Mute</span>
+                        <BellOff size={18} color="gray" />
+                      </li>
+                    </ul>
+                  </div>
+                )}
               </span>
-
-              {/* <img
-                src={assets.help_icon}
-                alt="help"
-                className="w-5 hidden md:block opacity-80 hover:opacity-100 " onClick={() => setOpenProfileUser(!openProfileUser)}
-              /> */}
             </div>
           </div>
 
           {/* Messages Area */}
           {loadMsgs ? (
             <div className="flex flex-col justify-center items-center gap-3 w-full h-full">
+
               <CircularProgress color="success" />
               <p className="text-[#4eac6d] text-xl font-bold">
                 Fetching Messages....
@@ -292,7 +307,7 @@ const ChatTab = () => {
             </div>
           ) : (
             <div className="flex-1 overflow-y-auto px-6 py-4 relative z-0 space-y-5 scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-transparent">
-              <div className="w-full h-20"></div>
+              <div className="w-full h-5"></div>
               {/* Note: Applying a subtle background pattern look based on your request */}
 
               {messages.map((msg, index) => {
@@ -307,9 +322,8 @@ const ChatTab = () => {
                   <div
                     key={index}
                     // Flips the layout based on sender
-                    className={`flex mb-6 items-start ${
-                      isSentByMe ? "justify-end" : "justify-start"
-                    }`}
+                    className={`flex mb-6 items-start ${isSentByMe ? "justify-end" : "justify-start"
+                      }`}
                   >
                     {/* 1. Receiver's Avatar (Left side) */}
                     {!isSentByMe && (
@@ -322,15 +336,13 @@ const ChatTab = () => {
 
                     {/* 2. Message Content Container (Message + Metadata) */}
                     <div
-                      className={`flex flex-col max-w-[70%] break-words ${
-                        isSentByMe ? "items-end" : "items-start"
-                      }`}
+                      className={`flex flex-col max-w-[70%] break-words ${isSentByMe ? "items-end" : "items-start"
+                        }`}
                     >
                       {/* Metadata (Name/Time - Above the bubble, matching the image) */}
                       <div
-                        className={`text-[11px] mb-1 text-gray-400 flex items-center ${
-                          isSentByMe ? "justify-end" : "justify-start"
-                        } w-full space-x-2`}
+                        className={`text-[11px] mb-1 text-gray-400 flex items-center ${isSentByMe ? "justify-end" : "justify-start"
+                          } w-full space-x-2`}
                       >
                         {/* Sender name is only shown for received messages in the image, and 'You' on the right side */}
                         {isSentByMe ? (
@@ -343,9 +355,8 @@ const ChatTab = () => {
                           </span>
                         )}
                         <span
-                          className={`${
-                            isSentByMe ? "order-2" : "order-1"
-                          } text-gray-500 text-sm`}
+                          className={`${isSentByMe ? "order-2" : "order-1"
+                            } text-gray-500 text-sm`}
                         >
                           {formatMessageDate(msg.createdAt)}
                         </span>
@@ -362,11 +373,10 @@ const ChatTab = () => {
                         <div
                           ref={(el) => (msgRefs.current[msg._id] = el)} // ✅ store by id
                           className={`px-3 py-2 text-[16px] text-gray-800 shadow-md max-w-full transition duration-200 
-                                ${
-                                  isSentByMe
-                                    ? "bg-[#D9FDD3] " // Light green/teal for sent (like the image)
-                                    : "bg-white  border-gray-100" // White for received
-                                }`}
+                                ${isSentByMe
+                              ? "bg-[#D9FDD3] " // Light green/teal for sent (like the image)
+                              : "bg-white  border-gray-100" // White for received
+                            }`}
                         >
                           {msg.text}
                         </div>

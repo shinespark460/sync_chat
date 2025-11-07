@@ -27,7 +27,7 @@ const UsersTab = () => {
   }, [onlineUsers]);
 
   return (
-    <div className="w-80 bg-white h-screen overflow-y-auto flex flex-col py-4 border-r border-gray-200">
+    <div className="xl:w-80 w-full bg-white h-screen overflow-y-auto flex flex-col py-4 border-r border-gray-200">
       {/* Header */}
       <div className="flex justify-between items-center px-4 mb-3">
         <h2 className="text-green-600 text-xl font-semibold">Chats</h2>
