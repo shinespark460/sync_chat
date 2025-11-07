@@ -10,6 +10,11 @@ import {
   Headphones,
   Link,
   MapPin,
+  Search,
+  Info,
+  EllipsisVertical,
+  Archive,
+  BellOff,
 } from "lucide-react";
 import assets from "../assets/assets";
 import { formatMessageDate } from "../lib/utils";
@@ -33,11 +38,14 @@ const ChatTab = () => {
     sendMessage,
     loadMsgs,
   } = useContext(ChatContext);
-  const { authUser, onlineUsers } = useContext(AppContext);
+  const { authUser, onlineUsers, openProfileUser, setOpenProfileUser } =
+    useContext(AppContext);
   const [input, setInput] = useState("");
   const scrollEnd = useRef(null);
   const [openEmoji, setOpenEmoji] = useState(false);
   const [openAttachment, setOpenAttachment] = useState(false);
+  const [openSearchBox, setOpenSearchBox] = useState(false);
+  const [search, setSearch] = useState("");
   const handleEmojiClick = (emojiData) => {
     setInput((prevInput) => prevInput + emojiData.emoji);
   };
@@ -73,6 +81,50 @@ const ChatTab = () => {
     };
     reader.readAsDataURL(file);
   };
+  const handleSearchChange = (e) => {
+    setSearch(e.target.value);
+  };
+  const msgRefs = useRef([]); // array of refs
+
+  useEffect(() => {
+    if (search.trim()) {
+      const foundMessage = messages.find((msg) =>
+        msg.text.toLowerCase().includes(search.toLowerCase())
+      );
+
+      if (foundMessage) {
+        // ✅ Access by id-based key
+        const targetElement = msgRefs.current[foundMessage._id];
+
+        if (targetElement) {
+          // Little delay ensures React rendered all messages first
+          setTimeout(() => {
+            targetElement.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+            // optional highlight
+            targetElement.classList.add("highlight");
+            setTimeout(() => targetElement.classList.remove("highlight"), 3000);
+          }, 100);
+        } else {
+          console.warn("Target element not found for id:", foundMessage._id);
+        }
+      }
+    }
+  }, [search, messages]);
+
+  const searchref = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (searchref.current && !searchref.current.contains(event.target)) {
+        setOpenSearchBox(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
   const emojiRef = useRef(null);
 
   useEffect(() => {
@@ -103,6 +155,7 @@ const ChatTab = () => {
   // Fetch messages when selectedUser changes
   useEffect(() => {
     if (selectedUser) getMessages(selectedUser._id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedUser]);
 
   // Auto scroll to bottom
@@ -113,7 +166,7 @@ const ChatTab = () => {
 
   return (
     <div
-      className="w-full h-screen relative flex flex-col"
+      className=" w-full h-screen relative flex flex-col"
       style={{
         backgroundImage: `url(${bg_image})`,
       }}
@@ -124,9 +177,16 @@ const ChatTab = () => {
         <>
           {/* Header */}
           <div
-            className={`fixed top-0 w-full z-20 flex items-center justify-between gap-3 px-4 py-4 cursor-pointer g-white/20  shadow-[0_4px_30px_rgba(0,0,0,0.1)] backdrop-blur-sm border border-white/30 `}
+            className={`fixed top-0  z-10 flex ${
+              openProfileUser ? "w-3/5" : "w-full"
+            } items-center justify-start flex-row px-4 py-4  bg-white/20  shadow-[0_4px_30px_rgba(0,0,0,0.1)] backdrop-blur-sm border border-white/30 `}
           >
-            <div className="flex items-center gap-3">
+            <div
+              onClick={() => setOpenProfileUser(true)}
+              className={`flex items-center gap-3 cursor-pointer ${
+                !openProfileUser ? "w-[70%]" : "w-full"
+              }`}
+            >
               {selectedUser.profilePic ? (
                 <img
                   src={selectedUser.profilePic || assets.avatar_icon}
@@ -157,14 +217,68 @@ const ChatTab = () => {
                 onClick={() => setSelectedUser(null)}
                 className="w-6 cursor-pointer block md:hidden"
               />
+            </div>
+            <div className="text-xl flex flex-row gap-8 justify-center items-center ">
+              <span className="relative">
+                <Search
+                  ref={searchref}
+                  size={22}
+                  color="gray"
+                  fontWeight={600}
+                  onClick={() => setOpenSearchBox(!openSearchBox)}
+                  className="cursor-pointer"
+                />
+                {openSearchBox && (
+                  <div className="bg-white  absolute top-8 right-0 p-2 flex justify-center items-center ">
+                    <input
+                      type="text"
+                      placeholder="Search message..."
+                      value={search}
+                      onChange={handleSearchChange}
+                      className=" px-3 py-1.5 border-[1px] text-[16px] border-gray-300 rounded-md  outline-none"
+                    />
+                  </div>
+                )}
+              </span>
+              <span>
+                <Info
+                  size={22}
+                  color="gray"
+                  className="cursor-pointer"
+                  fontWeight={600}
+                  onClick={() => setOpenProfileUser(!openProfileUser)}
+                />
+              </span>
+              <span className="relative">
+                <EllipsisVertical
+                  size={22}
+                  color="gray"
+                  fontWeight={600}
+                  className="cursor-pointer"
+                />
+                <div className="bg-white  absolute top-8 right-0 p-2 flex justify-center items-center ">
+                  <ul className="flex flex-col gap-3 p-2 text-sm">
+                    <li className="flex justify-between items-center gap-8">
+                      <span>Archive</span>{" "}
+                      <span>
+                        <Archive size={22} color="gray" fontWeight={600} />
+                      </span>
+                    </li>
+                    <li className="flex justify-between items-center gap-5">
+                      <span>Mute</span>{" "}
+                      <span>
+                        <BellOff size={22} color="gray" fontWeight={600} />
+                      </span>
+                    </li>
+                  </ul>
+                </div>
+              </span>
+
               {/* <img
                 src={assets.help_icon}
                 alt="help"
-                className="w-5 hidden md:block opacity-80 hover:opacity-100 cursor-pointer"
+                className="w-5 hidden md:block opacity-80 hover:opacity-100 " onClick={() => setOpenProfileUser(!openProfileUser)}
               /> */}
-            </div>
-            <div className="">
-              lifnhvusionhv io
             </div>
           </div>
 
@@ -177,7 +291,7 @@ const ChatTab = () => {
               </p>
             </div>
           ) : (
-            <div className="flex-1 overflow-y-auto px-6 py-4 relative z-10 space-y-5 scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-transparent">
+            <div className="flex-1 overflow-y-auto px-6 py-4 relative z-0 space-y-5 scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-transparent">
               <div className="w-full h-20"></div>
               {/* Note: Applying a subtle background pattern look based on your request */}
 
@@ -246,8 +360,8 @@ const ChatTab = () => {
                         />
                       ) : (
                         <div
+                          ref={(el) => (msgRefs.current[msg._id] = el)} // ✅ store by id
                           className={`px-3 py-2 text-[16px] text-gray-800 shadow-md max-w-full transition duration-200 
-                               
                                 ${
                                   isSentByMe
                                     ? "bg-[#D9FDD3] " // Light green/teal for sent (like the image)
@@ -286,7 +400,7 @@ const ChatTab = () => {
             >
               <Plus size={22} color="gray" />
               {openAttachment && (
-                <div className="absolute bottom-12 left-1/2 -translate-x-1/2  bg-[#ffffff] rounded-[8px] shadow-lg border border-gray-200">
+                <div className="absolute bottom-12 left-1/2 -translate-x-1/2 z-50  bg-[#ffffff] rounded-[8px] shadow-lg border border-gray-200">
                   <ul className="py-2">
                     <li
                       onClick={handleClickOpen}
@@ -356,7 +470,7 @@ const ChatTab = () => {
                 onClick={() => setOpenEmoji(!openEmoji)}
               />
               {openEmoji && (
-                <div className="absolute bottom-12 left-1/2 -translate-x-1/2">
+                <div className="absolute bottom-12 left-1/2 z-50 -translate-x-1/2">
                   <EmojiPicker
                     open={openEmoji}
                     skinTonesDisabled={true}
