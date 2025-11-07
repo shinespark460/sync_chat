@@ -96,9 +96,9 @@ const UsersTab = () => {
                 )}{" "}
                 {onlineUsers.includes(user._id) ? (
                   <div className="absolute w-3 h-3 rounded-full bg-green-500 bottom-0 right-1 border-2 border-white"></div>
-                ) : (
-                  <div className="absolute w-3 h-3 rounded-full bg-gray-500 bottom-0 right-1 border-2 border-white"></div>
-                )}
+                ) : 
+                  null
+                }
               </div>
 
               {/* User info */}

@@ -1,6 +1,5 @@
 import React from "react";
 import LeftTab from "./LeftTab";
-
 const UserProfileTab = () => {
   return (
     <div>

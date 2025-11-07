@@ -216,3 +216,7 @@
     clip-path: inset(0 0 0 100%);
   }
 }
+
+.highlight {
+  background: rgba(255, 255, 0, 0.4);
+}

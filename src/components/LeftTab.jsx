@@ -6,7 +6,7 @@ import {
   MessagesSquare,
   Settings,
   BookmarkCheck,
-  Sun,
+  Sun,Users,Archive
 } from "lucide-react";
 import UsersTab from "./LeftSideTabs.jsx/UsersTab";
 import ProfileTab from "./LeftSideTabs.jsx/ProfileTab";
@@ -19,8 +19,10 @@ const LeftTab = () => {
   const tabs = [
     { id: 1, icon: CircleUser },
     { id: 2, icon: MessagesSquare },
-    { id: 3, icon: BookmarkCheck },
-    { id: 4, icon: Settings },
+    { id: 3, icon: Users },
+    { id: 4, icon: BookmarkCheck },
+    { id: 5, icon: Archive },
+    { id: 6, icon: Settings },
   ];
 
   return (
@@ -73,8 +75,8 @@ const LeftTab = () => {
       <div className="flex-1">
         {activeTab === 1 && <ProfileTab />}
         {activeTab === 2 && <UsersTab />}
-        {activeTab === 3 && <BookMarkTab />}
-        {activeTab === 4 && <SettingTab />}
+        {activeTab === 4 && <BookMarkTab />}
+        {activeTab === 6 && <SettingTab />}
       </div>
     </div>
   );
