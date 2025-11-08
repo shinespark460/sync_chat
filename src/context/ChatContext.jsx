@@ -11,9 +11,13 @@ export const ChatProvider = ({ children }) => {
   const [unseenMessages, setUnseenMessages] = useState({});
   const [selectedUser, setSelectedUser] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [loadMsgs , setLoadMsgs] = useState(false);
+  const [loadMsgs, setLoadMsgs] = useState(false);
   const { socket, axios } = useContext(AppContext);
-
+ // ✅ CORRECT: The setter function is named 'setArchivedUsers'
+const [archivedUsers, setArchivedUsers] = useState(() => {
+  const stored = localStorage.getItem("archivedUsers");
+  return stored ? JSON.parse(stored) : [];
+});
   const getUsers = async () => {
     try {
       setLoading(true);
@@ -23,11 +27,9 @@ export const ChatProvider = ({ children }) => {
         setUnseenMessages(data.unseenMessages);
         setLoading(false);
       }
-      console.log(data);
       return data;
     } catch (error) {
       toast.error("Error: " + error.message);
-
       setLoading(false);
     }
   };
@@ -49,7 +51,6 @@ export const ChatProvider = ({ children }) => {
 
   const sendMessage = async (messageData) => {
     try {
-   
       const { data } = await axios.post(
         `/api/messages/send/${selectedUser._id}`,
         messageData
@@ -58,11 +59,9 @@ export const ChatProvider = ({ children }) => {
         setMessages((prev) => [...prev, data.message]);
       } else {
         toast.error(data.message);
-    
       }
     } catch (error) {
       toast.error("Error: " + error.message);
-      
     }
   };
 
@@ -81,17 +80,14 @@ export const ChatProvider = ({ children }) => {
 
         // Optional: mark as seen
         try {
-         
           const sendMessage = await axios.put(
             `/api/messages/mark/${newMessage._id}`
           );
           if (sendMessage.data.success) {
-           
             console.log("Message marked as seen");
           }
         } catch (err) {
           console.error("Mark seen failed:", err.message);
-           
         }
       } else {
         // ✅ Increment unseen count for other chats
@@ -109,6 +105,31 @@ export const ChatProvider = ({ children }) => {
     return () => socket.off("newMessage", handleNewMessage);
   };
 
+  // Load from localStorage on app start
+  useEffect(() => {
+    const stored = localStorage.getItem("archivedUsers");
+    if (stored) setArchivedUsers(JSON.parse(stored));
+  }, []);
+
+  // Save to localStorage whenever archive list changes
+  useEffect(() => {
+    localStorage.setItem("archivedUsers", JSON.stringify(archivedUsers));
+  }, [archivedUsers]);
+
+  const toggleArchiveUser = (userId) => {
+    setArchivedUsers((prev) => {
+      let updated;
+      if (prev.includes(userId)) {
+        updated = prev.filter((id) => id !== userId);
+      } else {
+        updated = [...prev, userId];
+      }
+      // Update localStorage instantly for sync
+      localStorage.setItem("archivedUsers", JSON.stringify(updated));
+      return updated;
+    });
+  };
+  const isUserArchived = (userId) => archivedUsers.includes(userId);
   useEffect(() => {
     const unsubscribe = subscribeToMessages();
     return unsubscribe;
@@ -125,7 +146,10 @@ export const ChatProvider = ({ children }) => {
     getMessages,
     sendMessage,
     loading,
-    loadMsgs
+    loadMsgs,
+    archivedUsers,
+    toggleArchiveUser,
+    isUserArchived,
   };
 
   return <ChatContext.Provider value={value}>{children}</ChatContext.Provider>;

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import assets from "../assets/assets";
 import { ChatContext } from "../context/ChatContext";
 import { AppContext } from "../context/AppContext";
@@ -6,28 +6,42 @@ import {
   X, // For the close button
   MessageSquare,
   Heart,
-  Mic,
-  Video,
   MoreHorizontal,
+  FileText,
+  Images,
+  Headphones,
+  Link,
+  MapPin,
+  Archive,
+  BellOff,
 } from "lucide-react";
+import noData from "../assets/icons/no_data.png";
+import toast from "react-hot-toast";
 
 const SenderProfleTab = () => {
   // Added onClose prop for the X button
-  const { selectedUser } = useContext(ChatContext);
+  const { selectedUser, messages, toggleArchiveUser, isUserArchived } =
+    useContext(ChatContext);
   const { onlineUsers, setOpenProfileUser, openProfileUser } =
     useContext(AppContext); // Removed 'logout' as it's not needed in this layout
-
-  // Mock data based on the image structure
-  const mockInfo = {
-    name: selectedUser?.fullName || "Tonia Clay",
-    email: "adc@123.com", // Placeholder
-    location: "California, USA", // Placeholder
-    status: "If several languages coalesce, the grammar of the resulting.", // Placeholder
-    groups: ["Landing Design", "Design Phase 2"], // Placeholder
-  };
-
+  const [activeTab, setActiveTab] = React.useState(1);
   const isUserOnline = onlineUsers.includes(selectedUser?._id);
+  const [showOptions, setShowOptions] = useState(false);
+  const [msgImages, setMsgImages] = useState([]);
+  const optionref = useRef(null);
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (optionref.current && !optionref.current.contains(event.target)) {
+        setShowOptions(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+  useEffect(() => {
+    setMsgImages(messages.filter((msg) => msg.image).map((msg) => msg.image));
+  }, [messages]);
   return (
     selectedUser && (
       <div
@@ -48,11 +62,10 @@ const SenderProfleTab = () => {
           {/* Close Button (X) */}
           <button
             onClick={() => setOpenProfileUser(!openProfileUser)}
-            className="absolute top-4 left-4 p-2 rounded-full cursor-pointer hover:bg-black/60 hover:text-white transition"
+            className="absolute top-4 left-4 p-2 rounded-full cursor-pointer hover:bg-black/10 hover:text-white transition"
           >
             <X className="w-5 h-5" />
           </button>
-
           {/* Name and Active Status Overlay */}
           <div className="absolute bottom-0 left-0 p-4 bg-gradient-to-t from-black/70 to-transparent w-full">
             <h2 className="text-xl font-bold text-white">
@@ -74,69 +87,206 @@ const SenderProfleTab = () => {
         {/* --- Action Buttons (Message, Favourite, Audio, Video, More) --- */}
         <div className="flex justify-around py-5 border-b border-gray-100">
           {/* Replicated action buttons */}
-          {[
-            { icon: MessageSquare, label: "MESSAGE" },
-            { icon: Heart, label: "FAVOURITE" },
-            { icon: Mic, label: "AUDIO" },
-            { icon: Video, label: "VIDEO" },
-            { icon: MoreHorizontal, label: "MORE" },
-          ].map((item, index) => (
-            <div
-              key={index}
-              className="flex flex-col items-center gap-1 cursor-pointer text-gray-500 hover:text-indigo-600 transition"
-            >
-              <item.icon className="w-5 h-5" />
-              <span className="text-xs font-semibold">{item.label}</span>
-            </div>
-          ))}
-        </div>
 
+          <div className="flex flex-col items-center gap-1 cursor-pointer text-gray-500 hover:text-green-400 transition">
+            <MessageSquare className="w-5 h-5" />
+            <span className="text-xs font-semibold">Message</span>
+          </div>
+          <div className="flex flex-col items-center gap-1 cursor-pointer text-gray-500 hover:text-green-400 transition">
+            <Heart className="w-5 h-5" />
+            <span className="text-xs font-semibold">Favourite</span>
+          </div>
+          <div className="flex flex-col items-center gap-1 relative cursor-pointer text-gray-500 ">
+            <MoreHorizontal
+              className="w-5 h-5"
+              onClick={() => setShowOptions(!showOptions)}
+            />
+            <span className="text-xs font-semibold">Favourite</span>
+            {showOptions && (
+              <div
+                ref={optionref}
+                className="bg-white absolute top-full right-0 mt-3 p-3 rounded-lg shadow-lg border border-gray-100 w-40"
+              >
+                <ul className="flex flex-col gap-3 text-sm">
+                  <li
+                    onClick={() => {
+                      toggleArchiveUser(selectedUser._id);
+                      setShowOptions(!showOptions);
+                      if (isUserArchived(selectedUser._id)) {
+                        toast.success("Contact Unarchived");
+                      } else {
+                        toast.success("Contact archived");
+                      }
+                    }}
+                    className="flex justify-between items-center cursor-pointer hover:text-blue-500 transition"
+                  >
+                    <span>
+                      {" "}
+                      {isUserArchived(selectedUser._id)
+                        ? "Unarchive"
+                        : "Archive"}
+                    </span>
+                    <Archive size={18} color="gray" />
+                  </li>
+                  <li className="flex justify-between items-center cursor-pointer hover:text-blue-500 transition">
+                    <span>Mute</span>
+                    <BellOff size={18} color="gray" />
+                  </li>
+                </ul>
+              </div>
+            )}
+          </div>
+        </div>
         {/* --- Content Sections --- */}
         <div className="p-5 space-y-6">
           {/* STATUS */}
           <div>
-            <h3 className="text-xs font-bold tracking-widest text-gray-500 mb-2">
-              STATUS
-            </h3>
+            <p className="text-gray-900 font-medium">STATUS</p>
             <p className="text-sm text-gray-700">
               {selectedUser?.bio || mockInfo.status}
             </p>
           </div>
-
           {/* INFO */}
           <div>
             <div className="space-y-3">
-              <div className="text-sm">
+              <div className="text-[16px]">
                 <p className="text-gray-900 font-medium">Name</p>
-                <p className="text-gray-700">{mockInfo.name}</p>
+                <p className="text-gray-700">{selectedUser?.fullName}</p>
               </div>
-              <div className="text-sm">
+              <div className="text-[16px]">
                 <p className="text-gray-900 font-medium">Email</p>
                 <p className="text-gray-700">{selectedUser?.email}</p>
               </div>
-              <div className="text-sm">
-                <p className="text-gray-900 font-medium">Location</p>
-                <p className="text-gray-700">{mockInfo.location}</p>
-              </div>
             </div>
           </div>
+          <div className="flex justify-around py-3 border-b border-gray-100">
+            {/* Replicated action buttons */}
+            {[
+              { icon: Images, label: "Photos" },
+              { icon: FileText, label: "Document" },
+              { icon: Headphones, label: "Audio" },
+              { icon: Link, label: "Link" },
+              { icon: MapPin, label: "Locaion" },
+            ].map((item, index) => (
+              <div
+                key={index}
+                onClick={() => setActiveTab(index + 1)}
+                className={`flex flex-col items-center gap-1 cursor-pointer ${
+                  activeTab === index + 1 ? "text-green-400" : "text-gray-500"
+                }  hover:text-green-400 transition`}
+              >
+                <item.icon className="w-5 h-5" />
+                <span className="text-xs font-semibold">{item.label}</span>
+              </div>
+            ))}
+          </div>
 
-          {/* GROUP IN COMMON */}
           <div>
-            <h3 className="text-xs font-bold tracking-widest text-gray-500 mb-2">
-              GROUP IN COMMON
-            </h3>
-            <div className="space-y-1">
-              {mockInfo.groups.map((group, index) => (
-                <p
-                  key={index}
-                  className="text-sm text-gray-700 flex items-center gap-2"
-                >
-                  <span className="text-indigo-500 font-extrabold">#</span>
-                  {group}
-                </p>
-              ))}
-            </div>
+            {activeTab === 1 && (
+              <div className="w-full p-1">
+                {msgImages.length > 0 ? (
+                  <div className="grid grid-cols-2">
+                    {msgImages.map((url, index) => (
+                      <img
+                        src={url}
+                        alt="url"
+                        className="rounded-lg"
+                        key={index}
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  <div className="flex justify-center items-center flex-col gap-2">
+                    <img src={noData} alt="no data" className="w-16" />
+                    <p className="text-gray-600 text-lg">No Images Shared</p>
+                  </div>
+                )}
+              </div>
+            )}
+            {activeTab === 2 && (
+              <div className="w-full p-1">
+                {msgImages.length > 0 ? (
+                  <div className="grid grid-cols-2">
+                    {msgImages.map((url, index) => (
+                      <img
+                        src={url}
+                        alt="url"
+                        className="rounded-lg"
+                        key={index}
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  <div className="flex justify-center items-center flex-col gap-2">
+                    <img src={noData} alt="no data" className="w-16" />
+                    <p className="text-gray-600 text-lg">No Documents Shared</p>
+                  </div>
+                )}
+              </div>
+            )}
+            {activeTab === 3 && (
+              <div className="w-full p-1">
+                {msgImages.length > 0 ? (
+                  <div className="grid grid-cols-2">
+                    {msgImages.map((url, index) => (
+                      <img
+                        src={url}
+                        alt="url"
+                        className="rounded-lg"
+                        key={index}
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  <div className="flex justify-center items-center flex-col gap-2">
+                    <img src={noData} alt="no data" className="w-16" />
+                    <p className="text-gray-600 text-lg">No Audio Shared</p>
+                  </div>
+                )}
+              </div>
+            )}
+            {activeTab === 4 && (
+              <div className="w-full p-1">
+                {msgImages.length > 0 ? (
+                  <div className="grid grid-cols-2">
+                    {msgImages.map((url, index) => (
+                      <img
+                        src={url}
+                        alt="url"
+                        className="rounded-lg"
+                        key={index}
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  <div className="flex justify-center items-center flex-col gap-2">
+                    <img src={noData} alt="no data" className="w-16" />
+                    <p className="text-gray-600 text-lg">No Link Shared</p>
+                  </div>
+                )}
+              </div>
+            )}
+            {activeTab === 5 && (
+              <div className="w-full p-1">
+                {msgImages.length > 0 ? (
+                  <div className="grid grid-cols-2">
+                    {msgImages.map((url, index) => (
+                      <img
+                        src={url}
+                        alt="url"
+                        className="rounded-lg"
+                        key={index}
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  <div className="flex justify-center items-center flex-col gap-2">
+                    <img src={noData} alt="no data" className="w-16" />
+                    <p className="text-gray-600 text-lg">No Location Shared</p>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </div>

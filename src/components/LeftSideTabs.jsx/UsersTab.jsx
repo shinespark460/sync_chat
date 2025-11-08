@@ -1,12 +1,14 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useState } from "react";
 import { UserPlus, Search } from "lucide-react";
 import { ChatContext } from "../../context/ChatContext";
 import { AppContext } from "../../context/AppContext";
-import CircularProgress from '@mui/material/CircularProgress';
+import CircularProgress from "@mui/material/CircularProgress";
 import Loader from "../Loading";
 const UsersTab = () => {
   const [input, setInput] = useState("");
+  const [filteredUserList, setFilteredUserList] = useState([]);
   const {
     getUsers,
     users,
@@ -14,18 +16,26 @@ const UsersTab = () => {
     setSelectedUser,
     unseenMessages,
     setUnseenMessages,
-    loading
+    loading,
+    archivedUsers,
   } = useContext(ChatContext);
-  const { onlineUsers  } = useContext(AppContext);
-  const filteredUsers = users
-    ? users.filter((user) =>
-        user.fullName.toLowerCase().includes(input.toLowerCase())
-      )
-    : [];
+  const { onlineUsers } = useContext(AppContext);
+
+  useEffect(() => {
+    if (users?.length) {
+      const filtered = users.filter(
+        (user) => !archivedUsers.includes(user._id)
+      );
+      setFilteredUserList(filtered);
+    }
+  }, [users, archivedUsers]);
+
   useEffect(() => {
     getUsers();
   }, [onlineUsers]);
-
+  const searchedUsers = filteredUserList.filter((user) =>
+    user.fullName.toLowerCase().includes(input.toLowerCase())
+  );
   return (
     <div className=" w-full bg-white h-screen overflow-y-auto flex flex-col py-4 border-r border-gray-200">
       {/* Header */}
@@ -56,12 +66,14 @@ const UsersTab = () => {
       </div>
 
       {/* Chat list */}
-      {loading ? <div className="flex flex-col justify-center items-center gap-3 w-full mt-20" > 
-         <CircularProgress color="success" />
-         <p className="text-[#4eac6d] text-xl">Fetching Users....</p>
-      </div> : (
+      {loading ? (
+        <div className="flex flex-col justify-center items-center gap-3 w-full mt-20">
+          <CircularProgress color="success" />
+          <p className="text-[#4eac6d] text-xl">Fetching Users....</p>
+        </div>
+      ) : (
         <div className="flex flex-col">
-          {filteredUsers.map((user, index) => (
+          {searchedUsers.map((user, index) => (
             <div
               key={index}
               onClick={() => {
@@ -96,9 +108,7 @@ const UsersTab = () => {
                 )}{" "}
                 {onlineUsers.includes(user._id) ? (
                   <div className="absolute w-3 h-3 rounded-full bg-green-500 bottom-0 right-1 border-2 border-white"></div>
-                ) : 
-                  null
-                }
+                ) : null}
               </div>
 
               {/* User info */}

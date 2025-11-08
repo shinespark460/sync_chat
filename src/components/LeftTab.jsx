@@ -1,21 +1,24 @@
-import React from "react";
-
+import React, { useContext } from "react";
 import {
   MessageSquareText,
   CircleUser,
   MessagesSquare,
   Settings,
   BookmarkCheck,
-  Sun,Users,Archive
+  Sun,
+  Users,
+  Archive,
 } from "lucide-react";
 import UsersTab from "./LeftSideTabs.jsx/UsersTab";
 import ProfileTab from "./LeftSideTabs.jsx/ProfileTab";
 import BookMarkTab from "./LeftSideTabs.jsx/BookMarkTab";
 import SettingTab from "./LeftSideTabs.jsx/SettingTab";
+import ArchiveTab from "./LeftSideTabs.jsx/ArchiveTab";
+import { ChatContext } from "../context/ChatContext";
 
 const LeftTab = () => {
   const [activeTab, setActiveTab] = React.useState(2);
-
+  const { archivedUsers } = useContext(ChatContext);
   const tabs = [
     { id: 1, icon: CircleUser },
     { id: 2, icon: MessagesSquare },
@@ -57,6 +60,17 @@ const LeftTab = () => {
                     : "text-[#878a92] group-hover:text-green-300"
                 }`}
               />
+              {id === 5 && archivedUsers.length > 0 && (
+                <span
+                  className={`absolute ${
+                    activeTab === id
+                      ? "text-green-400"
+                      : "text-[#878a92] group-hover:text-green-300"
+                  } right-3 bottom-2 text-sm`}
+                >
+                  {archivedUsers.length}
+                </span>
+              )}
             </div>
           ))}
         </div>
@@ -76,6 +90,7 @@ const LeftTab = () => {
         {activeTab === 1 && <ProfileTab />}
         {activeTab === 2 && <UsersTab />}
         {activeTab === 4 && <BookMarkTab />}
+        {activeTab === 5 && <ArchiveTab />}
         {activeTab === 6 && <SettingTab />}
       </div>
     </div>

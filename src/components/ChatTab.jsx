@@ -37,6 +37,8 @@ const ChatTab = () => {
     getMessages,
     sendMessage,
     loadMsgs,
+    toggleArchiveUser,
+    isUserArchived,
   } = useContext(ChatContext);
   const { authUser, onlineUsers, openProfileUser, setOpenProfileUser } =
     useContext(AppContext);
@@ -177,7 +179,6 @@ const ChatTab = () => {
   }, [messages]);
 
   return (
-    
     <div
       className={`w-full h-screen relative flex flex-col `}
       style={{
@@ -193,7 +194,6 @@ const ChatTab = () => {
           <div
             className={` top-0 left-0 z-10 flex w-full  items-center justify-between px-4 py-4 bg-white/20 shadow-[0_4px_30px_rgba(0,0,0,0.1)] backdrop-blur-sm border border-white/30`}
           >
-         
             {/* ===== Left Section (Profile Info) ===== */}
             <div
               onClick={() => setOpenProfileUser(true)}
@@ -237,7 +237,6 @@ const ChatTab = () => {
               {/* 🔍 Search Icon */}
               <span className="relative">
                 <Search
-                
                   size={22}
                   color="gray"
                   fontWeight={600}
@@ -245,7 +244,10 @@ const ChatTab = () => {
                   className="cursor-pointer"
                 />
                 {openSearchBox && (
-                  <div   ref={searchref} className="bg-white absolute top-full right-0 mt-2 p-2 rounded-lg shadow-lg">
+                  <div
+                    ref={searchref}
+                    className="bg-white absolute top-full right-0 mt-2 p-2 rounded-lg shadow-lg"
+                  >
                     <input
                       type="text"
                       placeholder="Search message..."
@@ -278,10 +280,30 @@ const ChatTab = () => {
                   onClick={() => setShowOptions(!showOptions)}
                 />
                 {showOptions && (
-                  <div ref={optionref} className="bg-white absolute top-full right-0 mt-3 p-3 rounded-lg shadow-lg border border-gray-100 w-40">
+                  <div
+                    ref={optionref}
+                    className="bg-white absolute top-full right-0 mt-3 p-3 rounded-lg shadow-lg border border-gray-100 w-40"
+                  >
                     <ul className="flex flex-col gap-3 text-sm">
-                      <li className="flex justify-between items-center cursor-pointer hover:text-blue-500 transition">
-                        <span>Archive</span>
+                      <li
+                        onClick={() => {
+                          toggleArchiveUser(selectedUser._id);
+                           setShowOptions(!showOptions);
+                          if (isUserArchived(selectedUser._id)) {
+                            toast.success("Contact Unarchived");
+                          }
+                          else{
+                            toast.success("Contact archived")
+                          }
+                        }}
+                        className="flex justify-between items-center cursor-pointer hover:text-blue-500 transition"
+                      >
+                        <span>
+                          {" "}
+                          {isUserArchived(selectedUser._id)
+                            ? "Unarchive"
+                            : "Archive"}
+                        </span>
                         <Archive size={18} color="gray" />
                       </li>
                       <li className="flex justify-between items-center cursor-pointer hover:text-blue-500 transition">
@@ -298,7 +320,6 @@ const ChatTab = () => {
           {/* Messages Area */}
           {loadMsgs ? (
             <div className="flex flex-col justify-center items-center gap-3 w-full h-full">
-
               <CircularProgress color="success" />
               <p className="text-[#4eac6d] text-xl font-bold">
                 Fetching Messages....
@@ -321,8 +342,9 @@ const ChatTab = () => {
                   <div
                     key={index}
                     // Flips the layout based on sender
-                    className={`flex mb-6 items-start ${isSentByMe ? "justify-end" : "justify-start"
-                      }`}
+                    className={`flex mb-6 items-start ${
+                      isSentByMe ? "justify-end" : "justify-start"
+                    }`}
                   >
                     {/* 1. Receiver's Avatar (Left side) */}
                     {!isSentByMe && (
@@ -335,13 +357,15 @@ const ChatTab = () => {
 
                     {/* 2. Message Content Container (Message + Metadata) */}
                     <div
-                      className={`flex flex-col max-w-[70%] break-words ${isSentByMe ? "items-end" : "items-start"
-                        }`}
+                      className={`flex flex-col max-w-[70%] break-words ${
+                        isSentByMe ? "items-end" : "items-start"
+                      }`}
                     >
                       {/* Metadata (Name/Time - Above the bubble, matching the image) */}
                       <div
-                        className={`text-[11px] mb-1 text-gray-400 flex items-center ${isSentByMe ? "justify-end" : "justify-start"
-                          } w-full space-x-2`}
+                        className={`text-[11px] mb-1 text-gray-400 flex items-center ${
+                          isSentByMe ? "justify-end" : "justify-start"
+                        } w-full space-x-2`}
                       >
                         {/* Sender name is only shown for received messages in the image, and 'You' on the right side */}
                         {isSentByMe ? (
@@ -354,8 +378,9 @@ const ChatTab = () => {
                           </span>
                         )}
                         <span
-                          className={`${isSentByMe ? "order-2" : "order-1"
-                            } text-gray-500 text-sm`}
+                          className={`${
+                            isSentByMe ? "order-2" : "order-1"
+                          } text-gray-500 text-sm`}
                         >
                           {formatMessageDate(msg.createdAt)}
                         </span>
@@ -372,10 +397,11 @@ const ChatTab = () => {
                         <div
                           ref={(el) => (msgRefs.current[msg._id] = el)} // ✅ store by id
                           className={`px-3 py-2 text-[16px] text-gray-800 shadow-md max-w-full transition duration-200 
-                                ${isSentByMe
-                              ? "bg-[#D9FDD3] " // Light green/teal for sent (like the image)
-                              : "bg-white  border-gray-100" // White for received
-                            }`}
+                                ${
+                                  isSentByMe
+                                    ? "bg-[#D9FDD3] " // Light green/teal for sent (like the image)
+                                    : "bg-white  border-gray-100" // White for received
+                                }`}
                         >
                           {msg.text}
                         </div>
@@ -481,7 +507,9 @@ const ChatTab = () => {
               {openEmoji && (
                 <div className="absolute bottom-12  z-50 -left-10 md:left-1/2 md:-translate-x-1/2">
                   <EmojiPicker
-                    open={openEmoji} width={300} height={400}
+                    open={openEmoji}
+                    width={300}
+                    height={400}
                     skinTonesDisabled={true}
                     onEmojiClick={(emojiData) => handleEmojiClick(emojiData)}
                   />
