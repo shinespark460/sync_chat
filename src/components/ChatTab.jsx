@@ -179,7 +179,7 @@ const ChatTab = () => {
   return (
     
     <div
-      className=" w-full h-screen relative flex flex-col"
+      className={`w-full h-screen relative flex flex-col `}
       style={{
         backgroundImage: `url(${bg_image})`,
       }}
@@ -197,8 +197,7 @@ const ChatTab = () => {
             {/* ===== Left Section (Profile Info) ===== */}
             <div
               onClick={() => setOpenProfileUser(true)}
-              className={`flex items-center gap-3 cursor-pointer ${!openProfileUser ? "w-[70%]" : "w-full"
-                }`}
+              className={`flex items-center gap-3 cursor-pointer w-full`}
             >
               {selectedUser.profilePic ? (
                 <img
@@ -410,7 +409,7 @@ const ChatTab = () => {
             >
               <Plus size={22} color="gray" />
               {openAttachment && (
-                <div className="absolute bottom-12 left-1/2 -translate-x-1/2 z-50  bg-[#ffffff] rounded-[8px] shadow-lg border border-gray-200">
+                <div className="absolute bottom-12 left-0 md:left-1/2 md:-translate-x-1/2 z-50  bg-[#ffffff] rounded-[8px] shadow-lg border border-gray-200">
                   <ul className="py-2">
                     <li
                       onClick={handleClickOpen}
@@ -480,9 +479,9 @@ const ChatTab = () => {
                 onClick={() => setOpenEmoji(!openEmoji)}
               />
               {openEmoji && (
-                <div className="absolute bottom-12 left-1/2 z-50 -translate-x-1/2">
+                <div className="absolute bottom-12  z-50 -left-10 md:left-1/2 md:-translate-x-1/2">
                   <EmojiPicker
-                    open={openEmoji}
+                    open={openEmoji} width={300} height={400}
                     skinTonesDisabled={true}
                     onEmojiClick={(emojiData) => handleEmojiClick(emojiData)}
                   />

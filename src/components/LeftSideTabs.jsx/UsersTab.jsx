@@ -16,7 +16,7 @@ const UsersTab = () => {
     setUnseenMessages,
     loading
   } = useContext(ChatContext);
-  const { onlineUsers } = useContext(AppContext);
+  const { onlineUsers  } = useContext(AppContext);
   const filteredUsers = users
     ? users.filter((user) =>
         user.fullName.toLowerCase().includes(input.toLowerCase())
@@ -27,7 +27,7 @@ const UsersTab = () => {
   }, [onlineUsers]);
 
   return (
-    <div className="xl:w-80 w-full bg-white h-screen overflow-y-auto flex flex-col py-4 border-r border-gray-200">
+    <div className=" w-full bg-white h-screen overflow-y-auto flex flex-col py-4 border-r border-gray-200">
       {/* Header */}
       <div className="flex justify-between items-center px-4 mb-3">
         <h2 className="text-green-600 text-xl font-semibold">Chats</h2>
