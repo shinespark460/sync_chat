@@ -96,12 +96,12 @@ const SenderProfleTab = () => {
             <Heart className="w-5 h-5" />
             <span className="text-xs font-semibold">Favourite</span>
           </div>
-          <div className="flex flex-col items-center gap-1 relative cursor-pointer text-gray-500 ">
+          <div className="flex flex-col items-center gap-1 relative cursor-pointer text-gray-500 hover:text-green-400 transition">
             <MoreHorizontal
               className="w-5 h-5"
               onClick={() => setShowOptions(!showOptions)}
             />
-            <span className="text-xs font-semibold">Favourite</span>
+            <span className="text-xs font-semibold">More</span>
             {showOptions && (
               <div
                 ref={optionref}
@@ -118,7 +118,7 @@ const SenderProfleTab = () => {
                         toast.success("Contact archived");
                       }
                     }}
-                    className="flex justify-between items-center cursor-pointer hover:text-blue-500 transition"
+                    className="flex justify-between items-center cursor-pointer hover:text-green-400 transition"
                   >
                     <span>
                       {" "}
@@ -128,7 +128,7 @@ const SenderProfleTab = () => {
                     </span>
                     <Archive size={18} color="gray" />
                   </li>
-                  <li className="flex justify-between items-center cursor-pointer hover:text-blue-500 transition">
+                  <li className="flex justify-between items-center cursor-pointer hover:text-green-400 transition">
                     <span>Mute</span>
                     <BellOff size={18} color="gray" />
                   </li>
@@ -143,7 +143,7 @@ const SenderProfleTab = () => {
           <div>
             <p className="text-gray-900 font-medium">STATUS</p>
             <p className="text-sm text-gray-700">
-              {selectedUser?.bio || mockInfo.status}
+              {selectedUser?.bio}
             </p>
           </div>
           {/* INFO */}
