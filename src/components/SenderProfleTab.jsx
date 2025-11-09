@@ -96,7 +96,7 @@ const SenderProfleTab = () => {
             <Heart className="w-5 h-5" />
             <span className="text-xs font-semibold">Favourite</span>
           </div>
-          <div className="flex flex-col items-center gap-1 relative cursor-pointer text-gray-500 hover:text-green-400 transition">
+          <div className="flex flex-col items-center gap-1 relative cursor-pointer text-gray-500 ">
             <MoreHorizontal
               className="w-5 h-5"
               onClick={() => setShowOptions(!showOptions)}
@@ -105,9 +105,9 @@ const SenderProfleTab = () => {
             {showOptions && (
               <div
                 ref={optionref}
-                className="bg-white absolute top-full right-0 mt-3 p-3 rounded-lg shadow-lg border border-gray-100 w-40"
+                className="bg-white absolute top-full right-0 mt-3 p-3 rounded-lg shadow-lg border border-gray-100 w-36"
               >
-                <ul className="flex flex-col gap-3 text-sm">
+                <ul className="flex flex-col gap-2 px-2 text-sm">
                   <li
                     onClick={() => {
                       toggleArchiveUser(selectedUser._id);
@@ -118,7 +118,7 @@ const SenderProfleTab = () => {
                         toast.success("Contact archived");
                       }
                     }}
-                    className="flex justify-between items-center cursor-pointer hover:text-green-400 transition"
+                    className="flex justify-between items-center cursor-pointer text-gray-500 hover:text-green-400 transition"
                   >
                     <span>
                       {" "}
@@ -126,11 +126,11 @@ const SenderProfleTab = () => {
                         ? "Unarchive"
                         : "Archive"}
                     </span>
-                    <Archive size={18} color="gray" />
+                    <Archive size={18}  />
                   </li>
-                  <li className="flex justify-between items-center cursor-pointer hover:text-green-400 transition">
+                  <li className="flex justify-between items-center cursor-pointer text-gray-500 hover:text-green-400 transition">
                     <span>Mute</span>
-                    <BellOff size={18} color="gray" />
+                    <BellOff size={18}  />
                   </li>
                 </ul>
               </div>

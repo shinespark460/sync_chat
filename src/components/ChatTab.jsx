@@ -282,9 +282,9 @@ const ChatTab = () => {
                 {showOptions && (
                   <div
                     ref={optionref}
-                    className="bg-white absolute top-full right-0 mt-3 p-3 rounded-lg shadow-lg border border-gray-100 w-40"
+                    className="bg-white absolute top-full right-0 mt-3 p-3 rounded-lg shadow-lg border border-gray-100 w-36"
                   >
-                    <ul className="flex flex-col gap-3 text-sm">
+                    <ul className="flex flex-col gap-2 px-2 text-sm">
                       <li
                         onClick={() => {
                           toggleArchiveUser(selectedUser._id);
@@ -296,7 +296,7 @@ const ChatTab = () => {
                             toast.success("Contact archived")
                           }
                         }}
-                        className="flex justify-between items-center cursor-pointer hover:text-blue-500 transition"
+                        className="flex justify-between items-center cursor-pointer text-gray-500 hover:text-green-400 transition"
                       >
                         <span>
                           {" "}
@@ -304,11 +304,11 @@ const ChatTab = () => {
                             ? "Unarchive"
                             : "Archive"}
                         </span>
-                        <Archive size={18} color="gray" />
+                        <Archive size={18}/>
                       </li>
-                      <li className="flex justify-between items-center cursor-pointer hover:text-blue-500 transition">
+                      <li className="flex justify-between items-center cursor-pointerv text-gray-500 hover:text-green-400 transition">
                         <span>Mute</span>
-                        <BellOff size={18} color="gray" />
+                        <BellOff size={18} />
                       </li>
                     </ul>
                   </div>
