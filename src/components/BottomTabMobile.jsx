@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import {
   MessageSquareText,
@@ -14,9 +14,12 @@ import UsersTab from "./LeftSideTabs.jsx/UsersTab";
 import ProfileTab from "./LeftSideTabs.jsx/ProfileTab";
 import BookMarkTab from "./LeftSideTabs.jsx/BookMarkTab";
 import SettingTab from "./LeftSideTabs.jsx/SettingTab";
+import { ChatContext } from "../context/ChatContext";
+import ArchiveTab from "./LeftSideTabs.jsx/ArchiveTab";
+import ContactsTab from "./LeftSideTabs.jsx/ContactsTab";
 const BottomTabMobile = () => {
   const [activeTab, setActiveTab] = React.useState(2);
-
+  const { archivedUsers } = useContext(ChatContext);
   const tabs = [
     { id: 1, icon: CircleUser },
     { id: 2, icon: MessagesSquare },
@@ -28,6 +31,7 @@ const BottomTabMobile = () => {
   return (
     <div className="w-full h-screen relative">
       <div className="flex justify-between px-4 items-center bottom-0 absolute  w-full bg-[#2e2e2e]">
+        
         {tabs.map(({ id, icon: Icon }) => (
           <div
             key={id}
@@ -36,7 +40,7 @@ const BottomTabMobile = () => {
           >
             <div
               id={Icon}
-              className={`absolute bottom-0 h-1 w-full rounded-r-md transition-all duration-300 ${
+              className={`absolute bottom-0 h-1 w-full rounded-t-md transition-all duration-300 ${
                 activeTab === id ? "bg-green-400" : "bg-transparent"
               }`}
             />
@@ -48,6 +52,17 @@ const BottomTabMobile = () => {
                   : "text-[#878a92] group-hover:text-green-300"
               }`}
             />
+            {id === 5 && archivedUsers.length > 0 && (
+              <span
+                className={`absolute ${
+                  activeTab === id
+                    ? "text-green-400"
+                    : "text-[#878a92] group-hover:text-green-300"
+                } right-0 bottom-2 text-sm`}
+              >
+                {archivedUsers.length}
+              </span>
+            )}
           </div>
         ))}
       </div>
@@ -55,7 +70,9 @@ const BottomTabMobile = () => {
       <div className="">
         {activeTab === 1 && <ProfileTab />}
         {activeTab === 2 && <UsersTab />}
+        {activeTab === 3 && <ContactsTab />}
         {activeTab === 4 && <BookMarkTab />}
+        {activeTab === 5 && <ArchiveTab />}
         {activeTab === 6 && <SettingTab />}
       </div>
     </div>

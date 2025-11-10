@@ -14,7 +14,7 @@ const ArchiveTab = () => {
     setSelectedUser,
     unseenMessages,
     setUnseenMessages,
-    setArchivedUsers,
+
     archivedUsers,
   } = useContext(ChatContext);
   const { onlineUsers } = useContext(AppContext);

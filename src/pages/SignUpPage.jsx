@@ -15,11 +15,10 @@ import Loader from "../components/Loading";
 const App = () => {
   const { login, loading } = useContext(AppContext);
   const [formData, setFormData] = useState({
-    name: "",
+    fullName: "",
     email: "",
     password: "",
     bio: "",
-    agreed: false,
   });
 
   const [currState, setCurrState] = useState("Sign Up");
@@ -154,8 +153,8 @@ const App = () => {
                   </label>
                   <input
                     type="text"
-                    name="name"
-                    value={formData.name}
+                    name="fullName"
+                    value={formData.fullName}
                     onChange={handleChange}
                     placeholder="Enter your full name"
                     className="w-full p-3 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-[#4eac6d] transition duration-200"

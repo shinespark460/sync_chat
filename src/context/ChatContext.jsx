@@ -12,12 +12,12 @@ export const ChatProvider = ({ children }) => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [loading, setLoading] = useState(false);
   const [loadMsgs, setLoadMsgs] = useState(false);
-  const { socket, axios } = useContext(AppContext);
- // ✅ CORRECT: The setter function is named 'setArchivedUsers'
-const [archivedUsers, setArchivedUsers] = useState(() => {
-  const stored = localStorage.getItem("archivedUsers");
-  return stored ? JSON.parse(stored) : [];
-});
+  const { socket, axios, onlineUsers } = useContext(AppContext);
+  // ✅ CORRECT: The setter function is named 'setArchivedUsers'
+  const [archivedUsers, setArchivedUsers] = useState(() => {
+    const stored = localStorage.getItem("archivedUsers");
+    return stored ? JSON.parse(stored) : [];
+  });
   const getUsers = async () => {
     try {
       setLoading(true);
@@ -135,6 +135,10 @@ const [archivedUsers, setArchivedUsers] = useState(() => {
     return unsubscribe;
   }, [socket, selectedUser]);
 
+  useEffect(() => {
+    getUsers();
+  }, [onlineUsers]);
+  
   const value = {
     messages,
     users,

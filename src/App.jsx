@@ -1,6 +1,5 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import "./App.css";
-import HomePage from "./pages/HomePage";
 import ProfilePage from "./pages/ProfilePage";
 // import bgImage from "../src/assets/images/bg_image.jpg";
 import { Toaster } from "react-hot-toast";
@@ -17,7 +16,7 @@ function App() {
         <Routes>
           <Route
             path="/"
-            element={authUser ? <HomePage /> : <Navigate to="/signup" />}
+            element={authUser ? <HomeDashboard /> : <Navigate to="/signup" />}
           />
           <Route
             path="/signup"
@@ -27,7 +26,7 @@ function App() {
             path="/profile"
             element={authUser ? <ProfilePage /> : <Navigate to="/signup" />}
           />
-          <Route path="/dashboard" element={<HomeDashboard />} />
+         
         </Routes>
       </div>
     </>
