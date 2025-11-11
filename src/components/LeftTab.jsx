@@ -64,7 +64,7 @@ const LeftTab = () => {
               key={id}
               title={title}
               onClick={() => setActiveTab(id)}
-              className={`flex justify-center items-center py-2 cursor-pointer relative transition group`}
+              className={`flex justify-center items-center 2xl:py-2 cursor-pointer relative transition group`}
             >
               <div
                 id={Icon}

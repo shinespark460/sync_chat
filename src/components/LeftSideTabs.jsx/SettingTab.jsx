@@ -40,7 +40,7 @@ const SettingTab = () => {
   return (
     <div className="w-full h-screen bg-white flex flex-col border-r border-gray-200">
       {/* Header Section */}
-      <div className="relative w-full h-40 sm:h-56 flex-shrink-0">
+      <div className="relative w-full h-40 2xl:h-56  flex-shrink-0">
         <img
           src={authUser?.backgroundPic || bgImage}
           alt="cover"
