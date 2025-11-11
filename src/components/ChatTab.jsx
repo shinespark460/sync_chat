@@ -199,6 +199,13 @@ const ChatTab = () => {
               onClick={() => setOpenProfileUser(true)}
               className={`flex items-center gap-3 cursor-pointer w-full`}
             >
+              
+              <img
+                src={assets.arrow_icon}
+                alt="back"
+                onClick={() => {setSelectedUser(null); setOpenProfileUser(false)}}
+                className="w-6 cursor-pointer block md:hidden"
+              />
               {selectedUser.profilePic ? (
                 <img
                   src={selectedUser.profilePic || assets.avatar_icon}
@@ -224,12 +231,6 @@ const ChatTab = () => {
                 )}
               </div>
 
-              <img
-                src={assets.arrow_icon}
-                alt="back"
-                onClick={() => setSelectedUser(null)}
-                className="w-6 cursor-pointer block md:hidden"
-              />
             </div>
 
             {/* ===== Right Section (Icons + Dropdowns) ===== */}

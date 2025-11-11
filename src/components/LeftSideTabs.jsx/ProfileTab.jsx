@@ -89,7 +89,7 @@ const ProfileTab = () => {
           {authUser?.bio || "Hey there! I am using Synk"}
         </p>
 
-        <div className="mt-6">
+        <div className="mt-2">
           <h3 className="text-lg font-semibold text-gray-700 mb-4">
             Contact Info
           </h3>

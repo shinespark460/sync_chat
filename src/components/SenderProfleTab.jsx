@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import React, { useContext, useEffect, useRef, useState } from "react";
 import assets from "../assets/assets";
 import { ChatContext } from "../context/ChatContext";
@@ -13,10 +14,14 @@ import {
   Link,
   MapPin,
   Archive,
-  BellOff,
+  BellOff,  CircleUserRound,
+  Mail,
+  History,
+  SquarePen,
 } from "lucide-react";
 import noData from "../assets/icons/no_data.png";
 import toast from "react-hot-toast";
+import useFormatDate from "../hooks/useFormatDate";
 
 const SenderProfleTab = () => {
   // Added onClose prop for the X button
@@ -43,7 +48,7 @@ const SenderProfleTab = () => {
     setMsgImages(messages.filter((msg) => msg.image).map((msg) => msg.image));
   }, [messages]);
   return (
-    selectedUser && (
+    openProfileUser && (
       <div
         // Match the clean, white background look of the reference image
         className={`bg-white text-gray-800 z-20 overflow-y-auto h-screen relative 
@@ -54,7 +59,7 @@ const SenderProfleTab = () => {
         <div className="relative w-full h-52 sm:h-64 bg-gray-200">
           {/* Background Image (Replace with a dynamic image if available) */}
           <img
-            src={selectedUser.profilePic || assets.avatar_icon} // Assuming coverPhoto exists or use a default
+            src={selectedUser?.profilePic || assets.avatar_icon} // Assuming coverPhoto exists or use a default
             className="w-full h-full object-cover bg-white"
             alt="cover"
           />
@@ -71,6 +76,7 @@ const SenderProfleTab = () => {
             <h2 className="text-xl font-bold text-white">
               {selectedUser?.fullName || "Tonia Clay"}
             </h2>
+
             <div className="flex items-center gap-1 mt-1">
               <span
                 className={`w-2 h-2 rounded-full ${
@@ -126,11 +132,11 @@ const SenderProfleTab = () => {
                         ? "Unarchive"
                         : "Archive"}
                     </span>
-                    <Archive size={18}  />
+                    <Archive size={18} />
                   </li>
                   <li className="flex justify-between items-center cursor-pointer text-gray-500 hover:text-green-400 transition">
                     <span>Mute</span>
-                    <BellOff size={18}  />
+                    <BellOff size={18} />
                   </li>
                 </ul>
               </div>
@@ -141,24 +147,44 @@ const SenderProfleTab = () => {
         <div className="p-5 space-y-6 flex-1 overflow-y-auto">
           {/* STATUS */}
           <div>
-            <p className="text-gray-900 font-medium">STATUS</p>
-            <p className="text-sm text-gray-700">
-              {selectedUser?.bio}
+            <h3 className="text-lg font-semibold text-gray-700  mb-2">About</h3>
+            <p className="text-sm text-gray-600 leading-relaxed">
+              {selectedUser?.bio || "Hey there! I am using Synk"}
             </p>
+             <div className="mt-2">
+          <h3 className="text-lg font-semibold text-gray-700 mb-4">
+            Contact Info
+          </h3>
+          <p className="flex flex-row gap-4 items-center mb-2 text-gray-600">
+            <span>
+              <CircleUserRound size={20} />
+            </span>
+            <span>{selectedUser?.fullName || "Tony Stark"}</span>
+          </p>
+          <a
+            href={`mailto:${selectedUser?.email}`}
+            className="flex flex-row gap-4 items-center mb-2 text-gray-600"
+          >
+            <span>
+              <Mail size={20} />
+            </span>
+            <span>{selectedUser?.email || "Tony Stark"}</span>
+          </a>
+          <p className="flex flex-row gap-4 items-center mb-2 text-gray-600">
+            <span>
+              <History size={20} />
+            </span>
+            <span>{useFormatDate(selectedUser?.createdAt) || "Tony Stark"}</span>
+          </p>
+          <p className="flex flex-row gap-4 items-center mb-2 text-gray-600">
+            <span className="">
+              <SquarePen size={20} />
+            </span>
+            <span>{useFormatDate(selectedUser?.updatedAt) || "--_--_--"}</span>
+          </p>
+        </div>
           </div>
           {/* INFO */}
-          <div>
-            <div className="space-y-3">
-              <div className="text-[16px]">
-                <p className="text-gray-900 font-medium">Name</p>
-                <p className="text-gray-700">{selectedUser?.fullName}</p>
-              </div>
-              <div className="text-[16px]">
-                <p className="text-gray-900 font-medium">Email</p>
-                <p className="text-gray-700">{selectedUser?.email}</p>
-              </div>
-            </div>
-          </div>
           <div className="flex justify-around py-3 border-b border-gray-100">
             {/* Replicated action buttons */}
             {[

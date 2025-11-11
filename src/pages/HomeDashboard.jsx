@@ -23,16 +23,11 @@ const HomeDashboard = () => {
         {openProfileUser && <SenderProfleTab />}
       </div>
       <div className="block md:hidden">
-        {!selectedUser ? (
-          // Step 1: User not selected
-          <BottomTabMobile />
-        ) : !openProfileUser ? (
-          // Step 3: Inside chat, user opened profile
-          <SenderProfleTab />
-        ) : (
-          // Step 2: Chat opened with selected user
-          <ChatTab />
-        )}
+        {!selectedUser && <BottomTabMobile />}
+
+        {selectedUser && !openProfileUser && <ChatTab />}
+
+        {selectedUser && openProfileUser && <SenderProfleTab />}
       </div>
     </>
   );

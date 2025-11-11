@@ -15,7 +15,7 @@ const UsersTab = () => {
     loading,
     archivedUsers,
   } = useContext(ChatContext);
-  const { onlineUsers } = useContext(AppContext);
+  const { onlineUsers  , setOpenProfileUser} = useContext(AppContext);
   useEffect(() => {
     if (users?.length) {
       const filtered = users.filter(
@@ -68,6 +68,7 @@ const UsersTab = () => {
               key={index}
               onClick={() => {
                 setSelectedUser(user);
+                setOpenProfileUser(false);
                 setUnseenMessages((prev) => ({ ...prev, [user._id]: 0 }));
               }}
               className={`flex items-center gap-3 px-4 py-2 cursor-pointer transition-all duration-150 
