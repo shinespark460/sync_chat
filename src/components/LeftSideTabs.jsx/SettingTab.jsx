@@ -185,7 +185,7 @@ const SettingTab = () => {
               onClick={() => setOpen({ ...open, account: !open.account })}
               className="w-full flex items-center justify-between py-4 text-left  transition-all duration-200"
             >
-              <h3 className="font-medium text-gray-800">Account</h3>
+              <h3 className="font-medium text-gray-800">Security</h3>
               {open.account ? (
                 <ChevronUp className=" transition-transform duration-300" />
               ) : (
