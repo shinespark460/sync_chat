@@ -1,54 +1,266 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { AppContext } from "../../context/AppContext";
+import bgImage from "../../assets/images/chatBox/bg_img.jpg";
 import assets from "../../assets/assets";
-import { X } from "lucide-react";
+import {
+  CircleUserRound,
+  Mail,
+  History,
+  SquarePen,
+  FileText,
+  Images,
+  Headphones,
+  Link,
+  MapPin,
+} from "lucide-react";
+import useFormatDate from "../../hooks/useFormatDate";
+import ImagePreviewDialog from "../../lib/ImageModel";
+import noData from "../../assets/icons/no_data.png";
 const ProfileTab = () => {
-  const {authUser} = useContext(AppContext)
-  return (
-     <div className=" w-full bg-white h-screen overflow-y-auto flex flex-col py-4 border-r border-gray-200">
-      {/* Header */}
-      <div className="flex justify-between items-center px-4 mb-3">
-        <h2 className="text-green-600 text-xl font-semibold">My Profile</h2>
-      </div>
-      <div className="relative w-full h-52 sm:h-64 bg-gray-200">
-          {/* Background Image (Replace with a dynamic image if available) */}
-          <img
-            src={authUser?.profilePic || assets.avatar_icon} // Assuming coverPhoto exists or use a default
-            className="w-full h-full object-cover bg-white"
-            alt="cover"
-          />
+  const { authUser } = useContext(AppContext);
+  // State to track if the dialog is open and which image URL to display
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [selectedImageUrl, setSelectedImageUrl] = useState(null);
+  const [activeTab, setActiveTab] = React.useState(1);
+  const [msgImages, setMsgImages] = useState([]);
+  // Function that will be called on image click
+  const openImageDialog = (url) => {
+    setSelectedImageUrl(url); // Set the URL of the clicked image
+    setDialogOpen(true); // Open the dialog
+    setMsgImages([]);
+  };
 
-          {/* Close Button (X) */}
-          <button
-            // onClick={() => setOpenProfileUser(!openProfileUser)}
-            className="absolute top-4 left-4 p-2 rounded-full cursor-pointer hover:bg-black/10 hover:text-white transition"
-          >
-            <X className="w-5 h-5" />
-          </button>
-          {/* Name and Active Status Overlay */}
-          <div className="absolute bottom-0 left-0 p-4 bg-gradient-to-t from-black/70 to-transparent w-full">
-            <h2 className="text-xl font-bold text-white">
-              {authUser?.fullName || "Tonia Clay"}
-            </h2>
-            <div className="flex items-center gap-1 mt-1">
-              <span
-                className={`w-2 h-2 rounded-full 
-                 bg-green-500
-                `}
-              ></span>
-              <span className="text-sm text-white/90">
-                Active
-              </span>
-            </div>
+  // Function to close the dialog
+  const closeImageDialog = () => {
+    setDialogOpen(false);
+    setSelectedImageUrl(null); // Optional: clear the URL when closing
+  };
+
+  return (
+    <div className="w-full h-screen bg-white flex flex-col border-r border-gray-200">
+      {/* Header Section */}
+      <div className="relative w-full h-40 sm:h-56 flex-shrink-0">
+        <img
+          src={authUser?.backgroundPic || bgImage}
+          alt="cover"
+          className="w-full h-full object-cover"
+        />
+
+        {/* Overlay Title */}
+        <div
+          onClick={() => openImageDialog(authUser?.backgroundPic || bgImage)}
+          className="absolute top-0 cursor-pointer left-0 w-full h-full bg-black/20 flex items-start justify-between px-4 py-3"
+        >
+          <h2 className="text-white text-xl font-semibold tracking-wide drop-shadow">
+            My Profile
+          </h2>
+        </div>
+
+        {/* Profile Picture */}
+        <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2">
+          <div className="w-32 h-32 rounded-full border-4 border-white shadow-md overflow-hidden bg-gray-100 cursor-pointer">
+            <img
+              src={authUser?.profilePic || assets.avatar_icon}
+              alt="profile"
+              className="w-full h-full object-cover"
+              onClick={() =>
+                openImageDialog(authUser?.profilePic || assets.avatar_icon)
+              }
+            />
           </div>
         </div>
-    
-
-      {/* Chat list */}
-
-      <div className="flex flex-col">
-        
       </div>
+
+      {/* User Info (Static - Not Scrollable) */}
+      <div className="mt-20 flex flex-col items-center px-4 text-center flex-shrink-0 border-b-[1px] border-[#8b8b8b94] pb-4">
+        <h2 className="text-2xl font-semibold text-gray-800">
+          {authUser?.fullName.split(" ")[0] || "Tonia Clay"}
+        </h2>
+        <div className="flex items-center justify-center gap-2 mt-1">
+          <span className="w-2.5 h-2.5 bg-green-500 rounded-full animate-pulse"></span>
+          <span className="text-sm text-gray-600">Active now</span>
+        </div>
+      </div>
+
+      {/* Scrollable Section */}
+      <div className="flex-1 overflow-y-auto px-6 mt-3 pb-10">
+        <h3 className="text-lg font-semibold text-gray-700  mb-2">About</h3>
+        <p className="text-sm text-gray-600 leading-relaxed">
+          {authUser?.bio || "Hey there! I am using Synk"}
+        </p>
+
+        <div className="mt-6">
+          <h3 className="text-lg font-semibold text-gray-700 mb-4">
+            Contact Info
+          </h3>
+          <p className="flex flex-row gap-4 items-center mb-2 text-gray-600">
+            <span>
+              <CircleUserRound size={20} />
+            </span>
+            <span>{authUser?.fullName || "Tony Stark"}</span>
+          </p>
+          <a
+            href={`mailto:${authUser?.email}`}
+            className="flex flex-row gap-4 items-center mb-2 text-gray-600"
+          >
+            <span>
+              <Mail size={20} />
+            </span>
+            <span>{authUser?.email || "Tony Stark"}</span>
+          </a>
+          <p className="flex flex-row gap-4 items-center mb-2 text-gray-600">
+            <span>
+              <History size={20} />
+            </span>
+            <span>{useFormatDate(authUser?.createdAt) || "Tony Stark"}</span>
+          </p>
+          <p className="flex flex-row gap-4 items-center mb-2 text-gray-600">
+            <span className="">
+              <SquarePen size={20} />
+            </span>
+            <span>{useFormatDate(authUser?.updatedAt) || "--_--_--"}</span>
+          </p>
+        </div>
+
+        <div className="mt-6">
+          <h3 className="text-lg font-semibold text-gray-700 mb-2">
+            Bookmarks
+          </h3>
+          <div className="flex justify-around py-3 border-b border-gray-100">
+            {/* Replicated action buttons */}
+            {[
+              { icon: Images, label: "Photos" },
+              { icon: FileText, label: "Document" },
+              { icon: Headphones, label: "Audio" },
+              { icon: Link, label: "Link" },
+              { icon: MapPin, label: "Locaion" },
+            ].map((item, index) => (
+              <div
+                key={index}
+                onClick={() => setActiveTab(index + 1)}
+                className={`flex flex-col items-center gap-1 cursor-pointer ${
+                  activeTab === index + 1 ? "text-green-400" : "text-gray-500"
+                }  hover:text-green-400 transition`}
+              >
+                <item.icon className="w-5 h-5" />
+                <span className="text-xs font-semibold">{item.label}</span>
+              </div>
+            ))}
+          </div>
+          <div>
+            {activeTab === 1 && (
+              <div className="w-full p-1">
+                {msgImages.length > 0 ? (
+                  <div className="grid grid-cols-2">
+                    {msgImages.map((url, index) => (
+                      <img
+                        src={url}
+                        alt="url"
+                        className="rounded-lg"
+                        key={index}
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  <div className="flex justify-center items-center flex-col gap-2">
+                    <img src={noData} alt="no data" className="w-16" />
+                    <p className="text-gray-600 text-lg">No Images Shared</p>
+                  </div>
+                )}
+              </div>
+            )}
+            {activeTab === 2 && (
+              <div className="w-full p-1">
+                {msgImages.length > 0 ? (
+                  <div className="grid grid-cols-2">
+                    {msgImages.map((url, index) => (
+                      <img
+                        src={url}
+                        alt="url"
+                        className="rounded-lg"
+                        key={index}
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  <div className="flex justify-center items-center flex-col gap-2">
+                    <img src={noData} alt="no data" className="w-16" />
+                    <p className="text-gray-600 text-lg">No Documents Shared</p>
+                  </div>
+                )}
+              </div>
+            )}
+            {activeTab === 3 && (
+              <div className="w-full p-1">
+                {msgImages.length > 0 ? (
+                  <div className="grid grid-cols-2">
+                    {msgImages.map((url, index) => (
+                      <img
+                        src={url}
+                        alt="url"
+                        className="rounded-lg"
+                        key={index}
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  <div className="flex justify-center items-center flex-col gap-2">
+                    <img src={noData} alt="no data" className="w-16" />
+                    <p className="text-gray-600 text-lg">No Audio Shared</p>
+                  </div>
+                )}
+              </div>
+            )}
+            {activeTab === 4 && (
+              <div className="w-full p-1">
+                {msgImages.length > 0 ? (
+                  <div className="grid grid-cols-2">
+                    {msgImages.map((url, index) => (
+                      <img
+                        src={url}
+                        alt="url"
+                        className="rounded-lg"
+                        key={index}
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  <div className="flex justify-center items-center flex-col gap-2">
+                    <img src={noData} alt="no data" className="w-16" />
+                    <p className="text-gray-600 text-lg">No Link Shared</p>
+                  </div>
+                )}
+              </div>
+            )}
+            {activeTab === 5 && (
+              <div className="w-full p-1">
+                {msgImages.length > 0 ? (
+                  <div className="grid grid-cols-2">
+                    {msgImages.map((url, index) => (
+                      <img
+                        src={url}
+                        alt="url"
+                        className="rounded-lg"
+                        key={index}
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  <div className="flex justify-center items-center flex-col gap-2">
+                    <img src={noData} alt="no data" className="w-16" />
+                    <p className="text-gray-600 text-lg">No Location Shared</p>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+      <ImagePreviewDialog
+        open={dialogOpen}
+        imageUrl={selectedImageUrl}
+        onClose={closeImageDialog}
+      />
     </div>
   );
 };

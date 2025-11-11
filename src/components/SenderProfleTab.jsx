@@ -138,7 +138,7 @@ const SenderProfleTab = () => {
           </div>
         </div>
         {/* --- Content Sections --- */}
-        <div className="p-5 space-y-6">
+        <div className="p-5 space-y-6 flex-1 overflow-y-auto">
           {/* STATUS */}
           <div>
             <p className="text-gray-900 font-medium">STATUS</p>

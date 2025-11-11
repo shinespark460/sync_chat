@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { UserPlus, Search } from "lucide-react";
+import { UserPlus, Search  } from "lucide-react";
 import { ChatContext } from "../../context/ChatContext";
 import { AppContext } from "../../context/AppContext";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -28,7 +28,7 @@ const UsersTab = () => {
     user.fullName.toLowerCase().includes(input.toLowerCase())
   );
   return (
-    <div className=" w-full bg-white h-screen overflow-y-auto flex flex-col py-4 border-r border-gray-200">
+    <div className=" w-full bg-white h-screen overflow-y-auto flex flex-col pt-4 pb-16 border-r border-gray-200">
       {/* Header */}
       <div className="flex justify-between items-center px-4 mb-3">
         <h2 className="text-green-600 text-xl font-semibold">Chats</h2>

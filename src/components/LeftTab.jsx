@@ -19,7 +19,7 @@ import { ChatContext } from "../context/ChatContext";
 import ContactsTab from "./LeftSideTabs.jsx/ContactsTab";
 import { AppContext } from "../context/AppContext";
 import assets from "../assets/assets";
-
+import logo from "../assets/images/login/logo-01.png"
 const LeftTab = () => {
   const [activeTab, setActiveTab] = React.useState(2);
   const { archivedUsers } = useContext(ChatContext);
@@ -55,7 +55,7 @@ const LeftTab = () => {
         <div className="flex flex-col gap-4 w-full">
           {/* App Icon */}
           <div className="flex justify-center items-center">
-            <MessageSquareText className="text-green-400" size={26} />
+            <img src={logo} className=" w-12 brightness-125"  />
           </div>
 
           {/* Navigation Tabs */}

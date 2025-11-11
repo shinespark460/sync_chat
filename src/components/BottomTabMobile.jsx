@@ -30,7 +30,7 @@ const BottomTabMobile = () => {
   ];
   return (
     <div className="w-full h-screen relative">
-      <div className="flex justify-between px-4 items-center bottom-0 absolute  w-full bg-[#2e2e2e]">
+      <div className="flex justify-between px-4 items-center bottom-0 absolute z-50  w-full bg-[#2e2e2e]">
         
         {tabs.map(({ id, icon: Icon }) => (
           <div
