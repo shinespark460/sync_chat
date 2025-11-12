@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { AppContext } from "../../context/AppContext";
 import bgImage from "../../assets/images/chatBox/bg_img.jpg";
 import assets from "../../assets/assets";
+import ThemeToggle from "../ThemeChnage"
 import {
   CircleUserRound,
   ChevronDown,
@@ -115,7 +116,7 @@ const SettingTab = () => {
     });
   };
   return (
-    <div className="w-full h-screen bg-white flex flex-col border-r border-gray-200">
+    <div className="w-full h-screen overflow-y-auto  flex flex-col border-r ">
       {/* Header Section */}
       <div className="relative w-full h-40 2xl:h-56  flex-shrink-0">
         <img
@@ -133,7 +134,7 @@ const SettingTab = () => {
 
         {/* Profile Picture */}
         <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2">
-          <div className="w-32 h-32 rounded-full border-4 border-white shadow-md overflow-hidden bg-gray-100 cursor-pointer">
+          <div className="w-32 h-32 rounded-full border-4  shadow-md overflow-hidden  cursor-pointer">
             <img
               src={
                 formData.profilePic ||
@@ -149,27 +150,27 @@ const SettingTab = () => {
 
       {/* User Info (Static - Not Scrollable) */}
       <div className="mt-20 flex flex-col items-center px-4 text-center flex-shrink-0 pb-4">
-        <h2 className="text-2xl font-semibold text-gray-800">
+        <h2 className="text-2xl font-semibold ">
           {authUser?.fullName || "Tonia Clay"}
         </h2>
         <div className="flex items-center justify-center gap-2 mt-1">
           <span className="w-2.5 h-2.5 bg-green-500 rounded-full animate-pulse"></span>
-          <span className="text-sm text-gray-600">Active now</span>
+          <span className="text-sm ">Active now</span>
         </div>
       </div>
 
       {/* Scrollable Section */}
-      <div className="flex-1 overflow-y-auto pb-10">
+      <div className="flex-1 lg:overflow-y-auto pb-10">
         <div className="mt-2">
           {/* 1️⃣ Personal Info */}
-          <div className="border-b-[1px] border-[#8b8b8b94] px-4">
+          <div className="border-b-[1px]  px-4">
             <button
               onClick={() => {
                 setOpen({ ...open, personal: !open.personal });
               }}
               className="w-full flex items-center justify-between  py-4 text-left  transition-all duration-200"
             >
-              <h3 className="font-medium text-gray-800 flex flex-row items-center gap-2">
+              <h3 className="font-medium  flex flex-row items-center gap-2">
                 <span>
                   <CircleUserRound size={20} />
                 </span>{" "}
@@ -231,7 +232,7 @@ const SettingTab = () => {
               <div className="space-y-4">
                 {/* Name */}
                 <div className="flex flex-col border-b-[1px] pb-1">
-                  <label className="text-sm font-medium text-gray-600 mb-1">
+                  <label className="text-sm font-medium  mb-1">
                     Full Name
                   </label>
                   <input
@@ -250,7 +251,7 @@ const SettingTab = () => {
 
                 {/* Profile Pic */}
                 <div className="flex flex-col border-b-[1px] pb-1">
-                  <label className="text-sm font-medium text-gray-600 mb-1">
+                  <label className="text-sm font-medium  mb-1">
                     Profile Picture
                   </label>
                   <input
@@ -267,7 +268,7 @@ const SettingTab = () => {
 
                 {/* Cover Image */}
                 <div className="flex flex-col border-b-[1px] pb-1">
-                  <label className="text-sm font-medium text-gray-600 mb-1">
+                  <label className="text-sm font-medium mb-1">
                     Cover Image
                   </label>
                   <input
@@ -283,7 +284,7 @@ const SettingTab = () => {
 
                 {/* Bio */}
                 <div className="flex flex-col border-b-[1px] pb-1">
-                  <label className="text-sm font-medium text-gray-600 mb-1">
+                  <label className="text-sm font-medium  mb-1">
                     Bio
                   </label>
                   <textarea
@@ -305,12 +306,12 @@ const SettingTab = () => {
         </div>
 
         {/* 2️⃣ Themes */}
-        <div className="border-b-[1px] border-[#8b8b8b94] px-4">
+        <div className="border-b-[1px]  px-4">
           <button
             onClick={() => setOpen({ ...open, themes: !open.themes })}
             className="w-full flex items-center justify-between  py-4 text-left  transition-all"
           >
-            <h3 className="font-medium text-gray-800 flex flex-row items-center gap-2">
+            <h3 className="font-medium  flex flex-row items-center gap-2">
               <span>
                 <Contrast size={20} />
               </span>{" "}
@@ -327,22 +328,17 @@ const SettingTab = () => {
               open.themes ? "max-h-40 opacity-100 py-3" : "max-h-0 opacity-0"
             }`}
           >
-            <p className="text-sm text-gray-600">
-              Switch between light, dark, or system themes.
-            </p>
-            <p className="text-sm text-gray-600">
-              Personalize your chat look with custom colors.
-            </p>
+            <ThemeToggle />
           </div>
         </div>
 
         {/* 3️⃣ Account */}
-        <div className="border-b-[1px] border-[#8b8b8b94] px-4">
+        <div className="border-b-[1px]  px-4">
           <button
             onClick={() => setOpen({ ...open, account: !open.account })}
             className="w-full flex items-center justify-between py-4 text-left  transition-all "
           >
-            <h3 className="font-medium text-gray-800 flex flex-row items-center gap-2">
+            <h3 className="font-medium flex flex-row items-center gap-2">
               <span>
                 <Lock size={20} />
               </span>{" "}
@@ -374,7 +370,7 @@ const SettingTab = () => {
             onClick={() => setOpen({ ...open, help: !open.help })}
             className="w-full flex items-center justify-between  py-4 text-left transition-all"
           >
-            <h3 className="font-medium text-gray-800 flex flex-row items-center gap-2">
+            <h3 className="font-medium flex flex-row items-center gap-2">
               <span>
                 <MessageCircleQuestionMark size={20} />
               </span>{" "}
@@ -398,6 +394,7 @@ const SettingTab = () => {
           </div>
         </div>
       </div>
+
     </div>
   );
 };

@@ -185,14 +185,14 @@ const ChatTab = () => {
         backgroundImage: `url(${bg_image})`,
       }}
     >
-      <div className="w-full h-full absolute bg-[#d4d4d442]"></div>
+      <div className="w-full h-full absolute "></div>
 
       {selectedUser ? (
         <>
           {/* Header */}
 
           <div
-            className={` top-0 left-0 z-10 flex w-full  items-center justify-between px-4 py-4 bg-white/20 shadow-[0_4px_30px_rgba(0,0,0,0.1)] backdrop-blur-sm border border-white/30`}
+            className={` top-0 left-0 z-10 flex w-full  items-center justify-between px-4 py-4  shadow-[0_4px_30px_rgba(0,0,0,0.1)] backdrop-blur-sm border `}
           >
             {/* ===== Left Section (Profile Info) ===== */}
             <div
@@ -223,7 +223,7 @@ const ChatTab = () => {
               )}
 
               <div className="flex-1 overflow-hidden">
-                <p className="font-semibold text-[#536158] leading-5 text-lg truncate">
+                <p className="font-semibold  leading-5 text-lg truncate">
                   {selectedUser.fullName}
                 </p>
                 {onlineUsers.includes(selectedUser._id) && (
@@ -239,7 +239,7 @@ const ChatTab = () => {
               <span className="relative">
                 <Search
                   size={22}
-                  color="gray"
+                  
                   fontWeight={600}
                   onClick={() => setOpenSearchBox(!openSearchBox)}
                   className="cursor-pointer"
@@ -247,14 +247,14 @@ const ChatTab = () => {
                 {openSearchBox && (
                   <div
                     ref={searchref}
-                    className="bg-white absolute top-full right-0 mt-2 p-2 rounded-lg shadow-lg"
+                    className=" absolute top-full right-0 mt-2 p-2 rounded-lg shadow-lg"
                   >
                     <input
                       type="text"
                       placeholder="Search message..."
                       value={search}
                       onChange={handleSearchChange}
-                      className="px-3 py-1.5 border border-gray-300 rounded-md text-[16px] outline-none"
+                      className="px-3 py-1.5 border  rounded-md text-[16px] outline-none"
                     />
                   </div>
                 )}
@@ -264,7 +264,7 @@ const ChatTab = () => {
               <span>
                 <Info
                   size={22}
-                  color="gray"
+                 
                   className="cursor-pointer"
                   fontWeight={600}
                   onClick={() => setOpenProfileUser(!openProfileUser)}
@@ -275,7 +275,7 @@ const ChatTab = () => {
               <span className="relative">
                 <EllipsisVertical
                   size={22}
-                  color="gray"
+                
                   fontWeight={600}
                   className="cursor-pointer"
                   onClick={() => setShowOptions(!showOptions)}
@@ -283,7 +283,7 @@ const ChatTab = () => {
                 {showOptions && (
                   <div
                     ref={optionref}
-                    className="bg-white absolute top-full right-0 mt-3 p-3 rounded-lg shadow-lg border border-gray-100 w-36"
+                    className=" absolute top-full right-0 mt-3 p-3 rounded-lg shadow-lg border  w-36"
                   >
                     <ul className="flex flex-col gap-2 px-2 text-sm">
                       <li
@@ -297,7 +297,7 @@ const ChatTab = () => {
                             toast.success("Contact archived")
                           }
                         }}
-                        className="flex justify-between items-center cursor-pointer text-gray-500 hover:text-green-400 transition"
+                        className="flex justify-between items-center cursor-pointer  hover:text-green-400 transition"
                       >
                         <span>
                           {" "}
@@ -307,7 +307,7 @@ const ChatTab = () => {
                         </span>
                         <Archive size={18}/>
                       </li>
-                      <li className="flex justify-between items-center cursor-pointerv text-gray-500 hover:text-green-400 transition">
+                      <li className="flex justify-between items-center cursor-pointer  hover:text-green-400 transition">
                         <span>Mute</span>
                         <BellOff size={18} />
                       </li>
@@ -364,24 +364,24 @@ const ChatTab = () => {
                     >
                       {/* Metadata (Name/Time - Above the bubble, matching the image) */}
                       <div
-                        className={`text-[11px] mb-1 text-gray-400 flex items-center ${
+                        className={`text-[11px] mb-1  flex items-center ${
                           isSentByMe ? "justify-end" : "justify-start"
                         } w-full space-x-2`}
                       >
                         {/* Sender name is only shown for received messages in the image, and 'You' on the right side */}
                         {isSentByMe ? (
-                          <span className="font-semibold text-gray-700 text-sm">
+                          <span className="font-semibold  text-sm">
                             {senderName}
                           </span>
                         ) : (
-                          <span className="font-semibold text-gray-700 text-sm">
+                          <span className="font-semibold  text-sm">
                             {senderName}
                           </span>
                         )}
                         <span
                           className={`${
                             isSentByMe ? "order-2" : "order-1"
-                          } text-gray-500 text-sm`}
+                          }  text-sm`}
                         >
                           {formatMessageDate(msg.createdAt)}
                         </span>
@@ -397,11 +397,11 @@ const ChatTab = () => {
                       ) : (
                         <div
                           ref={(el) => (msgRefs.current[msg._id] = el)} // ✅ store by id
-                          className={`px-3 py-2 text-[16px] text-gray-800 shadow-md max-w-full transition duration-200 
+                          className={`px-3 py-2 text-[16px]  shadow-md max-w-full transition duration-200 
                                 ${
                                   isSentByMe
-                                    ? "bg-[#D9FDD3] " // Light green/teal for sent (like the image)
-                                    : "bg-white  border-gray-100" // White for received
+                                    ? "border-[1px] " // Light green/teal for sent (like the image)
+                                    : "border-[1px]  " // White for received
                                 }`}
                         >
                           {msg.text}
@@ -434,21 +434,21 @@ const ChatTab = () => {
               onClick={() => setOpenAttachment(!openAttachment)}
               className="flex relative justify-center items-center h-9 w-9 rounded-full hover:bg-gray-200/30 transition cursor-pointer"
             >
-              <Plus size={22} color="gray" />
+              <Plus size={22} />
               {openAttachment && (
-                <div className="absolute bottom-12 left-0 md:left-1/2 md:-translate-x-1/2 z-50  bg-[#ffffff] rounded-[8px] shadow-lg border border-gray-200">
+                <div className="absolute bottom-12 left-0 md:left-1/2 md:-translate-x-1/2 z-50   rounded-[8px] shadow-lg border ">
                   <ul className="py-2">
                     <li
                       onClick={handleClickOpen}
                       className="flex hover:bg-green-200 justify-start gap-4 py-1.5 my-1 text-lg ps-4 pe-8 items-center cursor-pointer"
                     >
-                      <span className="text-green-400">
+                      <span className="">
                         <FileText size={20} />
                       </span>{" "}
                       <span>Document</span>
                     </li>
                     <li className="flex hover:bg-green-200 justify-start gap-4 py-1.5 my-1 text-lg ps-4 pe-8 items-center cursor-pointer">
-                      <span className="text-green-400">
+                      <span className="">
                         <Images size={20} />
                       </span>{" "}
                       <input
@@ -466,7 +466,7 @@ const ChatTab = () => {
                       onClick={handleClickOpen}
                       className="flex hover:bg-green-200 justify-start gap-4 py-1.5 my-1 text-lg ps-4 pe-8 items-center cursor-pointer"
                     >
-                      <span className="text-green-400">
+                      <span className="">
                         <Headphones size={20} />
                       </span>{" "}
                       <span>Audio</span>
@@ -475,7 +475,7 @@ const ChatTab = () => {
                       onClick={handleClickOpen}
                       className="flex hover:bg-green-200 justify-start gap-4 py-1.5 my-1 text-lg ps-4 pe-8 items-center cursor-pointer"
                     >
-                      <span className="text-green-400">
+                      <span className="">
                         <Link size={20} />
                       </span>{" "}
                       <span>Link</span>
@@ -484,7 +484,7 @@ const ChatTab = () => {
                       onClick={handleClickOpen}
                       className="flex hover:bg-green-200 justify-start gap-4 py-1.5 my-1 text-lg ps-4 pe-8 items-center cursor-pointer"
                     >
-                      <span className="text-green-400">
+                      <span className="">
                         <MapPin size={20} />
                       </span>{" "}
                       <span>Loaction</span>
@@ -501,7 +501,7 @@ const ChatTab = () => {
             >
               <Smile
                 size={22}
-                color="gray"
+               
                 className="cursor-pointer"
                 onClick={() => setOpenEmoji(!openEmoji)}
               />
@@ -519,14 +519,14 @@ const ChatTab = () => {
             </div>
 
             {/* Input Field */}
-            <div className="flex-1 flex items-center bg-gray-300/20 px-3 py-1">
+            <div className="flex-1 flex items-center   py-1">
               <input
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
                 placeholder="Type a message..."
-                className="w-full bg-transparent text-[16px] py-2 outline-none placeholder-gray-400 text-gray-800"
+                className="w-full border-[1px] px-3 text-[16px] py-2 outline-none "
               />
             </div>
 

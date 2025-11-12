@@ -45,7 +45,7 @@ const ContactsTab = () => {
   );
 
   return (
-    <div className="w-full bg-white h-screen overflow-y-auto flex flex-col py-4 border-r border-gray-200">
+    <div className="w-full  h-screen overflow-y-auto flex flex-col py-4 border-r ">
       {/* Header */}
       <div className="flex justify-between items-center px-4 mb-3">
         <h2 className="text-green-600 text-xl font-semibold">Contacts</h2>
@@ -66,7 +66,7 @@ const ContactsTab = () => {
             placeholder="Search contacts"
             onChange={(e) => setInput(e.target.value)}
             value={input}
-            className="w-full pl-9 pr-3 py-2.5 bg-gray-100 text-gray-800 outline-none focus:ring-1 focus:ring-green-400 transition rounded-md"
+            className="w-full pl-9 pr-3 py-2.5  border-[1px] outline-none focus:ring-1 focus:ring-green-400 transition"
           />
         </div>
       </div>
@@ -88,7 +88,7 @@ const ContactsTab = () => {
                 className="mb-3 border-b-[1px] border-[#aaa8a86c]"
               >
                 {/* Alphabet Header */}
-                <div className="sticky top-0 bg-white z-10 px-2 py-1">
+                <div className="sticky top-0 z-10 px-2 py-1">
                   <h3 className="text-sm font-bold text-green-600">{letter}</h3>
                 </div>
 
@@ -106,7 +106,7 @@ const ContactsTab = () => {
                     className={`flex items-center gap-3 px-4 py-2 cursor-pointer transition-all duration-150 ${
                       selectedUser?._id === user._id
                         ? "bg-green-200"
-                        : "hover:bg-gray-50"
+                        : "hover:bg-green-400"
                     }`}
                   >
                     {/* Avatar */}
@@ -131,13 +131,13 @@ const ContactsTab = () => {
 
                       {/* Online Indicator */}
                       {onlineUsers.includes(user._id) && (
-                        <div className="absolute w-3 h-3 rounded-full bg-green-500 bottom-0 right-1 border-2 border-white"></div>
+                        <div className="absolute w-3 h-3 rounded-full bg-green-500 bottom-0 right-1 border-2 "></div>
                       )}
                     </div>
 
                     {/* User info */}
                     <div className="flex justify-between items-center w-full">
-                      <p className="font-medium text-gray-800 truncate">
+                      <p className="font-medium  truncate">
                         {user.fullName}
                       </p>
 

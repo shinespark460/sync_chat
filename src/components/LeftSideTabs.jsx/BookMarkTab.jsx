@@ -14,8 +14,8 @@ const BookMarkTab = () => {
   const [msgImages, setMsgImages] = useState([]);
   console.log(setMsgImages);
   return (
-    <div className=" bg-white h-screen overflow-y-auto flex flex-col py-4 border-r border-gray-200">
-      <div className=" w-full bg-white h-screen overflow-y-auto flex flex-col pt-4 pb-16 border-r border-gray-200">
+    <div className="  h-screen overflow-y-auto flex flex-col py-4 border-r ">
+      <div className=" w-full  h-screen overflow-y-auto flex flex-col pt-4 pb-16 border-r ">
         {/* Header */}
         <div className="flex justify-between items-center px-4 mb-8">
           <h2 className="text-green-600 text-xl font-semibold">Bookmark</h2>
@@ -23,7 +23,7 @@ const BookMarkTab = () => {
         {/* Search Bar */}
       
         <div>
-          <div className="flex justify-around py-3 border-b border-gray-100">
+          <div className="flex justify-around py-3 border-b ">
             {/* Replicated action buttons */}
             {[
               { icon: Images, label: "Photos" },

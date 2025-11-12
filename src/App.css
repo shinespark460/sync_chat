@@ -1,5 +1,8 @@
 @import "tailwindcss";
 /* Custom scrollbar for webkit browsers */
+@plugin "daisyui" {
+  themes: all;
+}
 ::-webkit-scrollbar {
   width: 6px;
 }

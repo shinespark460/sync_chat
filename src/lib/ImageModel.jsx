@@ -54,8 +54,8 @@ const ImagePreviewDialog = ({ open, imageUrl, onClose }) => {
       }}
     >
       {/* Header */}
-      <div className="flex justify-between items-center p-3 border-b border-gray-700">
-        <h2 className="text-lg font-semibold text-white">Image Preview</h2>
+      <div className="flex justify-between items-center p-3 border-b ">
+        <h2 className="text-lg font-semibold ">Image Preview</h2>
         <IconButton onClick={onClose}>
           <CloseIcon sx={{ color: "#fff" }} />
         </IconButton>
@@ -67,7 +67,7 @@ const ImagePreviewDialog = ({ open, imageUrl, onClose }) => {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          backgroundColor: "#000",
+         
         }}
       >
         <img
@@ -92,7 +92,7 @@ const ImagePreviewDialog = ({ open, imageUrl, onClose }) => {
           onClick={handleDownload}
           startIcon={<DownloadIcon />}
           sx={{
-            backgroundColor: "#4EAC6D",
+            backgroundColor: "",
             "&:hover": { backgroundColor: "#3e915b" },
           }}
         >
@@ -105,8 +105,8 @@ const ImagePreviewDialog = ({ open, imageUrl, onClose }) => {
           onClick={handleBookmark}
           startIcon={<BookmarkBorderIcon />}
           sx={{
-            borderColor: "#4EAC6D",
-            color: "#4EAC6D",
+            borderColor: "",
+            color: "",
             "&:hover": { borderColor: "#3e915b", color: "#3e915b" },
           }}
         >

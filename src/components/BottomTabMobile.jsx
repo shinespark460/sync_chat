@@ -17,11 +17,14 @@ import SettingTab from "./LeftSideTabs.jsx/SettingTab";
 import { ChatContext } from "../context/ChatContext";
 import ArchiveTab from "./LeftSideTabs.jsx/ArchiveTab";
 import ContactsTab from "./LeftSideTabs.jsx/ContactsTab";
+import { AppContext } from "../context/AppContext";
+import assets from "../assets/assets";
 const BottomTabMobile = () => {
   const [activeTab, setActiveTab] = React.useState(2);
   const { archivedUsers } = useContext(ChatContext);
+  const {authUser} = useContext(AppContext)
   const tabs = [
-    { id: 1, icon: CircleUser },
+  
     { id: 2, icon: MessagesSquare },
     { id: 3, icon: Users },
     { id: 4, icon: BookmarkCheck },
@@ -31,7 +34,24 @@ const BottomTabMobile = () => {
   return (
     <div className="w-full h-screen relative">
       <div className="flex justify-between px-4 items-center bottom-0 absolute z-50  w-full bg-[#2e2e2e]">
+        <div
+          
+            onClick={() => setActiveTab(1)}
+            className={`flex justify-center items-center py-2 cursor-pointer relative transition group`}
+          >
+            <div
+          
+              className={`absolute bottom-0 h-1 w-full rounded-t-md transition-all duration-300 ${
+                activeTab === 1 ? "bg-green-400" : "bg-transparent"
+              }`}
+            />
+           <img
+              src={authUser?.profilePic || assets.avatar_icon}
+              className="rounded-full w-8 h-8"
+            />
+         
         
+          </div>
         {tabs.map(({ id, icon: Icon }) => (
           <div
             key={id}
@@ -45,7 +65,7 @@ const BottomTabMobile = () => {
               }`}
             />
             <Icon
-              size={24}
+              size={28}
               className={`m-2 transition-all duration-200 ${
                 activeTab === id
                   ? "text-green-400"

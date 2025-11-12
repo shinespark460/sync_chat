@@ -24,7 +24,7 @@ const ProfileModal = ({ onClose }) => {
                 {/* Close button */}
                 <button
                     onClick={onClose}
-                    className="absolute top-3 right-3 text-gray-300 hover:text-white text-xl"
+                    className="absolute top-3 right-3  hover:text-white text-xl"
                     aria-label="Close profile"
                 >
                     ✕

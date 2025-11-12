@@ -19,7 +19,7 @@ import { ChatContext } from "../context/ChatContext";
 import ContactsTab from "./LeftSideTabs.jsx/ContactsTab";
 import { AppContext } from "../context/AppContext";
 import assets from "../assets/assets";
-import logo from "../assets/images/login/logo-01.png"
+import logo from "../assets/images/login/logo-01.png";
 const LeftTab = () => {
   const [activeTab, setActiveTab] = React.useState(2);
   const { archivedUsers } = useContext(ChatContext);
@@ -50,19 +50,18 @@ const LeftTab = () => {
   return (
     <div className="flex flex-row">
       {/* Left sidebar */}
-      <div className="bg-[#2e2e2e] h-screen flex flex-col justify-between items-center py-6 w-[70px]">
+      <div className=" h-screen flex flex-col justify-between items-center py-6 w-[70px] border-r-[1px]">
         {/* Top icons */}
         <div className="flex flex-col gap-4 w-full">
           {/* App Icon */}
           <div className="flex justify-center items-center">
-            <img src={logo} className=" w-12 brightness-125"  />
+            <img src={logo} className=" w-12 brightness-125" />
           </div>
 
           {/* Navigation Tabs */}
           {tabs.map(({ id, icon: Icon, title }) => (
             <div
               key={id}
-              title={title}
               onClick={() => setActiveTab(id)}
               className={`flex justify-center items-center 2xl:py-2 cursor-pointer relative transition group`}
             >
@@ -72,6 +71,9 @@ const LeftTab = () => {
                   activeTab === id ? "bg-green-400" : "bg-transparent"
                 }`}
               />
+              <div className="absolute top-4 -right-16 rounded-lg bg-black p-1 w-20 text-center hidden group-hover:block transition-all group-hover:duration-200 text-white z-50">
+                {title}
+              </div>
               <Icon
                 size={26}
                 className={`m-2 transition-all duration-200 ${
@@ -97,14 +99,19 @@ const LeftTab = () => {
 
         {/* Bottom icons */}
         <div className="flex flex-col items-center gap-4 ">
-          <div className="py-2">
+          <div
+            className={`flex justify-center items-center 2xl:py-2 cursor-pointer relative transition group`}
+          >
             <Sun
-              className="text-[#878a92] hover:text-yellow-300 transition"
+              className="text-[#878a92] m-2 hover:text-yellow-300 transition"
               size={26}
             />
+            <div className="absolute top-4 -right-24 rounded-lg bg-black p-1 w-24 text-center hidden  group-hover:block transition-all group-hover:duration-200 text-white z-50">
+              Appearence
+            </div>
           </div>
           <div
-            className="relative py-2"
+            className="relative py-2 cursor-pointer"
             onClick={() => setProfileBox(!profileBox)}
           >
             <img

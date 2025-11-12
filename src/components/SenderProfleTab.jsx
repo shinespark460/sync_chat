@@ -51,16 +51,16 @@ const SenderProfleTab = () => {
     openProfileUser && (
       <div
         // Match the clean, white background look of the reference image
-        className={`bg-white text-gray-800 z-20 overflow-y-auto h-screen relative 
-                shadow-2xl border-l border-gray-200 
+        className={` z-20 overflow-y-auto h-screen relative 
+                shadow-2xl border-l 
                 transition-all duration-300`}
       >
         {/* Profile Header Image and Info */}
-        <div className="relative w-full h-52 sm:h-64 bg-gray-200">
+        <div className="relative w-full h-52 sm:h-64 ">
           {/* Background Image (Replace with a dynamic image if available) */}
           <img
             src={selectedUser?.profilePic || assets.avatar_icon} // Assuming coverPhoto exists or use a default
-            className="w-full h-full object-cover bg-white"
+            className="w-full h-full object-cover "
             alt="cover"
           />
 
@@ -73,14 +73,14 @@ const SenderProfleTab = () => {
           </button>
           {/* Name and Active Status Overlay */}
           <div className="absolute bottom-0 left-0 p-4 bg-gradient-to-t from-black/70 to-transparent w-full">
-            <h2 className="text-xl font-bold text-white">
+            <h2 className="text-xl font-bold ">
               {selectedUser?.fullName || "Tonia Clay"}
             </h2>
 
             <div className="flex items-center gap-1 mt-1">
               <span
                 className={`w-2 h-2 rounded-full ${
-                  isUserOnline ? "bg-green-500" : "bg-gray-400"
+                  isUserOnline ? "bg-green-500" : ""
                 }`}
               ></span>
               <span className="text-sm text-white/90">
@@ -91,18 +91,18 @@ const SenderProfleTab = () => {
         </div>
 
         {/* --- Action Buttons (Message, Favourite, Audio, Video, More) --- */}
-        <div className="flex justify-around py-5 border-b border-gray-100">
+        <div className="flex justify-around py-5 border-b ">
           {/* Replicated action buttons */}
 
-          <div className="flex flex-col items-center gap-1 cursor-pointer text-gray-500 hover:text-green-400 transition">
+          <div className="flex flex-col items-center gap-1 cursor-pointer  hover:text-green-400 transition">
             <MessageSquare className="w-5 h-5" />
             <span className="text-xs font-semibold">Message</span>
           </div>
-          <div className="flex flex-col items-center gap-1 cursor-pointer text-gray-500 hover:text-green-400 transition">
+          <div className="flex flex-col items-center gap-1 cursor-pointer  hover:text-green-400 transition">
             <Heart className="w-5 h-5" />
             <span className="text-xs font-semibold">Favourite</span>
           </div>
-          <div className="flex flex-col items-center gap-1 relative cursor-pointer text-gray-500 ">
+          <div className="flex flex-col items-center gap-1 relative cursor-pointer ">
             <MoreHorizontal
               className="w-5 h-5"
               onClick={() => setShowOptions(!showOptions)}
@@ -111,7 +111,7 @@ const SenderProfleTab = () => {
             {showOptions && (
               <div
                 ref={optionref}
-                className="bg-white absolute top-full right-0 mt-3 p-3 rounded-lg shadow-lg border border-gray-100 w-36"
+                className="z-50 absolute top-full right-0 mt-3 p-3 rounded-lg shadow-lg border-[1px] w-36"
               >
                 <ul className="flex flex-col gap-2 px-2 text-sm">
                   <li
@@ -124,7 +124,7 @@ const SenderProfleTab = () => {
                         toast.success("Contact archived");
                       }
                     }}
-                    className="flex justify-between items-center cursor-pointer text-gray-500 hover:text-green-400 transition"
+                    className="flex justify-between items-center cursor-pointer  hover:text-green-400 transition"
                   >
                     <span>
                       {" "}
@@ -134,7 +134,7 @@ const SenderProfleTab = () => {
                     </span>
                     <Archive size={18} />
                   </li>
-                  <li className="flex justify-between items-center cursor-pointer text-gray-500 hover:text-green-400 transition">
+                  <li className="flex justify-between items-center cursor-pointer  hover:text-green-400 transition">
                     <span>Mute</span>
                     <BellOff size={18} />
                   </li>
@@ -147,15 +147,15 @@ const SenderProfleTab = () => {
         <div className="p-5 space-y-6 flex-1 overflow-y-auto">
           {/* STATUS */}
           <div>
-            <h3 className="text-lg font-semibold text-gray-700  mb-2">About</h3>
-            <p className="text-sm text-gray-600 leading-relaxed">
+            <h3 className="text-lg font-semibold   mb-2">About</h3>
+            <p className="text-sm leading-relaxed">
               {selectedUser?.bio || "Hey there! I am using Synk"}
             </p>
              <div className="mt-2">
-          <h3 className="text-lg font-semibold text-gray-700 mb-4">
+          <h3 className="text-lg font-semibold  mb-4">
             Contact Info
           </h3>
-          <p className="flex flex-row gap-4 items-center mb-2 text-gray-600">
+          <p className="flex flex-row gap-4 items-center mb-2 ">
             <span>
               <CircleUserRound size={20} />
             </span>
@@ -163,20 +163,20 @@ const SenderProfleTab = () => {
           </p>
           <a
             href={`mailto:${selectedUser?.email}`}
-            className="flex flex-row gap-4 items-center mb-2 text-gray-600"
+            className="flex flex-row gap-4 items-center mb-2 "
           >
             <span>
               <Mail size={20} />
             </span>
             <span>{selectedUser?.email || "Tony Stark"}</span>
           </a>
-          <p className="flex flex-row gap-4 items-center mb-2 text-gray-600">
+          <p className="flex flex-row gap-4 items-center mb-2 ">
             <span>
               <History size={20} />
             </span>
             <span>{useFormatDate(selectedUser?.createdAt) || "Tony Stark"}</span>
           </p>
-          <p className="flex flex-row gap-4 items-center mb-2 text-gray-600">
+          <p className="flex flex-row gap-4 items-center mb-2 ">
             <span className="">
               <SquarePen size={20} />
             </span>
@@ -185,7 +185,7 @@ const SenderProfleTab = () => {
         </div>
           </div>
           {/* INFO */}
-          <div className="flex justify-around py-3 border-b border-gray-100">
+          <div className="flex justify-around py-3 border-b ">
             {/* Replicated action buttons */}
             {[
               { icon: Images, label: "Photos" },
@@ -198,7 +198,7 @@ const SenderProfleTab = () => {
                 key={index}
                 onClick={() => setActiveTab(index + 1)}
                 className={`flex flex-col items-center gap-1 cursor-pointer ${
-                  activeTab === index + 1 ? "text-green-400" : "text-gray-500"
+                  activeTab === index + 1 ? "text-green-400" : ""
                 }  hover:text-green-400 transition`}
               >
                 <item.icon className="w-5 h-5" />

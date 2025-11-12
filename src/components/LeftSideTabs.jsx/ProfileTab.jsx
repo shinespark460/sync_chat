@@ -37,7 +37,7 @@ const ProfileTab = () => {
   };
 
   return (
-    <div className="w-full h-screen bg-white flex flex-col border-r border-gray-200">
+    <div className="w-full h-screen  overflow-y-auto flex flex-col md:border-r lg:pb-0 pb-20">
       {/* Header Section */}
       <div className="relative w-full h-40 2xl:h-56 flex-shrink-0">
         <img
@@ -58,7 +58,7 @@ const ProfileTab = () => {
 
         {/* Profile Picture */}
         <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2">
-          <div className="w-32 h-32 rounded-full border-4 border-white shadow-md overflow-hidden bg-gray-100 cursor-pointer">
+          <div className="w-32 h-32 rounded-full border-4  shadow-md overflow-hidden  cursor-pointer">
             <img
               src={authUser?.profilePic || assets.avatar_icon}
               alt="profile"
@@ -72,28 +72,28 @@ const ProfileTab = () => {
       </div>
 
       {/* User Info (Static - Not Scrollable) */}
-      <div className="mt-20 flex flex-col items-center px-4 text-center flex-shrink-0 border-b-[1px] border-[#8b8b8b94] pb-4">
-        <h2 className="text-2xl font-semibold text-gray-800">
+      <div className="mt-20 flex flex-col items-center px-4 text-center flex-shrink-0 border-b-[1px]  pb-4">
+        <h2 className="text-2xl font-semibold ">
           {authUser?.fullName.split(" ")[0] || "Tonia Clay"}
         </h2>
         <div className="flex items-center justify-center gap-2 mt-1">
           <span className="w-2.5 h-2.5 bg-green-500 rounded-full animate-pulse"></span>
-          <span className="text-sm text-gray-600">Active now</span>
+          <span className="text-sm">Active now</span>
         </div>
       </div>
 
       {/* Scrollable Section */}
-      <div className="flex-1 overflow-y-auto px-6 mt-3 pb-10">
-        <h3 className="text-lg font-semibold text-gray-700  mb-2">About</h3>
-        <p className="text-sm text-gray-600 leading-relaxed">
+      <div className="flex-1 lg:overflow-y-auto px-6 mt-3 pb-10">
+        <h3 className="text-lg font-semibold mb-2">About</h3>
+        <p className="text-sm t leading-relaxed">
           {authUser?.bio || "Hey there! I am using Synk"}
         </p>
 
         <div className="mt-2">
-          <h3 className="text-lg font-semibold text-gray-700 mb-4">
+          <h3 className="text-lg font-semibold  mb-4">
             Contact Info
           </h3>
-          <p className="flex flex-row gap-4 items-center mb-2 text-gray-600">
+          <p className="flex flex-row gap-4 items-center mb-2 ">
             <span>
               <CircleUserRound size={20} />
             </span>
@@ -101,20 +101,20 @@ const ProfileTab = () => {
           </p>
           <a
             href={`mailto:${authUser?.email}`}
-            className="flex flex-row gap-4 items-center mb-2 text-gray-600"
+            className="flex flex-row gap-4 items-center mb-2 "
           >
             <span>
               <Mail size={20} />
             </span>
             <span>{authUser?.email || "Tony Stark"}</span>
           </a>
-          <p className="flex flex-row gap-4 items-center mb-2 text-gray-600">
+          <p className="flex flex-row gap-4 items-center mb-2 ">
             <span>
               <History size={20} />
             </span>
             <span>{useFormatDate(authUser?.createdAt) || "Tony Stark"}</span>
           </p>
-          <p className="flex flex-row gap-4 items-center mb-2 text-gray-600">
+          <p className="flex flex-row gap-4 items-center mb-2 ">
             <span className="">
               <SquarePen size={20} />
             </span>
@@ -123,10 +123,10 @@ const ProfileTab = () => {
         </div>
 
         <div className="mt-6">
-          <h3 className="text-lg font-semibold text-gray-700 mb-2">
+          <h3 className="text-lg font-semibold  mb-2">
             Bookmarks
           </h3>
-          <div className="flex justify-around py-3 border-b border-gray-100">
+          <div className="flex justify-around py-3 border-b ">
             {/* Replicated action buttons */}
             {[
               { icon: Images, label: "Photos" },
@@ -139,7 +139,7 @@ const ProfileTab = () => {
                 key={index}
                 onClick={() => setActiveTab(index + 1)}
                 className={`flex flex-col items-center gap-1 cursor-pointer ${
-                  activeTab === index + 1 ? "text-green-400" : "text-gray-500"
+                  activeTab === index + 1 ? "text-green-400" : ""
                 }  hover:text-green-400 transition`}
               >
                 <item.icon className="w-5 h-5" />
@@ -164,7 +164,7 @@ const ProfileTab = () => {
                 ) : (
                   <div className="flex justify-center items-center flex-col gap-2">
                     <img src={noData} alt="no data" className="w-16" />
-                    <p className="text-gray-600 text-lg">No Images Shared</p>
+                    <p className=" text-lg">No Images Shared</p>
                   </div>
                 )}
               </div>

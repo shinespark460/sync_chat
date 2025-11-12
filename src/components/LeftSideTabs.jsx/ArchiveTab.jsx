@@ -34,7 +34,7 @@ const ArchiveTab = () => {
   );
 
   return (
-    <div className=" w-full bg-white h-screen overflow-y-auto flex flex-col py-4 border-r border-gray-200">
+    <div className=" w-full  h-screen overflow-y-auto flex flex-col py-4 border-r ">
       {/* Header */}
       <div className="flex justify-between items-center px-4 mb-3">
         <h2 className="text-green-600 text-xl font-semibold">Archived</h2>
@@ -54,7 +54,7 @@ const ArchiveTab = () => {
             placeholder="Search chat"
             onChange={(e) => setInput(e.target.value)}
             value={input}
-            className="w-full pl-9 pr-3 py-2.5 bg-gray-100 text-gray-800 outline-none focus:ring-1 focus:ring-green-400 transition"
+            className="w-full pl-9 pr-3 py-2.5 border-[1px] outline-none focus:ring-1 focus:ring-green-400 transition"
           />
         </div>
       </div>
