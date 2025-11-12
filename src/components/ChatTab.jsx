@@ -511,7 +511,9 @@ const ChatTab = () => {
                     open={openEmoji}
                     width={300}
                     height={400}
+                   
                     skinTonesDisabled={true}
+                  
                     onEmojiClick={(emojiData) => handleEmojiClick(emojiData)}
                   />
                 </div>
@@ -584,3 +586,5 @@ const ChatTab = () => {
 };
 
 export default ChatTab;
+
+

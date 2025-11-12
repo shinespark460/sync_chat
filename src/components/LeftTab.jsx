@@ -71,7 +71,7 @@ const LeftTab = () => {
                   activeTab === id ? "bg-green-400" : "bg-transparent"
                 }`}
               />
-              <div className="absolute top-4 -right-16 rounded-lg bg-black p-1 w-20 text-center hidden group-hover:block transition-all group-hover:duration-200 text-white z-50">
+              <div className="absolute top-0 -right-16 rounded-lg bg-black p-1 w-20 text-center hidden group-hover:block transition-all group-hover:duration-200 text-white z-50">
                 {title}
               </div>
               <Icon
@@ -111,7 +111,7 @@ const LeftTab = () => {
             {profileBox && (
               <div
                 ref={profileDropDown}
-                className="absolute  bottom-12 z-50   rounded-[8px] shadow-lg border "
+                className="absolute  bottom-12 z-50  rounded-[8px] shadow-lg border "
               >
                 <ul>
                   <li

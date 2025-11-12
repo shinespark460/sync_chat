@@ -74,14 +74,14 @@ const ThemeToggle = () => {
   }, [theme]);
 
   return (
-    <div className="flex flex-row items-center justify-center gap-3">
+    <div className="flex flex-row items-center  gap-3">
       <label className="text-sm font-medium">
         <Palette size={24} />
       </label>
       <select
         value={theme}
         onChange={(e) => setTheme(e.target.value)}
-        className="select select-bordered w-56 font-semibold  text-base-content"
+        className="select w-full outline-none border-b-[1px] font-semibold  text-base-content"
       >
         {themes.map((t) => (
           <option key={t} value={t}>
