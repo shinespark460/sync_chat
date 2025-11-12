@@ -81,7 +81,7 @@ const ThemeToggle = () => {
       <select
         value={theme}
         onChange={(e) => setTheme(e.target.value)}
-        className="select select-bordered w-56 font-semibold bg-base-200 text-base-content"
+        className="select select-bordered w-56 font-semibold  text-base-content"
       >
         {themes.map((t) => (
           <option key={t} value={t}>

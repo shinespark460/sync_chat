@@ -427,7 +427,7 @@ const ChatTab = () => {
           {/* Input Area */}
           <div
             ref={attachMentRef}
-            className="relative z-20 bg-white/20 shadow-[0_4px_30px_rgba(0,0,0,0.1)] backdrop-blur-sm border border-white/30 px-3 py-4 flex items-center gap-3"
+            className="relative z-20  shadow-[0_4px_30px_rgba(0,0,0,0.1)] backdrop-blur-sm border  px-3 py-4 flex items-center gap-3"
           >
             {/* Plus Button */}
             <div

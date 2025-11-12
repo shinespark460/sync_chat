@@ -99,17 +99,7 @@ const LeftTab = () => {
 
         {/* Bottom icons */}
         <div className="flex flex-col items-center gap-4 ">
-          <div
-            className={`flex justify-center items-center 2xl:py-2 cursor-pointer relative transition group`}
-          >
-            <Sun
-              className="text-[#878a92] m-2 hover:text-yellow-300 transition"
-              size={26}
-            />
-            <div className="absolute top-4 -right-24 rounded-lg bg-black p-1 w-24 text-center hidden  group-hover:block transition-all group-hover:duration-200 text-white z-50">
-              Appearence
-            </div>
-          </div>
+        
           <div
             className="relative py-2 cursor-pointer"
             onClick={() => setProfileBox(!profileBox)}
@@ -121,12 +111,12 @@ const LeftTab = () => {
             {profileBox && (
               <div
                 ref={profileDropDown}
-                className="absolute  bottom-12 z-50  bg-[#ffffff] rounded-[8px] shadow-lg border border-gray-200"
+                className="absolute  bottom-12 z-50   rounded-[8px] shadow-lg border "
               >
                 <ul>
                   <li
                     onClick={() => setActiveTab(1)}
-                    className="flex text-gray-500 hover:text-green-400 justify-between gap-4 py-1 m-1 text-[16px] px-4 items-center  cursor-pointer"
+                    className="flex  hover:text-green-400 justify-between gap-4 py-1 m-1 text-[16px] px-4 items-center  cursor-pointer"
                   >
                     <span>Profile</span>
                     <span className="">
@@ -135,7 +125,7 @@ const LeftTab = () => {
                   </li>
                   <li
                     onClick={() => setActiveTab(6)}
-                    className="flex text-gray-500 hover:text-green-400 justify-between gap-4 py-1 m-1 text-[16px] px-4 items-center  cursor-pointer"
+                    className="flex  hover:text-green-400 justify-between gap-4 py-1 m-1 text-[16px] px-4 items-center  cursor-pointer"
                   >
                     <span>Settings</span>
                     <span className="">
@@ -144,7 +134,7 @@ const LeftTab = () => {
                   </li>
                   <li
                     onClick={() => logout()}
-                    className="flex text-gray-500 hover:text-green-400 justify-between gap-4 py-1.5 m-1 text-[16px] px-4 items-center border-t-[1px] border-green-600/15 cursor-pointer"
+                    className="flex  hover:text-green-400 justify-between gap-4 py-1.5 m-1 text-[16px] px-4 items-center border-t-[1px]  cursor-pointer"
                   >
                     <span>Loagout</span>
                     <span className="">
