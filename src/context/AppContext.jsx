@@ -16,6 +16,7 @@ export const AppProvider = ({ children }) => {
   const [onlineUsers, setOnlineUsers] = useState([]);
   const [socket, setSocket] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [loadingUpdate, setLoadingUpadate] = useState(false);
   const [openProfileUser, setOpenProfileUser] = useState(false);
 
   const checkAuth = async () => {
@@ -23,7 +24,7 @@ export const AppProvider = ({ children }) => {
       const { data } = await axios.get("/api/auth/check");
       if (data.success) {
         setAuthUser(data.user);
-        console.log(data.user)
+        console.log(data.user);
         connectSocket(data.user);
       }
     } catch (error) {
@@ -66,12 +67,15 @@ export const AppProvider = ({ children }) => {
 
   const updateProfile = async (body) => {
     try {
+      setLoadingUpadate(true);
       const { data } = await axios.put("/api/auth/update-profile", body);
       if (data.success) {
         setAuthUser(data.user);
         toast.success("Profile Updated Successfully");
+        setLoadingUpadate(false);
       }
     } catch (error) {
+      setLoadingUpadate(false);
       toast.error("Error: " + error.message);
     }
   };
@@ -106,6 +110,8 @@ export const AppProvider = ({ children }) => {
     updateProfile,
     openProfileUser,
     setOpenProfileUser,
+    setLoadingUpadate,
+    loadingUpdate,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

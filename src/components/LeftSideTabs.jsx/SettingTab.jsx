@@ -4,48 +4,128 @@ import bgImage from "../../assets/images/chatBox/bg_img.jpg";
 import assets from "../../assets/assets";
 import {
   CircleUserRound,
-  Mail,
-  History,
-  SquarePen,
   ChevronDown,
   ChevronUp,
   Contrast,
   Lock,
+  Pencil,
+  Save,
   MessageCircleQuestionMark,
+  X,
 } from "lucide-react";
+import { CircularProgress } from "@mui/material";
+const fileToBase64 = (file) =>
+  new Promise((resolve, reject) => {
+    if (!file || !(file instanceof File)) return resolve(null);
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = (error) => reject(error);
+  });
 const SettingTab = () => {
-  const { authUser } = useContext(AppContext);
+  const { authUser, updateProfile, loadingUpdate } = useContext(AppContext);
+
+  const [isEditing, setIsEditing] = useState(false);
+
   const [formData, setFormData] = useState({
     fullName: authUser?.fullName || "",
-    email: authUser?.email || "",
     bio: authUser?.bio || "",
-    profilePic: authUser?.profilePic || "",
-    backgroundPic: authUser?.backgroundPic || "",
-  })
-  // State to track if the dialog is open and which image URL to display
-  // Function that will be called on image click
+    profilePic: authUser?.profilePic || assets.avatar_icon,
+    backgroundPic: authUser?.backgroundPic || bgImage,
+  });
+  // State to hold the actual FILE OBJECTS selected by the user
+  const [profilePicFile, setProfilePicFile] = useState(null);
+  const [backgroundPicFile, setBackgroundPicFile] = useState(null);
 
+  // State for toggling accordion sections
   const [open, setOpen] = useState({
-    personal: false,
+    personal: false, // Set to true by default for better UX on a settings tab
     themes: false,
     account: false,
     help: false,
   });
+
+  // handle text change
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  // handle image file change
+  const handleImageChange = (e, field) => {
+    const file = e.target.files[0];
+
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      // 1. Update formData for UI preview with the temporary URL
+      setFormData((prev) => ({ ...prev, [field]: imageUrl }));
+
+      // 2. Store the actual File object separately for base64 conversion on submit
+      if (field === "profilePic") {
+        setProfilePicFile(file);
+      } else if (field === "backgroundPic") {
+        setBackgroundPicFile(file);
+      }
+    } else {
+      // Clear the file object if the user cancels selection
+      if (field === "profilePic") {
+        setProfilePicFile(null);
+      } else if (field === "backgroundPic") {
+        setBackgroundPicFile(null);
+      }
+    }
+  };
+
+  const handleEditToggle = () => {
+    if (isEditing) {
+      // If the user clicks "Save" (while in edit mode), the form handleSubmit will be called.
+      // If you need a Cancel/Discard logic, you would implement it here or via a dedicated button.
+    }
+    setIsEditing((prev) => !prev);
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!isEditing) return;
+    try {
+      const base64ProfilePic = await fileToBase64(profilePicFile);
+      const base64BackgroundPic = await fileToBase64(backgroundPicFile);
+      const updateData = {
+        fullName: formData.fullName,
+        bio: formData.bio,
+      };
+      if (base64ProfilePic) updateData.profilePic = base64ProfilePic;
+      if (base64BackgroundPic) updateData.backgroundPic = base64BackgroundPic;
+      await updateProfile(updateData);
+      setProfilePicFile(null);
+      setBackgroundPicFile(null);
+      setIsEditing(false);
+    } catch (error) {
+      console.error(" Error updating profile:", error);
+    }
+  };
+  const resetData = () => {
+    setProfilePicFile(null);
+    setBackgroundPicFile(null);
+    setIsEditing(false);
+    setFormData({
+      fullName: authUser?.fullName || "",
+      bio: authUser?.bio || "",
+      profilePic: authUser?.profilePic || assets.avatar_icon,
+      backgroundPic: authUser?.backgroundPic || bgImage,
+    });
+  };
   return (
     <div className="w-full h-screen bg-white flex flex-col border-r border-gray-200">
       {/* Header Section */}
       <div className="relative w-full h-40 2xl:h-56  flex-shrink-0">
         <img
-          src={authUser?.backgroundPic || bgImage}
+          src={formData.backgroundPic || authUser?.backgroundPic || bgImage}
           alt="cover"
           className="w-full h-full object-cover"
         />
 
         {/* Overlay Title */}
-        <div
-        
-          className="absolute top-0 cursor-pointer left-0 w-full h-full bg-black/20 flex items-start justify-between px-4 py-3"
-        >
+        <div className="absolute top-0 cursor-pointer left-0 w-full h-full bg-black/20 flex items-start justify-between px-4 py-3">
           <h2 className="text-white text-xl font-semibold tracking-wide drop-shadow">
             Settings
           </h2>
@@ -55,7 +135,11 @@ const SettingTab = () => {
         <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2">
           <div className="w-32 h-32 rounded-full border-4 border-white shadow-md overflow-hidden bg-gray-100 cursor-pointer">
             <img
-              src={formData.profilePic || assets.avatar_icon}
+              src={
+                formData.profilePic ||
+                authUser?.profilePic ||
+                assets.avatar_icon
+              }
               alt="profile"
               className="w-full h-full object-cover"
             />
@@ -66,7 +150,7 @@ const SettingTab = () => {
       {/* User Info (Static - Not Scrollable) */}
       <div className="mt-20 flex flex-col items-center px-4 text-center flex-shrink-0 pb-4">
         <h2 className="text-2xl font-semibold text-gray-800">
-          {authUser?.fullName.split(" ")[0] || "Tonia Clay"}
+          {authUser?.fullName || "Tonia Clay"}
         </h2>
         <div className="flex items-center justify-center gap-2 mt-1">
           <span className="w-2.5 h-2.5 bg-green-500 rounded-full animate-pulse"></span>
@@ -76,110 +160,241 @@ const SettingTab = () => {
 
       {/* Scrollable Section */}
       <div className="flex-1 overflow-y-auto pb-10">
-
         <div className="mt-2">
           {/* 1️⃣ Personal Info */}
           <div className="border-b-[1px] border-[#8b8b8b94] px-4">
             <button
-              onClick={() => setOpen({ ...open, personal: !open.personal })}
+              onClick={() => {
+                setOpen({ ...open, personal: !open.personal });
+              }}
               className="w-full flex items-center justify-between  py-4 text-left  transition-all duration-200"
             >
-              <h3 className="font-medium text-gray-800 flex flex-row items-center gap-2"><span><CircleUserRound size={20} /></span> Personal Info</h3>
+              <h3 className="font-medium text-gray-800 flex flex-row items-center gap-2">
+                <span>
+                  <CircleUserRound size={20} />
+                </span>{" "}
+                Personal Info
+              </h3>
               {open.personal ? (
                 <ChevronUp className="text-green-600 transition-transform duration-300" />
               ) : (
                 <ChevronDown className="text-gray-500 transition-transform duration-300" />
               )}
             </button>
-            <form
-              className={`overflow-hidden transition-all duration-500 ease-in-out ${open.personal
-                  ? "max-h-40 opacity-100 py-3"
-                  : "max-h-0 opacity-0"
-                }`}
-            >
-              <p className="text-sm text-gray-600">
-                Update your name, profile photo, or contact info.
-              </p>
-              <p className="text-sm text-gray-600">
-                Change your display details easily here.
-              </p>
+          </div>
+          <div
+            className={`transition-all relative duration-200 z-0 ease-in-out 
+            
+            ${
+              open.personal ? " opacity-100 py-3 block" : "h-0 hidden opacity-0"
+            }
+            `}
+          >
+            <form onSubmit={handleSubmit} className="relative py-6 px-3">
+              {loadingUpdate && (
+                <div className="top-0 left-0 w-full h-full bg-[#ffffffa8] absolute flex justify-center flex-col items-center  z-50">
+                  <CircularProgress color="success" />
+                  <p className="text-[#4eac6d] text-xl font-bold">
+                    Updating Details....
+                  </p>
+                </div>
+              )}
+              {/* Header */}
+              <div className="flex flex-row justify-between items-center mb-5">
+                <div
+                  // Use type="submit" when in editing mode, and type="button" otherwise
+                  type={isEditing ? "submit" : "button"}
+                  onClick={isEditing ? handleSubmit : handleEditToggle}
+                  className="flex items-center cursor-pointer gap-2 px-3 py-1.5 text-sm rounded-lg transition-all duration-200
+            bg-gradient-to-r from-green-500/90 to-green-600 hover:scale-105 shadow-md text-white font-medium"
+                >
+                  {isEditing ? (
+                    <>
+                      <Save size={16} /> Save
+                    </>
+                  ) : (
+                    <>
+                      <Pencil size={16} /> Edit
+                    </>
+                  )}
+                </div>
+                {isEditing && (
+                  <div
+                    onClick={resetData}
+                    className="bg-gradient-to-r cursor-pointer flex items-center gap-2 px-3 py-1.5 text-sm rounded-lg transition-all duration-200 from-green-500/90 to-green-600 hover:scale-105 shadow-md text-white font-medium"
+                  >
+                    <X size={16} /> Cancel
+                  </div>
+                )}
+              </div>
+              {/* Form Fields */}
+              <div className="space-y-4">
+                {/* Name */}
+                <div className="flex flex-col border-b-[1px] pb-1">
+                  <label className="text-sm font-medium text-gray-600 mb-1">
+                    Full Name
+                  </label>
+                  <input
+                    type="text"
+                    name="fullName"
+                    value={formData.fullName}
+                    onChange={handleChange}
+                    disabled={!isEditing}
+                    className={`w-full py-2 px-3 rounded-lg outline-none transition-all duration-200 ${
+                      isEditing
+                        ? "border border-green-400/50 focus:ring-2 focus:ring-green-500"
+                        : "border border-transparent cursor-default"
+                    }`}
+                  />
+                </div>
+
+                {/* Profile Pic */}
+                <div className="flex flex-col border-b-[1px] pb-1">
+                  <label className="text-sm font-medium text-gray-600 mb-1">
+                    Profile Picture
+                  </label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    disabled={!isEditing}
+                    onChange={(e) => handleImageChange(e, "profilePic")}
+                    // Clear the file input if not in edit mode (optional reset, but good for cleanliness)
+                    // key={isEditing ? "editing" : "not-editing"}
+                    className="file:mr-3 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-sm
+                         file:bg-green-600 hover:file:text-white hover:file:bg-green-700 cursor-pointer text-sm"
+                  />
+                </div>
+
+                {/* Cover Image */}
+                <div className="flex flex-col border-b-[1px] pb-1">
+                  <label className="text-sm font-medium text-gray-600 mb-1">
+                    Cover Image
+                  </label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    disabled={!isEditing}
+                    onChange={(e) => handleImageChange(e, "backgroundPic")}
+                    // key={isEditing ? "editing" : "not-editing"}
+                    className="file:mr-3 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-sm
+                         file:bg-green-600  hover:file:bg-green-700 hover:file:text-white cursor-pointer text-sm"
+                  />
+                </div>
+
+                {/* Bio */}
+                <div className="flex flex-col border-b-[1px] pb-1">
+                  <label className="text-sm font-medium text-gray-600 mb-1">
+                    Bio
+                  </label>
+                  <textarea
+                    rows={3}
+                    name="bio"
+                    value={formData.bio}
+                    onChange={handleChange}
+                    disabled={!isEditing}
+                    className={`w-full py-1 px-3 rounded-lg outline-none transition-all duration-200 resize-none ${
+                      isEditing
+                        ? "border border-green-400/50 focus:ring-2 focus:ring-green-500"
+                        : "border border-transparent cursor-default"
+                    }`}
+                  />
+                </div>
+              </div>
             </form>
           </div>
+        </div>
 
-          {/* 2️⃣ Themes */}
-          <div className="border-b-[1px] border-[#8b8b8b94] px-4">
-            <button
-              onClick={() => setOpen({ ...open, themes: !open.themes })}
-              className="w-full flex items-center justify-between  py-4 text-left  transition-all duration-200"
-            >
-              <h3 className="font-medium text-gray-800 flex flex-row items-center gap-2"><span><Contrast size={20} /></span> Themes</h3>
-              {open.themes ? (
-                <ChevronUp className="text-green-600 transition-transform duration-300" />
-              ) : (
-                <ChevronDown className="text-gray-500 transition-transform duration-300" />
-              )}
-            </button>
-            <div
-              className={`overflow-hidden transition-all duration-500 ease-in-out ${open.themes ? "max-h-40 opacity-100 py-3" : "max-h-0 opacity-0"
-                }`}
-            >
-              <p className="text-sm text-gray-600">
-                Switch between light, dark, or system themes.
-              </p>
-              <p className="text-sm text-gray-600">
-                Personalize your chat look with custom colors.
-              </p>
-            </div>
+        {/* 2️⃣ Themes */}
+        <div className="border-b-[1px] border-[#8b8b8b94] px-4">
+          <button
+            onClick={() => setOpen({ ...open, themes: !open.themes })}
+            className="w-full flex items-center justify-between  py-4 text-left  transition-all"
+          >
+            <h3 className="font-medium text-gray-800 flex flex-row items-center gap-2">
+              <span>
+                <Contrast size={20} />
+              </span>{" "}
+              Themes
+            </h3>
+            {open.themes ? (
+              <ChevronUp className="text-green-600 transition-transform duration-300" />
+            ) : (
+              <ChevronDown className="text-gray-500 transition-transform duration-300" />
+            )}
+          </button>
+          <div
+            className={`overflow-hidden transition-all duration-200 ease-in-out ${
+              open.themes ? "max-h-40 opacity-100 py-3" : "max-h-0 opacity-0"
+            }`}
+          >
+            <p className="text-sm text-gray-600">
+              Switch between light, dark, or system themes.
+            </p>
+            <p className="text-sm text-gray-600">
+              Personalize your chat look with custom colors.
+            </p>
           </div>
+        </div>
 
-          {/* 3️⃣ Account */}
-          <div className="border-b-[1px] border-[#8b8b8b94] px-4">
-            <button
-              onClick={() => setOpen({ ...open, account: !open.account })}
-              className="w-full flex items-center justify-between py-4 text-left  transition-all duration-200"
-            >
-              <h3 className="font-medium text-gray-800 flex flex-row items-center gap-2"><span><Lock size={20} /></span> Security</h3>
-              {open.account ? (
-                <ChevronUp className=" transition-transform duration-300" />
-              ) : (
-                <ChevronDown className="text-gray-500 transition-transform duration-300" />
-              )}
-            </button>
-            <div
-              className={`overflow-hidden transition-all duration-500 ease-in-out ${open.account ? "max-h-40 opacity-100 py-3" : "max-h-0 opacity-0"
-                }`}
-            >
-              <p className="text-sm text-gray-600">
-                Manage login sessions, password, and privacy settings.
-              </p>
-              <p className="text-sm text-gray-600">
-                Enable two-step verification for enhanced security.
-              </p>
-            </div>
+        {/* 3️⃣ Account */}
+        <div className="border-b-[1px] border-[#8b8b8b94] px-4">
+          <button
+            onClick={() => setOpen({ ...open, account: !open.account })}
+            className="w-full flex items-center justify-between py-4 text-left  transition-all "
+          >
+            <h3 className="font-medium text-gray-800 flex flex-row items-center gap-2">
+              <span>
+                <Lock size={20} />
+              </span>{" "}
+              Security
+            </h3>
+            {open.account ? (
+              <ChevronUp className=" transition-transform duration-300" />
+            ) : (
+              <ChevronDown className="text-gray-500 transition-transform duration-300" />
+            )}
+          </button>
+          <div
+            className={`overflow-hidden transition-all duration-200 ease-in-out ${
+              open.account ? "max-h-40 opacity-100 py-3" : "max-h-0 opacity-0"
+            }`}
+          >
+            <p className="text-sm text-gray-600">
+              Manage login sessions, password, and privacy settings.
+            </p>
+            <p className="text-sm text-gray-600">
+              Enable two-step verification for enhanced security.
+            </p>
           </div>
+        </div>
 
-          {/* 4️⃣ Help */}
-          <div className="px-4">
-            <button
-              onClick={() => setOpen({ ...open, help: !open.help })}
-              className="w-full flex items-center justify-between  py-4 text-left transition-all duration-200"
-            >
-              <h3 className="font-medium text-gray-800 flex flex-row items-center gap-2"><span><MessageCircleQuestionMark size={20} /></span> Help</h3>
-              {open.help ? (
-                <ChevronUp className=" transition-transform duration-300" />
-              ) : (
-                <ChevronDown className="text-gray-500 transition-transform duration-300" />
-              )}
-            </button>
-            <div
-              className={`overflow-hidden transition-all duration-500 ease-in-out ${open.help ? "max-h-40 opacity-100 py-3" : "max-h-0 opacity-0"
-                }`}
-            >
-              <p className="text-sm text-gray-600">Find answers to FAQs.</p>
-              <p className="text-sm text-gray-600">
-                Contact our support team for more help.
-              </p>
-            </div>
+        {/* 4️⃣ Help */}
+        <div className="px-4">
+          <button
+            onClick={() => setOpen({ ...open, help: !open.help })}
+            className="w-full flex items-center justify-between  py-4 text-left transition-all"
+          >
+            <h3 className="font-medium text-gray-800 flex flex-row items-center gap-2">
+              <span>
+                <MessageCircleQuestionMark size={20} />
+              </span>{" "}
+              Help
+            </h3>
+            {open.help ? (
+              <ChevronUp className=" transition-transform duration-300" />
+            ) : (
+              <ChevronDown className="text-gray-500 transition-transform duration-300" />
+            )}
+          </button>
+          <div
+            className={`overflow-hidden transition-all duration-200 ease-in-out ${
+              open.help ? "max-h-40 opacity-100 py-3" : "max-h-0 opacity-0"
+            }`}
+          >
+            <p className="text-sm text-gray-600">Find answers to FAQs.</p>
+            <p className="text-sm text-gray-600">
+              Contact our support team for more help.
+            </p>
           </div>
         </div>
       </div>
