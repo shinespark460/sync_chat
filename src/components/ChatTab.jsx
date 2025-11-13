@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import bg_image from "../assets/images/chatBox/bg_chat_img.png";
+import logo from "../assets/images/login/synk_logo.png"
 import {
-  MessageSquareText,
   Plus,
   Smile,
   Send,
@@ -526,9 +526,9 @@ const ChatTab = () => {
           {" "}
           <div className="flex flex-col gap-2 items-center">
             {" "}
-            <div className="w-28 h-28 rounded-full bg-green-300/50 flex justify-center items-center mx-auto">
+            <div className=" rounded-full flex justify-center items-center mx-auto">
               {" "}
-              <MessageSquareText className="text-green-500" size={60} />{" "}
+             <img src={logo} className="w-72 brightness-100 pointer-events-none"/>
             </div>{" "}
             <h2 className="text-xl font-medium">
               {" "}
