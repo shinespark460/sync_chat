@@ -108,7 +108,7 @@ const UsersTab = () => {
                 </p>
                 {/* Unread count */}
                 {unseenMessages[user._id] > 0 && (
-                  <div className="bg-green-500 text-white text-xs font-semibold rounded-full w-5 h-5 flex items-center justify-center">
+                  <div className="bg-base-100 border-[1px] text-xs font-semibold rounded-full w-5 h-5 flex items-center justify-center">
                     {unseenMessages[user._id]}
                   </div>
                 )}

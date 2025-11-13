@@ -10,7 +10,6 @@ const ContactsTab = () => {
     users,
     selectedUser,
     setSelectedUser,
-    unseenMessages,
     setUnseenMessages,
     loading,
   } = useContext(ChatContext);
@@ -140,13 +139,6 @@ const ContactsTab = () => {
                       <p className="font-medium  truncate">
                         {user.fullName}
                       </p>
-
-                      {/* Unread count */}
-                      {unseenMessages[user._id] > 0 && (
-                        <div className="bg-green-500 text-white text-xs font-semibold rounded-full w-5 h-5 flex items-center justify-center">
-                          {unseenMessages[user._id]}
-                        </div>
-                      )}
                     </div>
                   </div>
                 ))}

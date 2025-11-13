@@ -11,6 +11,7 @@ import {
 import signupIllustrator from "../assets/images/login/login-01.png";
 import { AppContext } from "../context/AppContext";
 import Loader from "../components/Loading";
+import logo from "../assets/images/login/synk_logo.png"
 // Main App component
 const App = () => {
   const { login, loading } = useContext(AppContext);
@@ -97,7 +98,7 @@ const App = () => {
         {/* LEFT COLUMN: VISUAL/MARKETING (Hidden on mobile, visible on medium screens) */}
         <div className="md:col-span-5 lg:col-span-4  p-6 lg:p-10 relative hidden md:flex flex-col justify-between items-center text-white">
           <div className="w-full">
-            <SynkLogo />
+            <img src={logo} className="w-40 brightness-100"/>
           </div>
 
           <div className="flex flex-col items-center justify-center text-center py-5">
@@ -122,10 +123,11 @@ const App = () => {
           <div className="flex flex-col lg:gap-5 justify-center items-center w-full">
             {/* Logo for Mobile View */}
             <div className="md:hidden mb-4 ">
-              <SynkLogo />
+                          <img src={logo} className="w-40 brightness-100"/>
+
             </div>
 
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-800">
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-800 text-center">
               {currState === "Sign Up" ? "Create Your Account" : "Welcome Back"}
             </h1>
             {currState === "Sign Up" ? (
@@ -136,8 +138,8 @@ const App = () => {
               </p>
             ) : (
               <p className="font-semibold text-lg text-gray-600 text-center">
-               Sign in to continue to
-                <span className="text-[#4eac6d] font-bold">Synk</span>
+               Sign in to continue to 
+                <span className="text-[#4eac6d] font-bold"> Synk</span>
               </p>
             )}
             {/* FORM SECTION: Center the form content and constrain its max width */}
@@ -277,7 +279,7 @@ const App = () => {
             <div className="border-t border-gray-100 pt-4 mt-auto">
               <p className="lg:text-lg text-sm text-gray-500">
                 Synk 2025 &copy; | All rights reserved. | Crafted By &nbsp;
-                <a className="text-[#4eac6d] font-bold cursor-pointer hover:underline">
+                <a href="https://hemanshu-mishra.vercel.app/" target="_blank" rel="noopener noreferrer" className="text-[#4eac6d] font-bold cursor-pointer hover:underline">
                   Himanshu
                 </a>
               </p>
