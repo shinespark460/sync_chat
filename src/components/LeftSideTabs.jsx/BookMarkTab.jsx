@@ -15,7 +15,7 @@ const BookMarkTab = () => {
   console.log(setMsgImages);
   return (
     <div className="  h-screen overflow-y-auto flex flex-col py-4 border-r ">
-      <div className=" w-full  h-screen overflow-y-auto flex flex-col pt-4 pb-16 border-r ">
+      <div className=" w-full  h-screen overflow-y-auto flex flex-col pb-16 border-r ">
         {/* Header */}
         <div className="flex justify-between items-center px-4 mb-8">
           <h2 className="text-green-600 text-xl font-semibold">Bookmark</h2>
