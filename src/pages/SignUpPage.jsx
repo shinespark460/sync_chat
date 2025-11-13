@@ -11,7 +11,7 @@ import {
 import signupIllustrator from "../assets/images/login/login-01.png";
 import { AppContext } from "../context/AppContext";
 import Loader from "../components/Loading";
-import logo from "../assets/images/login/synk_logo.png"
+import logo from "../assets/images/login/synk_logo.png";
 // Main App component
 const App = () => {
   const { login, loading } = useContext(AppContext);
@@ -38,52 +38,7 @@ const App = () => {
     // In a real application, you would handle authentication here.
     console.log("Form Submitted:", formData);
     login(currState === "Sign Up" ? "signup" : "login", formData);
-
-    // Note: Alert() is replaced by console log or custom UI for real apps.
   };
-
-  // SVG component for the Synk Logo (Message Bubble Icon + Text)
-  const SynkLogo = () => (
-    <div className="flex items-center space-x-2">
-      {/* Icon: Modern, Gradient Message Bubble */}
-      <svg
-        width="32"
-        height="32"
-        viewBox="0 0 24 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        className="w-8 h-8 md:w-10 md:h-10"
-      >
-        <path
-          d="M21 15V19C21 20.1046 20.1046 21 19 21H7C5.89543 21 5 20.1046 5 19V15C5 13.8954 5.89543 13 7 13H19C20.1046 13 21 13.8954 21 15Z"
-          fill="url(#synkGradient)"
-          className="opacity-70"
-        />
-        <path
-          d="M17 11H7C5.89543 11 5 10.1046 5 9V5C5 3.89543 5.89543 3 7 3H17C18.1046 3 19 3.89543 19 5V9C19 10.1046 18.1046 11 17 11Z"
-          fill="url(#synkGradient)"
-        />
-        <circle cx="12" cy="17" r="1.5" fill="#FFFFFF" />
-        <defs>
-          <linearGradient
-            id="synkGradient"
-            x1="5"
-            y1="3"
-            x2="21"
-            y2="21"
-            gradientUnits="userSpaceOnUse"
-          >
-            <stop stopColor="#67e8f9" />
-            <stop offset="1" stopColor="#a78bfa" />
-          </linearGradient>
-        </defs>
-      </svg>
-      <span className="text-2xl md:text-3xl font-extrabold text-[#4eac6d] md:text-white tracking-tight">
-        Synk
-      </span>
-    </div>
-  );
-
   // The single-page responsive layout
   return (
     <div className="min-h-screen bg-[#4eac6d] flex items-center relative justify-center lg:p-4 p-0 py-4 font-inter">
@@ -98,7 +53,7 @@ const App = () => {
         {/* LEFT COLUMN: VISUAL/MARKETING (Hidden on mobile, visible on medium screens) */}
         <div className="md:col-span-5 lg:col-span-4  p-6 lg:p-10 relative hidden md:flex flex-col justify-between items-center text-white">
           <div className="w-full">
-            <img src={logo} className="w-40 brightness-100"/>
+            <img src={logo} className="w-40 brightness-100" />
           </div>
 
           <div className="flex flex-col items-center justify-center text-center py-5">
@@ -123,8 +78,7 @@ const App = () => {
           <div className="flex flex-col lg:gap-5 justify-center items-center w-full">
             {/* Logo for Mobile View */}
             <div className="md:hidden mb-4 ">
-                          <img src={logo} className="w-40 brightness-100"/>
-
+              <img src={logo} className="w-40 brightness-100" />
             </div>
 
             <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-800 text-center">
@@ -138,7 +92,7 @@ const App = () => {
               </p>
             ) : (
               <p className="font-semibold text-lg text-gray-600 text-center">
-               Sign in to continue to 
+                Sign in to continue to
                 <span className="text-[#4eac6d] font-bold"> Synk</span>
               </p>
             )}
@@ -279,7 +233,12 @@ const App = () => {
             <div className="border-t border-gray-100 pt-4 mt-auto">
               <p className="lg:text-lg text-sm text-gray-500">
                 Synk 2025 &copy; | All rights reserved. | Crafted By &nbsp;
-                <a href="https://hemanshu-mishra.vercel.app/" target="_blank" rel="noopener noreferrer" className="text-[#4eac6d] font-bold cursor-pointer hover:underline">
+                <a
+                  href="https://hemanshu-mishra.vercel.app/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#4eac6d] font-bold cursor-pointer hover:underline"
+                >
                   Himanshu
                 </a>
               </p>
