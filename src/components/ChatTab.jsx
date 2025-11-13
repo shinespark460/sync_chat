@@ -41,6 +41,7 @@ const ChatTab = () => {
     toggleArchiveUser,
     isUserArchived,
     msgSendLoading,
+    sendingIndex,
   } = useContext(ChatContext);
   const { authUser, onlineUsers, openProfileUser, setOpenProfileUser } =
     useContext(AppContext);
@@ -399,7 +400,7 @@ const ChatTab = () => {
                           src={msg.image}
                           onClick={() => openImageDialog(msg.image)}
                           alt="sent-img"
-                          className=" chat-bubble p-0  w-40 cursor-pointer"
+                          className=" chat-bubble p-0 w-40 cursor-pointer"
                         />
                       </div>
                     ) : (
@@ -407,11 +408,12 @@ const ChatTab = () => {
                         ref={(el) => (msgRefs.current[msg._id] = el)}
                         className="chat-bubble shadow-md max-w-[70%]"
                       >
-                        {msgSendLoading ? (
+                        {" "}
+                        {sendingIndex === index  ? (
                           <CircularProgress size="20px" />
                         ) : (
                           <span>{msg.text}</span>
-                        )}
+                        )}{" "}
                       </div>
                     )}
 
@@ -426,7 +428,7 @@ const ChatTab = () => {
             </div>
           )}
           {/* Input Area */}
-          <div className="relative z-20  shadow-[0_4px_30px_rgba(0,0,0,0.1)] backdrop-blur-sm  px-1 lg:px-3 py-2.5 flex items-center gap-3">
+          <div className="relative z-20   shadow-[0_4px_30px_rgba(0,0,0,0.1)] backdrop-blur-sm border-b   px-1 lg:px-3 py-2.5 flex items-center gap-3 border-base-200 bg-base-100/80 md:border-base-300">
             {/* Plus Button */}
             <div
               ref={attachMentRef}
@@ -537,13 +539,13 @@ const ChatTab = () => {
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
                 placeholder="Type a message..."
-                className="w-full border-[1px] px-3 text-[16px] py-2 outline-none "
+                className="w-full border-[1px] px-4 text-[16px] py-2 input outline-none "
               />
             </div>
 
             <button
               onClick={handleSubmit}
-              className="flex justify-center items-center p-2 hover:opacity-60 cursor-pointer border-[1px] bg-base-100"
+              className="flex justify-center items-center p-2 hover:opacity-60 cursor-pointer border-[1px] btn border-base-300 outline-none bg-base-200"
             >
               <Send size={22} className="" />
             </button>

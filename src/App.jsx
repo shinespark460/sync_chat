@@ -11,7 +11,7 @@ function App() {
   const { authUser } = useContext(AppContext);
   return (
     <>
-      <div>
+      <div className="overflow-y-hidden">
         <Toaster />
         <Routes>
           <Route

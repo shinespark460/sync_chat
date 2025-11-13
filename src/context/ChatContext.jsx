@@ -12,7 +12,7 @@ export const ChatProvider = ({ children }) => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [loading, setLoading] = useState(false);
   const [loadMsgs, setLoadMsgs] = useState(false);
-  const [msgSendLoading, setMsgSendLoading] = useState(false);
+  const [sendingIndex, setSendingIndex] = useState(null);
   const { socket, axios, onlineUsers } = useContext(AppContext);
   // ✅ CORRECT: The setter function is named 'setArchivedUsers'
   const [archivedUsers, setArchivedUsers] = useState(() => {
@@ -52,22 +52,29 @@ export const ChatProvider = ({ children }) => {
 
   const sendMessage = async (messageData) => {
     try {
-      setMsgSendLoading(true);
+      // 1️⃣ Find next index (where new message will appear)
+      const index = messages.length;
+      setSendingIndex(index);
+
       const { data } = await axios.post(
         `/api/messages/send/${selectedUser._id}`,
         messageData
       );
+
       if (data.success) {
-        setMsgSendLoading(false);
+        setSendingIndex(null);
+
+        // 2️⃣ Add the real message
         setMessages((prev) => [...prev, data.message]);
       } else {
         toast.error(data.message);
       }
     } catch (error) {
-      setMsgSendLoading(false);
+      setSendingIndex(null);
       toast.error("Error: " + error.message);
     }
   };
+
 
   const subscribeToMessages = () => {
     if (!socket) return;
@@ -158,8 +165,7 @@ export const ChatProvider = ({ children }) => {
     archivedUsers,
     toggleArchiveUser,
     isUserArchived,
-    msgSendLoading,
-    setMsgSendLoading,
+    sendingIndex, setSendingIndex
   };
 
   return <ChatContext.Provider value={value}>{children}</ChatContext.Provider>;
