@@ -29,7 +29,7 @@ export const ChatProvider = ({ children }) => {
       }
       return data;
     } catch (error) {
-      toast.error("Error: " + error.message);
+      console.error("Error: " + error.message);
       setLoading(false);
     }
   };
