@@ -116,7 +116,7 @@ const SettingTab = () => {
     });
   };
   return (
-    <div className="w-full h-screen overflow-y-auto  flex flex-col border-r ">
+    <div className="w-full h-screen overflow-y-auto  flex flex-col md:border-r ">
       {/* Header Section */}
       <div className="relative w-full h-40 2xl:h-56  flex-shrink-0">
         <img

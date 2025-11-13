@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import bg_image from "../assets/images/chatBox/bg_chat_img.png";
-import logo from "../assets/images/login/synk_logo.png"
+import logo from "../assets/images/login/synk_logo.png";
 import {
   Plus,
   Smile,
@@ -29,6 +29,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import ImagePreviewDialog from "../lib/ImageModel";
 const ChatTab = () => {
   const {
     messages,
@@ -39,6 +40,7 @@ const ChatTab = () => {
     loadMsgs,
     toggleArchiveUser,
     isUserArchived,
+    msgSendLoading,
   } = useContext(ChatContext);
   const { authUser, onlineUsers, openProfileUser, setOpenProfileUser } =
     useContext(AppContext);
@@ -49,6 +51,22 @@ const ChatTab = () => {
   const [openSearchBox, setOpenSearchBox] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
   const [search, setSearch] = useState("");
+
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [selectedImageUrl, setSelectedImageUrl] = useState(null);
+  const openImageDialog = (url) => {
+    setSelectedImageUrl(url); // Set the URL of the clicked image
+    setDialogOpen(true); // Open the dialog
+  };
+
+  // Function to close the dialog
+  const closeImageDialog = () => {
+    setDialogOpen(false);
+    setSelectedImageUrl(null); // Optional: clear the URL when closing
+  };
+
+  const [previewImage, setPreviewImage] = useState(null);
+  // This will store an object like: { file: FileObject, url: 'blob:http://...' }
   const handleEmojiClick = (emojiData) => {
     setInput((prevInput) => prevInput + emojiData.emoji);
   };
@@ -69,21 +87,39 @@ const ChatTab = () => {
   const handleClose = () => {
     setOpen(false);
   };
-  // Handle Image Send
-  const handleSendImage = async (e) => {
+  const handleOpenImage = (e) => {
     const file = e.target.files[0];
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      setPreviewImage({
+        file: file,
+        url: imageUrl,
+      });
+      e.target.value = null;
+    }
+    setOpenAttachment(false);
+  };
+  const handleCancelPreview = () => {
+    URL.revokeObjectURL(previewImage.url);
+    setPreviewImage(null);
+  };
+  const handleSendImage = async () => {
+    const file = previewImage?.file;
     if (!file) return;
+
     if (!file.type.startsWith("image/")) {
       toast.error("Please select a valid image file");
       return;
     }
+
     const reader = new FileReader();
     reader.onloadend = async () => {
       await sendMessage({ image: reader.result });
-      e.target.value = "";
+      handleCancelPreview(); // close preview after sending
     };
     reader.readAsDataURL(file);
   };
+
   const handleSearchChange = (e) => {
     setSearch(e.target.value);
   };
@@ -91,28 +127,28 @@ const ChatTab = () => {
 
   useEffect(() => {
     if (search.trim()) {
-      const foundMessage = messages.find((msg) =>
-        msg.text.toLowerCase().includes(search.toLowerCase())
+      const foundMessage = messages.find(
+        (msg) =>
+          msg &&
+          msg.text &&
+          msg.text.toLowerCase().includes(search.toLowerCase())
       );
-
       if (foundMessage) {
-        // ✅ Access by id-based key
         const targetElement = msgRefs.current[foundMessage._id];
-
         if (targetElement) {
-          // Little delay ensures React rendered all messages first
           setTimeout(() => {
             targetElement.scrollIntoView({
               behavior: "smooth",
               block: "center",
             });
-            // optional highlight
             targetElement.classList.add("highlight");
             setTimeout(() => targetElement.classList.remove("highlight"), 3000);
           }, 100);
         } else {
           console.warn("Target element not found for id:", foundMessage._id);
         }
+      } else {
+        toast.error(`No messages found matching "${search.trim()}"`);
       }
     }
   }, [search, messages]);
@@ -190,9 +226,8 @@ const ChatTab = () => {
       {selectedUser ? (
         <>
           {/* Header */}
-
           <div
-            className={` top-0 left-0 z-10 flex w-full  items-center justify-between px-4 py-4  shadow-[0_4px_30px_rgba(0,0,0,0.1)] backdrop-blur-sm border `}
+            className={`top-0 left-0 w-full z-10  flex items-center justify-between  px-4 py-4 shadow-[0_4px_30px_rgba(0,0,0,0.1)] backdrop-blur-sm border-b border-base-200 bg-base-100/80 md:border-base-300`}
           >
             {/* ===== Left Section (Profile Info) ===== */}
             <div
@@ -314,7 +349,6 @@ const ChatTab = () => {
               </span>
             </div>
           </div>
-
           {/* Messages Area */}
           {loadMsgs ? (
             <div className="flex flex-col justify-center items-center gap-3 w-full h-full">
@@ -360,17 +394,24 @@ const ChatTab = () => {
 
                     {/* Bubble (Text or Image) */}
                     {msg.image ? (
-                      <img
-                        src={msg.image}
-                        alt="sent-img"
-                        className="chat-bubble p-0 shadow-md w-[200px] cursor-pointer"
-                      />
+                      <div className="chat-bubble p-2 flex shadow-md justify-center items-center">
+                        <img
+                          src={msg.image}
+                          onClick={() => openImageDialog(msg.image)}
+                          alt="sent-img"
+                          className=" chat-bubble p-0  w-40 cursor-pointer"
+                        />
+                      </div>
                     ) : (
                       <div
                         ref={(el) => (msgRefs.current[msg._id] = el)}
                         className="chat-bubble shadow-md max-w-[70%]"
                       >
-                        {msg.text}
+                        {msgSendLoading ? (
+                          <CircularProgress size="20px" />
+                        ) : (
+                          <span>{msg.text}</span>
+                        )}
                       </div>
                     )}
 
@@ -384,15 +425,12 @@ const ChatTab = () => {
               <div ref={scrollEnd}></div>
             </div>
           )}
-
           {/* Input Area */}
-          <div
-            ref={attachMentRef}
-            className="relative z-20  shadow-[0_4px_30px_rgba(0,0,0,0.1)] backdrop-blur-sm border  px-3 py-4 flex items-center gap-3"
-          >
+          <div className="relative z-20  shadow-[0_4px_30px_rgba(0,0,0,0.1)] backdrop-blur-sm  px-1 lg:px-3 py-2.5 flex items-center gap-3">
             {/* Plus Button */}
             <div
-              onClick={() => setOpenAttachment(!openAttachment)}
+              ref={attachMentRef}
+              onClick={() => setOpenAttachment(true)}
               className="flex relative justify-center items-center h-9 w-9 rounded-full hover:bg-gray-200/30 transition cursor-pointer"
             >
               <Plus size={22} />
@@ -400,7 +438,10 @@ const ChatTab = () => {
                 <div className="absolute bottom-12 left-0 md:left-1/2 md:-translate-x-1/2 z-50  bg-base-100   rounded-[8px] shadow-lg border ">
                   <ul className="py-2">
                     <li
-                      onClick={handleClickOpen}
+                      onClick={(e) => {
+                        handleClickOpen(e);
+                        setOpenAttachment(false);
+                      }}
                       className="flex hover:bg-green-200 justify-start gap-4 py-1.5 my-1 text-lg ps-4 pe-8 items-center cursor-pointer"
                     >
                       <span className="">
@@ -409,19 +450,27 @@ const ChatTab = () => {
                       <span>Document</span>
                     </li>
                     <li className="flex hover:bg-green-200 justify-start gap-4 py-1.5 my-1 text-lg ps-4 pe-8 items-center cursor-pointer">
-                      <span className="">
-                        <Images size={20} />
-                      </span>{" "}
-                      <input
-                        type="file"
-                        id="image"
-                        onChange={handleSendImage}
-                        hidden
-                        accept="image/*"
-                      />
-                      <label htmlFor="image" className="cursor-pointer">
+                      {/* The hidden input must stay */}
+
+                      {/* Wrap BOTH the icon and the text inside the <label> */}
+                      <label
+                        htmlFor="image"
+                        className="flex items-center gap-4 w-full cursor-pointer"
+                      >
+                        {" "}
+                        <input
+                          type="file"
+                          id="image"
+                          onChange={handleOpenImage}
+                          hidden
+                          accept="image/jpg, image/jpeg, image/png"
+                        />
+                        {/* Use the original span for styling if needed, or remove it */}
+                        <span className="">
+                          <Images size={20} />
+                        </span>{" "}
                         Photos
-                      </label>{" "}
+                      </label>
                     </li>
                     <li
                       onClick={handleClickOpen}
@@ -469,7 +518,8 @@ const ChatTab = () => {
                 <div className="absolute bottom-12 border-[1px] rounded-[8px]  z-50 -left-10 md:left-1/2  bg-base-100 md:-translate-x-1/2">
                   <EmojiPicker
                     open={openEmoji}
-                    width={300}  theme="auto"
+                    width={300}
+                    theme="auto"
                     height={400}
                     skinTonesDisabled={true}
                     className="bg-base-100"
@@ -480,7 +530,7 @@ const ChatTab = () => {
             </div>
 
             {/* Input Field */}
-            <div className="flex-1 flex items-center   py-1">
+            <div className="flex-1 flex items-center">
               <input
                 type="text"
                 value={input}
@@ -493,12 +543,46 @@ const ChatTab = () => {
 
             <button
               onClick={handleSubmit}
-              className="flex justify-center items-center p-3 rounded-xl cursor-pointer border-[1px] bg-base-100"
+              className="flex justify-center items-center p-2 hover:opacity-60 cursor-pointer border-[1px] bg-base-100"
             >
-              <Send size={22}  className="mr-0.5" />
+              <Send size={22} className="" />
             </button>
           </div>
-
+          {previewImage && (
+            <div className="fixed inset-0 bg-base-100 flex flex-col p-4  justify-center items-center z-[100]">
+              <h1 className="mb-2">
+                Send Image to{" "}
+                <span className="font-bold">{selectedUser?.fullName}</span>
+              </h1>
+              {msgSendLoading && (
+                <div className="w-full h-full absolute flex justify-center flex-col gap-4 items-center bg-base-100 opacity-60 z-50">
+                  <CircularProgress size="60px" />
+                  <h2>Sending...</h2>
+                </div>
+              )}
+              <div className=" p-4 rounded-lg shadow-xl  ">
+                <img
+                  src={previewImage.url}
+                  alt="Preview"
+                  className="max-h-72 w-full object-contain rounded mb-4"
+                />
+                <div className="flex justify-between">
+                  <button
+                    onClick={handleCancelPreview}
+                    className="px-4 py-2 border-[1px] rounded cursor-pointer hover:bg-gray-400"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleSendImage}
+                    className="px-4 py-2 border-[1px] cursor-pointer rounded hover:bg-green-600"
+                  >
+                    Send
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
           {/* Dialog Box for upcoming features */}
           <Dialog
             open={open}
@@ -519,6 +603,11 @@ const ChatTab = () => {
               <Button onClick={handleClose}>Okay</Button>
             </DialogActions>
           </Dialog>
+          <ImagePreviewDialog
+            open={dialogOpen}
+            imageUrl={selectedImageUrl}
+            onClose={closeImageDialog}
+          />
         </>
       ) : (
         // Empty State
@@ -528,7 +617,10 @@ const ChatTab = () => {
             {" "}
             <div className=" rounded-full flex justify-center items-center mx-auto">
               {" "}
-             <img src={logo} className="w-72 brightness-100 pointer-events-none"/>
+              <img
+                src={logo}
+                className="w-72 brightness-100 pointer-events-none"
+              />
             </div>{" "}
             <h2 className="text-xl font-medium">
               {" "}

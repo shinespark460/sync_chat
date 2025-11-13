@@ -14,7 +14,8 @@ import {
   Link,
   MapPin,
   Archive,
-  BellOff,  CircleUserRound,
+  BellOff,
+  CircleUserRound,
   Mail,
   History,
   SquarePen,
@@ -22,7 +23,7 @@ import {
 import noData from "../assets/icons/no_data.png";
 import toast from "react-hot-toast";
 import useFormatDate from "../hooks/useFormatDate";
-
+import ImagePreviewDialog from "../lib/ImageModel";
 const SenderProfleTab = () => {
   // Added onClose prop for the X button
   const { selectedUser, messages, toggleArchiveUser, isUserArchived } =
@@ -33,8 +34,21 @@ const SenderProfleTab = () => {
   const isUserOnline = onlineUsers.includes(selectedUser?._id);
   const [showOptions, setShowOptions] = useState(false);
   const [msgImages, setMsgImages] = useState([]);
-  const optionref = useRef(null);
 
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [selectedImageUrl, setSelectedImageUrl] = useState(null);
+  const openImageDialog = (url) => {
+    setSelectedImageUrl(url); // Set the URL of the clicked image
+    setDialogOpen(true); // Open the dialog
+  };
+
+  // Function to close the dialog
+  const closeImageDialog = () => {
+    setDialogOpen(false);
+    setSelectedImageUrl(null); // Optional: clear the URL when closing
+  };
+
+  const optionref = useRef(null);
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (optionref.current && !optionref.current.contains(event.target)) {
@@ -151,38 +165,40 @@ const SenderProfleTab = () => {
             <p className="text-sm leading-relaxed">
               {selectedUser?.bio || "Hey there! I am using Synk"}
             </p>
-             <div className="mt-2">
-          <h3 className="text-lg font-semibold  mb-4">
-            Contact Info
-          </h3>
-          <p className="flex flex-row gap-4 items-center mb-2 ">
-            <span>
-              <CircleUserRound size={20} />
-            </span>
-            <span>{selectedUser?.fullName || "Tony Stark"}</span>
-          </p>
-          <a
-            href={`mailto:${selectedUser?.email}`}
-            className="flex flex-row gap-4 items-center mb-2 "
-          >
-            <span>
-              <Mail size={20} />
-            </span>
-            <span>{selectedUser?.email || "Tony Stark"}</span>
-          </a>
-          <p className="flex flex-row gap-4 items-center mb-2 ">
-            <span>
-              <History size={20} />
-            </span>
-            <span>{useFormatDate(selectedUser?.createdAt) || "Tony Stark"}</span>
-          </p>
-          <p className="flex flex-row gap-4 items-center mb-2 ">
-            <span className="">
-              <SquarePen size={20} />
-            </span>
-            <span>{useFormatDate(selectedUser?.updatedAt) || "--_--_--"}</span>
-          </p>
-        </div>
+            <div className="mt-2">
+              <h3 className="text-lg font-semibold  mb-4">Contact Info</h3>
+              <p className="flex flex-row gap-4 items-center mb-2 ">
+                <span>
+                  <CircleUserRound size={20} />
+                </span>
+                <span>{selectedUser?.fullName || "Tony Stark"}</span>
+              </p>
+              <a
+                href={`mailto:${selectedUser?.email}`}
+                className="flex flex-row gap-4 items-center mb-2 "
+              >
+                <span>
+                  <Mail size={20} />
+                </span>
+                <span>{selectedUser?.email || "Tony Stark"}</span>
+              </a>
+              <p className="flex flex-row gap-4 items-center mb-2 ">
+                <span>
+                  <History size={20} />
+                </span>
+                <span>
+                  {useFormatDate(selectedUser?.createdAt) || "Tony Stark"}
+                </span>
+              </p>
+              <p className="flex flex-row gap-4 items-center mb-2 ">
+                <span className="">
+                  <SquarePen size={20} />
+                </span>
+                <span>
+                  {useFormatDate(selectedUser?.updatedAt) || "--_--_--"}
+                </span>
+              </p>
+            </div>
           </div>
           {/* INFO */}
           <div className="flex justify-around py-3 border-b ">
@@ -211,10 +227,11 @@ const SenderProfleTab = () => {
             {activeTab === 1 && (
               <div className="w-full p-1">
                 {msgImages.length > 0 ? (
-                  <div className="grid grid-cols-2">
+                  <div className="grid grid-cols-2 gap-2">
                     {msgImages.map((url, index) => (
                       <img
                         src={url}
+                        onClick={() => openImageDialog(url)}
                         alt="url"
                         className="rounded-lg"
                         key={index}
@@ -231,7 +248,7 @@ const SenderProfleTab = () => {
             )}
             {activeTab === 2 && (
               <div className="w-full p-1">
-                {msgImages.length > 0 ? (
+                {/* {msgImages.length > 0 ? (
                   <div className="grid grid-cols-2">
                     {msgImages.map((url, index) => (
                       <img
@@ -242,17 +259,17 @@ const SenderProfleTab = () => {
                       />
                     ))}
                   </div>
-                ) : (
+                ) : ( */}
                   <div className="flex justify-center items-center flex-col gap-2">
                     <img src={noData} alt="no data" className="w-16" />
                     <p className=" text-lg">No Documents Shared</p>
                   </div>
-                )}
+                {/* )} */}
               </div>
             )}
             {activeTab === 3 && (
               <div className="w-full p-1">
-                {msgImages.length > 0 ? (
+                {/* {msgImages.length > 0 ? (
                   <div className="grid grid-cols-2">
                     {msgImages.map((url, index) => (
                       <img
@@ -263,17 +280,17 @@ const SenderProfleTab = () => {
                       />
                     ))}
                   </div>
-                ) : (
+                ) : ( */}
                   <div className="flex justify-center items-center flex-col gap-2">
                     <img src={noData} alt="no data" className="w-16" />
                     <p className=" text-lg">No Audio Shared</p>
                   </div>
-                )}
+                {/* )} */}
               </div>
             )}
             {activeTab === 4 && (
-              <div className="w-full p-1">
-                {msgImages.length > 0 ? (
+               <div className="w-full p-1">
+                {/* {msgImages.length > 0 ? (
                   <div className="grid grid-cols-2">
                     {msgImages.map((url, index) => (
                       <img
@@ -284,17 +301,17 @@ const SenderProfleTab = () => {
                       />
                     ))}
                   </div>
-                ) : (
+                ) : ( */}
                   <div className="flex justify-center items-center flex-col gap-2">
                     <img src={noData} alt="no data" className="w-16" />
                     <p className=" text-lg">No Link Shared</p>
                   </div>
-                )}
+                {/* )} */}
               </div>
             )}
             {activeTab === 5 && (
-              <div className="w-full p-1">
-                {msgImages.length > 0 ? (
+               <div className="w-full p-1">
+                {/* {msgImages.length > 0 ? (
                   <div className="grid grid-cols-2">
                     {msgImages.map((url, index) => (
                       <img
@@ -305,16 +322,21 @@ const SenderProfleTab = () => {
                       />
                     ))}
                   </div>
-                ) : (
+                ) : ( */}
                   <div className="flex justify-center items-center flex-col gap-2">
                     <img src={noData} alt="no data" className="w-16" />
-                    <p className=" text-lg">No Location Shared</p>
+                    <p className=" text-lg">No Locations Shared</p>
                   </div>
-                )}
+                {/* )} */}
               </div>
             )}
           </div>
         </div>
+        <ImagePreviewDialog
+          open={dialogOpen}
+          imageUrl={selectedImageUrl}
+          onClose={closeImageDialog}
+        />
       </div>
     )
   );

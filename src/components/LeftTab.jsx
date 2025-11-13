@@ -50,7 +50,7 @@ const LeftTab = () => {
   return (
     <div className="flex flex-row">
       {/* Left sidebar */}
-      <div className=" h-screen flex flex-col justify-between items-center py-6 w-[70px] border-r-[1px]">
+      <div className=" h-screen flex flex-col justify-between items-center py-6 w-[70px] md:border-r-[1px]">
         {/* Top icons */}
         <div className="flex flex-col gap-4 w-full">
           {/* App Icon */}

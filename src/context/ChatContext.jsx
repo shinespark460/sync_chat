@@ -12,6 +12,7 @@ export const ChatProvider = ({ children }) => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [loading, setLoading] = useState(false);
   const [loadMsgs, setLoadMsgs] = useState(false);
+  const [msgSendLoading, setMsgSendLoading] = useState(false);
   const { socket, axios, onlineUsers } = useContext(AppContext);
   // ✅ CORRECT: The setter function is named 'setArchivedUsers'
   const [archivedUsers, setArchivedUsers] = useState(() => {
@@ -51,16 +52,19 @@ export const ChatProvider = ({ children }) => {
 
   const sendMessage = async (messageData) => {
     try {
+      setMsgSendLoading(true);
       const { data } = await axios.post(
         `/api/messages/send/${selectedUser._id}`,
         messageData
       );
       if (data.success) {
+        setMsgSendLoading(false);
         setMessages((prev) => [...prev, data.message]);
       } else {
         toast.error(data.message);
       }
     } catch (error) {
+      setMsgSendLoading(false);
       toast.error("Error: " + error.message);
     }
   };
@@ -138,7 +142,7 @@ export const ChatProvider = ({ children }) => {
   useEffect(() => {
     getUsers();
   }, [onlineUsers]);
-  
+
   const value = {
     messages,
     users,
@@ -154,6 +158,8 @@ export const ChatProvider = ({ children }) => {
     archivedUsers,
     toggleArchiveUser,
     isUserArchived,
+    msgSendLoading,
+    setMsgSendLoading,
   };
 
   return <ChatContext.Provider value={value}>{children}</ChatContext.Provider>;

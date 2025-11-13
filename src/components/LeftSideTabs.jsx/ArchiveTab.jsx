@@ -33,7 +33,7 @@ const ArchiveTab = () => {
   );
 
   return (
-    <div className=" w-full  h-screen overflow-y-auto flex flex-col py-4 border-r ">
+    <div className=" w-full  h-screen overflow-y-auto flex flex-col py-4 md:border-r ">
       {/* Header */}
       <div className="flex justify-between items-center px-4 mb-3">
         <h2 className="text-green-600 text-xl font-semibold">Archived</h2>

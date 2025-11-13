@@ -28,11 +28,11 @@ const UsersTab = () => {
     user.fullName.toLowerCase().includes(input.toLowerCase())
   );
   return (
-    <div className=" w-full  h-screen overflow-y-auto flex flex-col pt-4 pb-16 border-r ">
+    <div className=" w-full  h-screen overflow-y-auto flex flex-col pt-4 pb-16 md:border-r ">
       {/* Header */}
       <div className="flex justify-between items-center px-4 mb-3">
         <h2 className="text-green-600 text-xl font-semibold">Chats</h2>
-        <button className="w-8 h-8 flex justify-center items-center bg-green-100 rounded-full hover:bg-green-200 transition">
+        <button className="w-8 h-8 flex justify-center items-center bg-base-100 border-[1px] rounded-full hover:bg-green-200 transition">
           <UserPlus className="text-green-600" size={16} />
         </button>
       </div>

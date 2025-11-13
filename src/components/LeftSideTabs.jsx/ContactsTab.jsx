@@ -6,14 +6,9 @@ import CircularProgress from "@mui/material/CircularProgress";
 
 const ContactsTab = () => {
   const [input, setInput] = useState("");
-  const {
-    users,
-    selectedUser,
-    setSelectedUser,
-    setUnseenMessages,
-    loading,
-  } = useContext(ChatContext);
-  const { onlineUsers } = useContext(AppContext);
+  const { users, selectedUser, setSelectedUser, setUnseenMessages, loading } =
+    useContext(ChatContext);
+  const { onlineUsers, setOpenProfileUser } = useContext(AppContext);
 
   // 🔍 Filter + Group + Sort contacts
   const groupedContacts = useMemo(() => {
@@ -44,7 +39,7 @@ const ContactsTab = () => {
   );
 
   return (
-    <div className="w-full  h-screen overflow-y-auto flex flex-col py-4 border-r ">
+    <div className="w-full  h-screen overflow-y-auto flex flex-col py-4 md:border-r ">
       {/* Header */}
       <div className="flex justify-between items-center px-4 mb-3">
         <h2 className="text-green-600 text-xl font-semibold">Contacts</h2>
@@ -97,6 +92,7 @@ const ContactsTab = () => {
                     key={user._id}
                     onClick={() => {
                       setSelectedUser(user);
+                      setOpenProfileUser(false);
                       setUnseenMessages((prev) => ({
                         ...prev,
                         [user._id]: 0,
@@ -136,9 +132,7 @@ const ContactsTab = () => {
 
                     {/* User info */}
                     <div className="flex justify-between items-center w-full">
-                      <p className="font-medium  truncate">
-                        {user.fullName}
-                      </p>
+                      <p className="font-medium  truncate">{user.fullName}</p>
                     </div>
                   </div>
                 ))}
