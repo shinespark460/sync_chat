@@ -466,7 +466,7 @@ const ChatTab = () => {
                 onClick={() => setOpenEmoji(!openEmoji)}
               />
               {openEmoji && (
-                <div className="absolute bottom-12  z-50 -left-10 md:left-1/2  bg-base-100 md:-translate-x-1/2">
+                <div className="absolute bottom-12 border-[1px] rounded-[8px]  z-50 -left-10 md:left-1/2  bg-base-100 md:-translate-x-1/2">
                   <EmojiPicker
                     open={openEmoji}
                     width={300}  theme="auto"
