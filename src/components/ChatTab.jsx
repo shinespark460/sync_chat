@@ -493,9 +493,9 @@ const ChatTab = () => {
 
             <button
               onClick={handleSubmit}
-              className="flex justify-center items-center p-3 rounded-xl cursor-pointer bg-green-400"
+              className="flex justify-center items-center p-3 rounded-xl cursor-pointer border-[1px] bg-base-100"
             >
-              <Send size={22} color="white" className="mr-0.5" />
+              <Send size={22}  className="mr-0.5" />
             </button>
           </div>
 
