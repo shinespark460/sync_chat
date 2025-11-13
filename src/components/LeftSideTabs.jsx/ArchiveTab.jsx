@@ -1,7 +1,6 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useState } from "react";
-import { UserPlus, Search } from "lucide-react";
+import { Search } from "lucide-react";
 import { ChatContext } from "../../context/ChatContext";
 import { AppContext } from "../../context/AppContext";
 const ArchiveTab = () => {
