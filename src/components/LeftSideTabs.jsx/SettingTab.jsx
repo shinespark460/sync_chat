@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { AppContext } from "../../context/AppContext";
 import bgImage from "../../assets/images/chatBox/bg_img.jpg";
 import assets from "../../assets/assets";
-import ThemeToggle from "../ThemeChnage"
+import ThemeToggle from "../ThemeChnage";
 import {
   CircleUserRound,
   ChevronDown,
@@ -134,7 +134,7 @@ const SettingTab = () => {
 
         {/* Profile Picture */}
         <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2">
-          <div className="w-32 h-32 rounded-full border-4  shadow-md overflow-hidden  cursor-pointer">
+          <div className="w-32 h-32 rounded-full border-4  shadow-md overflow-hidden  ">
             <img
               src={
                 formData.profilePic ||
@@ -206,8 +206,8 @@ const SettingTab = () => {
                   // Use type="submit" when in editing mode, and type="button" otherwise
                   type={isEditing ? "submit" : "button"}
                   onClick={isEditing ? handleSubmit : handleEditToggle}
-                  className="flex items-center cursor-pointer gap-2 px-3 py-1.5 text-sm rounded-lg transition-all duration-200
-            bg-gradient-to-r from-green-500/90 to-green-600 hover:scale-105 shadow-md text-white font-medium"
+                  className="flex items-center cursor-pointer gap-2 px-3 py-1.5 text-sm rounded-lg border-[1px] transition-all duration-200
+            hover:scale-105 shadow-md  font-medium"
                 >
                   {isEditing ? (
                     <>
@@ -222,7 +222,7 @@ const SettingTab = () => {
                 {isEditing && (
                   <div
                     onClick={resetData}
-                    className="bg-gradient-to-r cursor-pointer flex items-center gap-2 px-3 py-1.5 text-sm rounded-lg transition-all duration-200 from-green-500/90 to-green-600 hover:scale-105 shadow-md text-white font-medium"
+                    className="bg-gradient-to-r cursor-pointer flex items-center gap-2 px-3 py-1.5 text-sm rounded-lg transition-all duration-200 border-[1px] hover:scale-105 shadow-md font-medium"
                   >
                     <X size={16} /> Cancel
                   </div>
@@ -232,9 +232,7 @@ const SettingTab = () => {
               <div className="space-y-4">
                 {/* Name */}
                 <div className="flex flex-col border-b-[1px] pb-1">
-                  <label className="text-sm font-medium  mb-1">
-                    Full Name
-                  </label>
+                  <label className="text-sm font-medium  mb-1">Full Name</label>
                   <input
                     type="text"
                     name="fullName"
@@ -284,9 +282,7 @@ const SettingTab = () => {
 
                 {/* Bio */}
                 <div className="flex flex-col border-b-[1px] pb-1">
-                  <label className="text-sm font-medium  mb-1">
-                    Bio
-                  </label>
+                  <label className="text-sm font-medium  mb-1">Bio</label>
                   <textarea
                     rows={3}
                     name="bio"
@@ -394,7 +390,6 @@ const SettingTab = () => {
           </div>
         </div>
       </div>
-
     </div>
   );
 };

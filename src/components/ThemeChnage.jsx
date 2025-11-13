@@ -1,30 +1,3 @@
-// import { useEffect, useState } from "react";
-
-// const ThemeToggle = () => {
-//   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
-
-//   useEffect(() => {
-//     document.documentElement.setAttribute("data-theme", theme);
-//     localStorage.setItem("theme", theme);
-//   }, [theme]);
-
-//   return (
-//     <select
-//       className="select select-bordered w-40"
-//       value={theme}
-//       onChange={(e) => setTheme(e.target.value)}
-//     >
-//       <option value="light">🌞 Light</option>
-//       <option value="dark">🌙 Dark</option>
-//       <option value="cupcake">🧁 Cupcake</option>
-//       <option value="business">👔 Business</option>
-//       <option value="synthwave">⚡ Synthwave</option>
-//     </select>
-//   );
-// };
-
-// export default ThemeToggle;
-
 import { useEffect, useState } from "react";
 import { Palette } from "lucide-react";
 const ThemeToggle = () => {

@@ -74,7 +74,7 @@ const UsersTab = () => {
               className={`flex items-center gap-3 px-4 py-2 cursor-pointer transition-all duration-150 
               ${
                 selectedUser?._id === user._id
-                  ? "bg-green-200"
+                  ? "bg-green-600"
                   : "hover:bg-green-400"
               }`}
             >

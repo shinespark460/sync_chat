@@ -199,11 +199,13 @@ const ChatTab = () => {
               onClick={() => setOpenProfileUser(true)}
               className={`flex items-center gap-3 cursor-pointer w-full`}
             >
-              
               <img
                 src={assets.arrow_icon}
                 alt="back"
-                onClick={() => {setSelectedUser(null); setOpenProfileUser(false)}}
+                onClick={() => {
+                  setSelectedUser(null);
+                  setOpenProfileUser(false);
+                }}
                 className="w-6 cursor-pointer block md:hidden"
               />
               {selectedUser.profilePic ? (
@@ -230,7 +232,6 @@ const ChatTab = () => {
                   <span className="text-green-400 text-[15px]">online</span>
                 )}
               </div>
-
             </div>
 
             {/* ===== Right Section (Icons + Dropdowns) ===== */}
@@ -239,7 +240,6 @@ const ChatTab = () => {
               <span className="relative">
                 <Search
                   size={22}
-                  
                   fontWeight={600}
                   onClick={() => setOpenSearchBox(!openSearchBox)}
                   className="cursor-pointer"
@@ -247,7 +247,7 @@ const ChatTab = () => {
                 {openSearchBox && (
                   <div
                     ref={searchref}
-                    className=" absolute top-full right-0 mt-2 p-2 rounded-lg shadow-lg"
+                    className=" absolute top-full  bg-base-100 right-0 mt-2 p-2 rounded-lg shadow-lg"
                   >
                     <input
                       type="text"
@@ -264,7 +264,6 @@ const ChatTab = () => {
               <span>
                 <Info
                   size={22}
-                 
                   className="cursor-pointer"
                   fontWeight={600}
                   onClick={() => setOpenProfileUser(!openProfileUser)}
@@ -275,7 +274,6 @@ const ChatTab = () => {
               <span className="relative">
                 <EllipsisVertical
                   size={22}
-                
                   fontWeight={600}
                   className="cursor-pointer"
                   onClick={() => setShowOptions(!showOptions)}
@@ -283,18 +281,17 @@ const ChatTab = () => {
                 {showOptions && (
                   <div
                     ref={optionref}
-                    className=" absolute top-full right-0 mt-3 p-3 rounded-lg shadow-lg border  w-36"
+                    className=" absolute top-full right-0 mt-3 p-3 rounded-lg shadow-lg  bg-base-100 border  w-36"
                   >
                     <ul className="flex flex-col gap-2 px-2 text-sm">
                       <li
                         onClick={() => {
                           toggleArchiveUser(selectedUser._id);
-                           setShowOptions(!showOptions);
+                          setShowOptions(!showOptions);
                           if (isUserArchived(selectedUser._id)) {
                             toast.success("Contact Unarchived");
-                          }
-                          else{
-                            toast.success("Contact archived")
+                          } else {
+                            toast.success("Contact archived");
                           }
                         }}
                         className="flex justify-between items-center cursor-pointer  hover:text-green-400 transition"
@@ -305,7 +302,7 @@ const ChatTab = () => {
                             ? "Unarchive"
                             : "Archive"}
                         </span>
-                        <Archive size={18}/>
+                        <Archive size={18} />
                       </li>
                       <li className="flex justify-between items-center cursor-pointer  hover:text-green-400 transition">
                         <span>Mute</span>
@@ -342,81 +339,45 @@ const ChatTab = () => {
                 return (
                   <div
                     key={index}
-                    // Flips the layout based on sender
-                    className={`flex mb-6 items-start ${
-                      isSentByMe ? "justify-end" : "justify-start"
-                    }`}
+                    className={`chat ${isSentByMe ? "chat-end" : "chat-start"}`}
                   >
-                    {/* 1. Receiver's Avatar (Left side) */}
-                    {!isSentByMe && (
-                      <img
-                        src={profilePic}
-                        alt="User Avatar"
-                        className="w-8 h-8 rounded-full object-cover mr-3 flex-shrink-0"
-                      />
-                    )}
-
-                    {/* 2. Message Content Container (Message + Metadata) */}
-                    <div
-                      className={`flex flex-col max-w-[70%] break-words ${
-                        isSentByMe ? "items-end" : "items-start"
-                      }`}
-                    >
-                      {/* Metadata (Name/Time - Above the bubble, matching the image) */}
-                      <div
-                        className={`text-[11px] mb-1  flex items-center ${
-                          isSentByMe ? "justify-end" : "justify-start"
-                        } w-full space-x-2`}
-                      >
-                        {/* Sender name is only shown for received messages in the image, and 'You' on the right side */}
-                        {isSentByMe ? (
-                          <span className="font-semibold  text-sm">
-                            {senderName}
-                          </span>
-                        ) : (
-                          <span className="font-semibold  text-sm">
-                            {senderName}
-                          </span>
-                        )}
-                        <span
-                          className={`${
-                            isSentByMe ? "order-2" : "order-1"
-                          }  text-sm`}
-                        >
-                          {formatMessageDate(msg.createdAt)}
-                        </span>
+                    {/* Avatar */}
+                    <div className="chat-image avatar">
+                      <div className="w-10 rounded-full">
+                        <img src={profilePic} alt="avatar" />
                       </div>
-
-                      {/* Message Bubble or Image */}
-                      {msg.image ? (
-                        <img
-                          src={msg.image}
-                          alt="sent"
-                          className="w-[200px] shadow-md cursor-pointer transition duration-300"
-                        />
-                      ) : (
-                        <div
-                          ref={(el) => (msgRefs.current[msg._id] = el)} // ✅ store by id
-                          className={`px-3 py-2 text-[16px]  shadow-md max-w-full transition duration-200 
-                                ${
-                                  isSentByMe
-                                    ? "border-[1px] " // Light green/teal for sent (like the image)
-                                    : "border-[1px]  " // White for received
-                                }`}
-                        >
-                          {msg.text}
-                        </div>
-                      )}
                     </div>
 
-                    {/* 3. Sender's Avatar (Right side) */}
-                    {isSentByMe && (
+                    {/* Header (Name + Time) */}
+                    <div className="chat-header flex items-center gap-2">
+                      <span className="font-semibold text-sm">
+                        {senderName}
+                      </span>
+                      <time className="text-xs opacity-50">
+                        {formatMessageDate(msg.createdAt)}
+                      </time>
+                    </div>
+
+                    {/* Bubble (Text or Image) */}
+                    {msg.image ? (
                       <img
-                        src={profilePic}
-                        alt="User Avatar"
-                        className="w-8 h-8 rounded-full object-cover ml-3 flex-shrink-0"
+                        src={msg.image}
+                        alt="sent-img"
+                        className="chat-bubble p-0 shadow-md w-[200px] cursor-pointer"
                       />
+                    ) : (
+                      <div
+                        ref={(el) => (msgRefs.current[msg._id] = el)}
+                        className="chat-bubble shadow-md max-w-[70%]"
+                      >
+                        {msg.text}
+                      </div>
                     )}
+
+                    {/* Footer ('Seen', 'Delivered') */}
+                    <div className="chat-footer opacity-50 text-xs">
+                      {isSentByMe ? "Delivered" : ""}
+                    </div>
                   </div>
                 );
               })}
@@ -436,7 +397,7 @@ const ChatTab = () => {
             >
               <Plus size={22} />
               {openAttachment && (
-                <div className="absolute bottom-12 left-0 md:left-1/2 md:-translate-x-1/2 z-50   rounded-[8px] shadow-lg border ">
+                <div className="absolute bottom-12 left-0 md:left-1/2 md:-translate-x-1/2 z-50  bg-base-100   rounded-[8px] shadow-lg border ">
                   <ul className="py-2">
                     <li
                       onClick={handleClickOpen}
@@ -501,19 +462,17 @@ const ChatTab = () => {
             >
               <Smile
                 size={22}
-               
                 className="cursor-pointer"
                 onClick={() => setOpenEmoji(!openEmoji)}
               />
               {openEmoji && (
-                <div className="absolute bottom-12  z-50 -left-10 md:left-1/2 md:-translate-x-1/2">
+                <div className="absolute bottom-12  z-50 -left-10 md:left-1/2  bg-base-100 md:-translate-x-1/2">
                   <EmojiPicker
                     open={openEmoji}
-                    width={300}
+                    width={300}  theme="auto"
                     height={400}
-                   
                     skinTonesDisabled={true}
-                  
+                    className="bg-base-100"
                     onEmojiClick={(emojiData) => handleEmojiClick(emojiData)}
                   />
                 </div>
@@ -586,5 +545,3 @@ const ChatTab = () => {
 };
 
 export default ChatTab;
-
-

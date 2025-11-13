@@ -111,7 +111,7 @@ const LeftTab = () => {
             {profileBox && (
               <div
                 ref={profileDropDown}
-                className="absolute  bottom-12 z-50  rounded-[8px] shadow-lg border "
+                className="absolute  bottom-12 z-50  rounded-[8px] bg-base-100 shadow-lg border "
               >
                 <ul>
                   <li

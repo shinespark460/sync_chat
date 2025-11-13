@@ -44,7 +44,7 @@ const ArchiveTab = () => {
         <div className="relative my-3">
           {/* Search Icon */}
           <Search
-            className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"
+            className="absolute left-3 top-1/2 -translate-y-1/2 "
             size={16}
           />
 
@@ -72,8 +72,8 @@ const ArchiveTab = () => {
             className={`flex items-center gap-3 px-4 py-2 cursor-pointer transition-all duration-150 
               ${
                 selectedUser?._id === user._id
-                  ? "bg-green-200"
-                  : "hover:bg-gray-50"
+                 ? "bg-green-600"
+                  : "hover:bg-green-400"
               }`}
           >
             {/* Avatar */}
@@ -102,7 +102,7 @@ const ArchiveTab = () => {
 
             {/* User info */}
             <div className="flex justify-between items-center w-full">
-              <p className="font-medium text-gray-800 truncate">
+              <p className="font-medium  truncate">
                 {user.fullName}
               </p>
 

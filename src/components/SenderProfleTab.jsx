@@ -111,7 +111,7 @@ const SenderProfleTab = () => {
             {showOptions && (
               <div
                 ref={optionref}
-                className="z-50 absolute top-full right-0 mt-3 p-3 rounded-lg shadow-lg border-[1px] w-36"
+                className="z-50 absolute top-full right-0 mt-3 p-3 rounded-lg bg-base-100 shadow-lg border-[1px] w-36"
               >
                 <ul className="flex flex-col gap-2 px-2 text-sm">
                   <li
@@ -224,7 +224,7 @@ const SenderProfleTab = () => {
                 ) : (
                   <div className="flex justify-center items-center flex-col gap-2">
                     <img src={noData} alt="no data" className="w-16" />
-                    <p className="text-gray-600 text-lg">No Images Shared</p>
+                    <p className=" text-lg">No Images Shared</p>
                   </div>
                 )}
               </div>
@@ -245,7 +245,7 @@ const SenderProfleTab = () => {
                 ) : (
                   <div className="flex justify-center items-center flex-col gap-2">
                     <img src={noData} alt="no data" className="w-16" />
-                    <p className="text-gray-600 text-lg">No Documents Shared</p>
+                    <p className=" text-lg">No Documents Shared</p>
                   </div>
                 )}
               </div>
@@ -266,7 +266,7 @@ const SenderProfleTab = () => {
                 ) : (
                   <div className="flex justify-center items-center flex-col gap-2">
                     <img src={noData} alt="no data" className="w-16" />
-                    <p className="text-gray-600 text-lg">No Audio Shared</p>
+                    <p className=" text-lg">No Audio Shared</p>
                   </div>
                 )}
               </div>
@@ -287,7 +287,7 @@ const SenderProfleTab = () => {
                 ) : (
                   <div className="flex justify-center items-center flex-col gap-2">
                     <img src={noData} alt="no data" className="w-16" />
-                    <p className="text-gray-600 text-lg">No Link Shared</p>
+                    <p className=" text-lg">No Link Shared</p>
                   </div>
                 )}
               </div>
@@ -308,7 +308,7 @@ const SenderProfleTab = () => {
                 ) : (
                   <div className="flex justify-center items-center flex-col gap-2">
                     <img src={noData} alt="no data" className="w-16" />
-                    <p className="text-gray-600 text-lg">No Location Shared</p>
+                    <p className=" text-lg">No Location Shared</p>
                   </div>
                 )}
               </div>

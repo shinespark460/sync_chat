@@ -49,8 +49,8 @@ const ContactsTab = () => {
       {/* Header */}
       <div className="flex justify-between items-center px-4 mb-3">
         <h2 className="text-green-600 text-xl font-semibold">Contacts</h2>
-        <button className="w-8 h-8 flex justify-center items-center bg-green-100 rounded-full hover:bg-green-200 transition">
-          <UserPlus className="text-green-600" size={16} />
+        <button className="w-8 h-8 flex justify-center items-center bg-base-100 rounded-full hover:bg-green-200 border-[1px] transition">
+          <UserPlus className="" size={16} />
         </button>
       </div>
 
@@ -58,7 +58,7 @@ const ContactsTab = () => {
       <div className="px-4">
         <div className="relative my-3">
           <Search
-            className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"
+            className="absolute left-3 top-1/2 -translate-y-1/2 "
             size={16}
           />
           <input
@@ -89,7 +89,7 @@ const ContactsTab = () => {
               >
                 {/* Alphabet Header */}
                 <div className="sticky top-0 z-10 px-2 py-1">
-                  <h3 className="text-sm font-bold text-green-600">{letter}</h3>
+                  <h3 className="text-sm font-bold ">{letter}</h3>
                 </div>
 
                 {/* Contacts under that letter */}
@@ -105,7 +105,7 @@ const ContactsTab = () => {
                     }}
                     className={`flex items-center gap-3 px-4 py-2 cursor-pointer transition-all duration-150 ${
                       selectedUser?._id === user._id
-                        ? "bg-green-200"
+                        ? "bg-green-600"
                         : "hover:bg-green-400"
                     }`}
                   >

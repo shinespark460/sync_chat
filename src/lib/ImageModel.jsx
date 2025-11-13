@@ -47,17 +47,14 @@ const ImagePreviewDialog = ({ open, imageUrl, onClose }) => {
       fullWidth
       PaperProps={{
         style: {
-          backgroundColor: "#0b0b0f",
-          color: "#fff",
           borderRadius: fullScreen ? 0 : 8,
         },
       }}
     >
       {/* Header */}
-      <div className="flex justify-between items-center p-3 border-b ">
-        <h2 className="text-lg font-semibold ">Image Preview</h2>
+      <div className="flex justify-between bg-base-100 items-center p-3 border-b ">
         <IconButton onClick={onClose}>
-          <CloseIcon sx={{ color: "#fff" }} />
+          <CloseIcon className="" />
         </IconButton>
       </div>
 
@@ -67,8 +64,8 @@ const ImagePreviewDialog = ({ open, imageUrl, onClose }) => {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-         
         }}
+        className="bg-base-100"
       >
         <img
           src={imageUrl}
@@ -80,38 +77,27 @@ const ImagePreviewDialog = ({ open, imageUrl, onClose }) => {
       {/* Actions */}
       <DialogActions
         sx={{
-          justifyContent: "center",
-          gap: 2,
-          py: 2,
-          borderTop: "1px solid #222",
+          p:"0"
         }}
+        className=" border-t-[1px]"
       >
-        {/* Download Button */}
-        <Button
-          variant="contained"
-          onClick={handleDownload}
-          startIcon={<DownloadIcon />}
-          sx={{
-            backgroundColor: "",
-            "&:hover": { backgroundColor: "#3e915b" },
-          }}
-        >
-          Download
-        </Button>
-
-        {/* Bookmark Button */}
-        <Button
-          variant="outlined"
-          onClick={handleBookmark}
-          startIcon={<BookmarkBorderIcon />}
-          sx={{
-            borderColor: "",
-            color: "",
-            "&:hover": { borderColor: "#3e915b", color: "#3e915b" },
-          }}
-        >
-          Bookmark
-        </Button>
+        <div className="flex justify-center gap-3 items-center w-full bg-base-100 p-2">
+          {/* Download Button */}
+          <button
+            onClick={handleDownload}
+            className=" border-[1px] p-2 cursor-pointer"
+          >
+            <DownloadIcon /> Download
+          </button>
+          {/* Bookmark Button */}
+          <button
+            variant="outlined"
+            onClick={handleBookmark}
+            className="border-[1px] p-2 cursor-pointer"
+          >
+            <BookmarkBorderIcon /> Bookmark
+          </button>
+        </div>
       </DialogActions>
     </Dialog>
   );

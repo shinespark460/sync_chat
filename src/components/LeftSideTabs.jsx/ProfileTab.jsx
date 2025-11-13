@@ -185,7 +185,7 @@ const ProfileTab = () => {
                 ) : (
                   <div className="flex justify-center items-center flex-col gap-2">
                     <img src={noData} alt="no data" className="w-16" />
-                    <p className="text-gray-600 text-lg">No Documents Shared</p>
+                    <p className=" text-lg">No Documents Shared</p>
                   </div>
                 )}
               </div>
@@ -206,7 +206,7 @@ const ProfileTab = () => {
                 ) : (
                   <div className="flex justify-center items-center flex-col gap-2">
                     <img src={noData} alt="no data" className="w-16" />
-                    <p className="text-gray-600 text-lg">No Audio Shared</p>
+                    <p className=" text-lg">No Audio Shared</p>
                   </div>
                 )}
               </div>
@@ -227,7 +227,7 @@ const ProfileTab = () => {
                 ) : (
                   <div className="flex justify-center items-center flex-col gap-2">
                     <img src={noData} alt="no data" className="w-16" />
-                    <p className="text-gray-600 text-lg">No Link Shared</p>
+                    <p className=" text-lg">No Link Shared</p>
                   </div>
                 )}
               </div>
@@ -248,7 +248,7 @@ const ProfileTab = () => {
                 ) : (
                   <div className="flex justify-center items-center flex-col gap-2">
                     <img src={noData} alt="no data" className="w-16" />
-                    <p className="text-gray-600 text-lg">No Location Shared</p>
+                    <p className=" text-lg">No Location Shared</p>
                   </div>
                 )}
               </div>
