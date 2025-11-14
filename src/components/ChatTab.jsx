@@ -437,7 +437,7 @@ const ChatTab = () => {
             >
               <Plus size={22} />
               {openAttachment && (
-                <div className="absolute bottom-12 left-0 md:left-1/2 md:-translate-x-1/2 z-50  bg-base-100   rounded-[8px] shadow-lg border ">
+                <div className="absolute bottom-12 left-0 md:left-1/2 md:-translate-x-1/2 z-50  bg-base-100   rounded-lg shadow-lg border ">
                   <ul className="py-2">
                     <li
                       onClick={(e) => {
@@ -509,7 +509,7 @@ const ChatTab = () => {
             {/* Emoji Picker */}
             <div
               ref={emojiRef}
-              className="relative flex justify-center items-center h-9 w-9 rounded-full flex-shrink-0 hover:bg-gray-200/30 transition"
+              className="relative flex justify-center items-center h-9 w-9 rounded-full shrink-0 hover:bg-gray-200/30 transition"
             >
               <Smile
                 size={22}
@@ -517,7 +517,7 @@ const ChatTab = () => {
                 onClick={() => setOpenEmoji(!openEmoji)}
               />
               {openEmoji && (
-                <div className="absolute bottom-12 border-[1px] rounded-[8px]  z-50 -left-10 md:left-1/2  bg-base-100 md:-translate-x-1/2">
+                <div className="absolute bottom-12 border rounded-lg  z-50 -left-10 md:left-1/2  bg-base-100 md:-translate-x-1/2">
                   <EmojiPicker
                     open={openEmoji}
                     width={300}
@@ -539,19 +539,19 @@ const ChatTab = () => {
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
                 placeholder="Type a message..."
-                className="w-full border-[1px] px-4 text-[16px] py-2 input outline-none "
+                className="w-full border px-4 text-[16px] py-2 input outline-none "
               />
             </div>
 
             <button
               onClick={handleSubmit}
-              className="flex justify-center items-center p-2 hover:opacity-60 cursor-pointer border-[1px] btn border-base-300 outline-none bg-base-200"
+              className="flex justify-center items-center p-2 hover:opacity-60 cursor-pointer border btn border-base-300 outline-none bg-base-200"
             >
               <Send size={22} className="" />
             </button>
           </div>
           {previewImage && (
-            <div className="fixed inset-0 bg-base-100 flex flex-col p-4  justify-center items-center z-[100]">
+            <div className="fixed inset-0 bg-base-100 flex flex-col p-4  justify-center items-center z-100">
               <h1 className="mb-2">
                 Send Image to{" "}
                 <span className="font-bold">{selectedUser?.fullName}</span>
@@ -571,13 +571,13 @@ const ChatTab = () => {
                 <div className="flex justify-between">
                   <button
                     onClick={handleCancelPreview}
-                    className="px-4 py-2 border-[1px] rounded cursor-pointer hover:bg-gray-400"
+                    className="px-4 py-2 border rounded cursor-pointer hover:bg-gray-400"
                   >
                     Cancel
                   </button>
                   <button
                     onClick={handleSendImage}
-                    className="px-4 py-2 border-[1px] cursor-pointer rounded hover:bg-green-600"
+                    className="px-4 py-2 border cursor-pointer rounded hover:bg-green-600"
                   >
                     Send
                   </button>
