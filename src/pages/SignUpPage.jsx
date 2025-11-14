@@ -113,7 +113,7 @@ const App = () => {
                     value={formData.fullName}
                     onChange={handleChange}
                     placeholder="Enter your full name"
-                    className="w-full p-3 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-[#4eac6d] transition duration-200"
+                    className="w-full text-black p-3 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-[#4eac6d] transition duration-200"
                     required
                   />
                 </div>
@@ -130,7 +130,7 @@ const App = () => {
                   value={formData.email}
                   onChange={handleChange}
                   placeholder="Enter your email address"
-                  className="w-full p-3 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-[#4eac6d] transition duration-200"
+                  className="w-full p-3 text-black border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-[#4eac6d] transition duration-200"
                   required
                 />
               </div>
@@ -146,7 +146,7 @@ const App = () => {
                   value={formData.password}
                   onChange={handleChange}
                   placeholder="Create a password"
-                  className="w-full p-3 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-[#4eac6d] transition duration-200"
+                  className="w-full p-3 text-black border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-[#4eac6d] transition duration-200"
                   required
                 />
 
@@ -171,7 +171,7 @@ const App = () => {
                     value={formData.bio}
                     onChange={handleChange}
                     placeholder="A short introduction about yourself"
-                    className="w-full p-3 border resize-none border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-[#4eac6d] transition duration-200"
+                    className="w-full p-3 text-black border resize-none border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-[#4eac6d] transition duration-200"
                   />
                 </div>
               )}

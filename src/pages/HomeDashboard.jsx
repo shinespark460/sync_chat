@@ -5,6 +5,7 @@ import { AppContext } from "../context/AppContext";
 import SenderProfleTab from "../components/SenderProfleTab";
 import BottomTabMobile from "../components/BottomTabMobile";
 import { ChatContext } from "../context/ChatContext";
+
 const HomeDashboard = () => {
   const { openProfileUser } = useContext(AppContext);
   const { selectedUser } = useContext(ChatContext);
@@ -23,6 +24,7 @@ const HomeDashboard = () => {
         {openProfileUser && <SenderProfleTab />}
       </div>
       <div className="block md:hidden">
+      
         {!selectedUser && <BottomTabMobile />}
 
         {selectedUser && !openProfileUser && <ChatTab />}

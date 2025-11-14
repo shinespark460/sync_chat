@@ -1,18 +1,11 @@
-import React from "react";
-import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  IconButton,
-  useMediaQuery,
-} from "@mui/material";
+import React, { useContext } from "react";
+import { Dialog, DialogContent, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import DownloadIcon from "@mui/icons-material/Download";
-import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
-import CloseIcon from "@mui/icons-material/Close";
-import { X } from "lucide-react"
+import { X, BookmarkCheck, Download, Bookmark } from "lucide-react";
 import toast from "react-hot-toast";
+import { ChatContext } from "../context/ChatContext";
 const ImagePreviewDialog = ({ open, imageUrl, onClose }) => {
+  const { isBookMarked, toggleBookmark } = useContext(ChatContext);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
   if (!open || !imageUrl) return null;
@@ -42,7 +35,6 @@ const ImagePreviewDialog = ({ open, imageUrl, onClose }) => {
       // 5. Clean up
       document.body.removeChild(link);
       URL.revokeObjectURL(blobUrl); // Important for memory management
-
     } catch (error) {
       console.error("Error downloading image:", error);
       // You can add a toast notification here if the download fails
@@ -67,19 +59,47 @@ const ImagePreviewDialog = ({ open, imageUrl, onClose }) => {
       {/* Image */}
       <DialogContent className="flex justify-center items-center bg-base-100">
         <img
-          src={imageUrl} crossOrigin="anonymous"
+          src={imageUrl}
+          crossOrigin="anonymous"
           alt="preview"
           className="max-h-[60vh] w-auto rounded-lg object-contain pointer-events-none"
         />
       </DialogContent>
       {/* Actions */}
       <div className="flex justify-center gap-3 items-center w-full bg-base-100 p-4">
-        <button onClick={handleDownload} className="btn btn-outline btn-lg bg-base border border-base-300 text-base-content hover:bg-base-200">
-          <DownloadIcon /> Download
+        <button
+          onClick={() => {
+            handleDownload();
+            onclose();
+          }}
+          className="btn btn-outline btn-lg bg-base border border-base-300 text-base-content hover:bg-base-200"
+        >
+          <Download size={26} />
         </button>
-        <button className="btn btn-outline btn-lg bg-base border border-base-300 text-base-content hover:bg-base-200">
-          <BookmarkBorderIcon /> Bookmark
-        </button>
+        {isBookMarked(imageUrl) ? (
+          <button
+            onClick={() => {
+              toggleBookmark(imageUrl);
+              toast.success("Bookmark removed");
+              onClose();
+            }}
+            className="btn btn-outline btn-lg bg-base border border-base-300 text-base-content hover:bg-base-200"
+          >
+            <BookmarkCheck size={26} />
+          </button>
+        ) : (
+          <button
+            onClick={() => {
+              toggleBookmark(imageUrl);
+
+              toast.success("Added to bookmarks");
+              onClose();
+            }}
+            className="btn btn-outline btn-lg bg-base border border-base-300 text-base-content hover:bg-base-200"
+          >
+            <Bookmark size={26} />
+          </button>
+        )}
       </div>
     </Dialog>
   );

@@ -3,6 +3,7 @@ import { UserPlus, Search  } from "lucide-react";
 import { ChatContext } from "../../context/ChatContext";
 import { AppContext } from "../../context/AppContext";
 import CircularProgress from "@mui/material/CircularProgress";
+import logo from "../../assets/images/login/synk_logo.png"
 const UsersTab = () => {
   const [input, setInput] = useState("");
   const [filteredUserList, setFilteredUserList] = useState([]);
@@ -29,8 +30,11 @@ const UsersTab = () => {
   );
   return (
     <div className=" w-full  h-screen overflow-y-auto flex flex-col pt-4 pb-16 md:border-r ">
+        <div className="w-full md:hidden block fixed top-0 z-[999] shadow-[0_0px_0px_rgba(0,0,0,0.1)] backdrop-blur-sm border-b border-base-200 bg-base-100">
+          <img src={logo} className="w-36" alt="logo"/>
+        </div>
       {/* Header */}
-      <div className="flex justify-between items-center px-4 mb-3">
+      <div className="flex justify-between items-center px-4 mb-3 mt-16 md:mt-0">
         <h2 className="text-green-600 text-xl font-semibold">Chats</h2>
         <button className="w-8 h-8 flex justify-center items-center bg-base-100 border-[1px] rounded-full hover:bg-green-200 transition">
           <UserPlus className="text-green-600" size={16} />
@@ -74,8 +78,8 @@ const UsersTab = () => {
               className={`flex items-center gap-3 px-4 py-2 cursor-pointer transition-all duration-150 
               ${
                 selectedUser?._id === user._id
-                  ? "bg-green-600"
-                  : "hover:bg-green-400"
+                  ? "bg-base-300"
+                  : "hover:bg-base-300"
               }`}
             >
               {/* Avatar */}

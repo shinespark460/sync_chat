@@ -232,8 +232,8 @@ const SenderProfleTab = () => {
                       <img
                         src={url}
                         onClick={() => openImageDialog(url)}
-                        alt="url"
-                        className="rounded-lg"
+                        alt={url}
+                        className="rounded-lg cursor-pointer"
                         key={index}
                       />
                     ))}

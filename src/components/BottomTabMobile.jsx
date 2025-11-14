@@ -32,8 +32,8 @@ const BottomTabMobile = () => {
     { id: 6, icon: Settings },
   ];
   return (
-    <div className="w-full h-screen relative">
-      <div className="flex justify-between px-4 items-center bottom-0 absolute z-50  w-full bg-[#2e2e2e]">
+    <>
+      <div className="flex justify-between px-4 items-center bottom-0 fixed z-50  w-full bg-[#2e2e2e]">
         <div
           
             onClick={() => setActiveTab(1)}
@@ -95,7 +95,7 @@ const BottomTabMobile = () => {
         {activeTab === 5 && <ArchiveTab />}
         {activeTab === 6 && <SettingTab />}
       </div>
-    </div>
+    </>
   );
 };
 
