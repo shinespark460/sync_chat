@@ -1,11 +1,9 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import {
-  MessageSquareText,
   CircleUser,
   MessagesSquare,
   Settings,
   BookmarkCheck,
-  Sun,
   Users,
   Archive,
   LogOut,
