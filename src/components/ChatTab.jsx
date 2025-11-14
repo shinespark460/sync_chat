@@ -41,7 +41,6 @@ const ChatTab = () => {
     toggleArchiveUser,
     isUserArchived,
     msgSendLoading,
-    sendingIndex,
   } = useContext(ChatContext);
   const { authUser, onlineUsers, openProfileUser, setOpenProfileUser } =
     useContext(AppContext);
@@ -74,8 +73,11 @@ const ChatTab = () => {
   // Handle Text Send
   const handleSubmit = async () => {
     if (input.trim() === "") return;
-    await sendMessage({ text: input.trim() });
-    setInput("");
+
+    const messageText = input.trim(); // 👈 Save the text first
+    setInput(""); // 👈 Clear input IMMEDIATELY
+
+    await sendMessage({ text: messageText }); // 👈 Send the saved text
   };
 
   const [open, setOpen] = React.useState(false);
@@ -351,6 +353,7 @@ const ChatTab = () => {
             </div>
           </div>
           {/* Messages Area */}
+
           {loadMsgs ? (
             <div className="flex flex-col justify-center items-center gap-3 w-full h-full">
               <CircularProgress color="success" />
@@ -365,15 +368,13 @@ const ChatTab = () => {
 
               {messages.map((msg, index) => {
                 const isSentByMe = msg.senderId === authUser._id;
-
-                // Determine user details
                 const sender = isSentByMe ? authUser : selectedUser;
                 const senderName = isSentByMe ? "You" : selectedUser.fullName;
                 const profilePic = sender?.profilePic || assets.avatar_icon;
 
                 return (
                   <div
-                    key={index}
+                    key={msg._id || index} // Use msg._id instead of index
                     className={`chat ${isSentByMe ? "chat-end" : "chat-start"}`}
                   >
                     {/* Avatar */}
@@ -400,7 +401,7 @@ const ChatTab = () => {
                           src={msg.image}
                           onClick={() => openImageDialog(msg.image)}
                           alt="sent-img"
-                          className=" chat-bubble p-0 w-40 cursor-pointer"
+                          className="chat-bubble p-0 w-40 cursor-pointer"
                         />
                       </div>
                     ) : (
@@ -408,16 +409,16 @@ const ChatTab = () => {
                         ref={(el) => (msgRefs.current[msg._id] = el)}
                         className="chat-bubble shadow-md max-w-[70%]"
                       >
-                        {" "}
-                        {sendingIndex === index ? (
+                        {/* 👇 Check if THIS message is loading */}
+                        {msg.isLoading ? (
                           <CircularProgress size="20px" />
                         ) : (
                           <span>{msg.text}</span>
-                        )}{" "}
+                        )}
                       </div>
                     )}
 
-                    {/* Footer ('Seen', 'Delivered') */}
+                    {/* Footer */}
                     <div className="chat-footer opacity-50 text-xs">
                       {isSentByMe ? "Delivered" : ""}
                     </div>
@@ -426,9 +427,8 @@ const ChatTab = () => {
               })}
               <div ref={scrollEnd}></div>
             </div>
-            
           )}
-          <div className="w-full pb-12"></div>
+          <div className="w-full md:h-16 h-14"></div>
           {/* Input Area */}
           <div className="absolute bottom-0 w-full z-20   shadow-[0_4px_30px_rgba(0,0,0,0.1)] backdrop-blur-sm border-b   px-1 lg:px-3 py-2.5 flex items-center gap-3 border-base-200 bg-base-100/80 md:border-base-300">
             {/* Plus Button */}

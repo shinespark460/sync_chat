@@ -13,12 +13,15 @@ export const ChatProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [loadMsgs, setLoadMsgs] = useState(false);
   const [sendingIndex, setSendingIndex] = useState(null);
-  const { socket, axios, onlineUsers } = useContext(AppContext);
+  const { socket, axios, onlineUsers, authUser } = useContext(AppContext);
+  const [msgSendLoading, setMsgSendLoading] = useState(false);
   // ✅ CORRECT: The setter function is named 'setArchivedUsers'
   const [archivedUsers, setArchivedUsers] = useState(() => {
     const stored = localStorage.getItem("archivedUsers");
     return stored ? JSON.parse(stored) : [];
   });
+
+  // Get All Users
   const getUsers = async () => {
     try {
       setLoading(true);
@@ -34,7 +37,7 @@ export const ChatProvider = ({ children }) => {
       setLoading(false);
     }
   };
-
+  // Get Selected Users Messages
   const getMessages = async (userId) => {
     try {
       setLoadMsgs(true);
@@ -50,32 +53,49 @@ export const ChatProvider = ({ children }) => {
     }
   };
 
+  // Send Messages to selected User
+  // Send Messages to selected User
   const sendMessage = async (messageData) => {
-    try {
-      // 1️⃣ Find next index (where new message will appear)
-      const index = messages.length;
-      setSendingIndex(index);
+    // 1️⃣ Create a temporary message with loading state
+    const tempMessage = {
+      _id: `temp-${Date.now()}`, // Temporary ID
+      text: messageData.text,
+      image: messageData.image,
+      senderId: authUser._id,
+      createdAt: new Date().toISOString(),
+      isLoading: false, // 👈 Flag to show loading
+    };
+    setMsgSendLoading(true);
+    // 2️⃣ Add temp message immediately to UI
+    setMessages((prev) => [...prev, tempMessage]);
 
+    try {
       const { data } = await axios.post(
         `/api/messages/send/${selectedUser._id}`,
         messageData
       );
-
       if (data.success) {
-        setSendingIndex(null);
-
-        // 2️⃣ Add the real message
-        setMessages((prev) => [...prev, data.message]);
+        setMsgSendLoading(false);
+        // 3️⃣ Replace temp message with real message
+        setMessages((prev) =>
+          prev.map((msg) => (msg._id === tempMessage._id ? data.message : msg))
+        );
       } else {
+        // 4️⃣ Remove temp message on error
+        setMessages((prev) =>
+          prev.filter((msg) => msg._id !== tempMessage._id)
+        );
         toast.error(data.message);
       }
     } catch (error) {
-      setSendingIndex(null);
+      setMsgSendLoading(false);
+      // 5️⃣ Remove temp message on error
+      setMessages((prev) => prev.filter((msg) => msg._id !== tempMessage._id));
       toast.error("Error: " + error.message);
     }
   };
 
-
+  // Set Seen Messages
   const subscribeToMessages = () => {
     if (!socket) return;
 
@@ -141,6 +161,33 @@ export const ChatProvider = ({ children }) => {
     });
   };
   const isUserArchived = (userId) => archivedUsers.includes(userId);
+
+  const STORAGE_KEY = "bookmarkedFiles";
+
+  // Load bookmarks from localStorage on mount
+  const [bookMarks, setBookMarks] = useState(() => {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    return stored ? JSON.parse(stored) : [];
+  });
+
+  // Save bookmarks to localStorage whenever bookMarks changes
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(bookMarks));
+  }, [bookMarks]);
+
+  // Toggle bookmark (add/remove)
+  const toggleBookmark = (url) => {
+    setBookMarks((prev) => {
+      if (prev.includes(url)) {
+        return prev.filter((id) => id !== url);
+      }
+      return [...prev, url];
+    });
+  };
+
+  // Check if item is bookmarked
+  const isBookMarked = (url) => bookMarks.includes(url);
+
   useEffect(() => {
     const unsubscribe = subscribeToMessages();
     return unsubscribe;
@@ -165,7 +212,12 @@ export const ChatProvider = ({ children }) => {
     archivedUsers,
     toggleArchiveUser,
     isUserArchived,
-    sendingIndex, setSendingIndex
+    sendingIndex,
+    setSendingIndex,
+    isBookMarked,
+    toggleBookmark,
+    bookMarks,
+    msgSendLoading,
   };
 
   return <ChatContext.Provider value={value}>{children}</ChatContext.Provider>;
