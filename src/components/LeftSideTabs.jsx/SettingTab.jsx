@@ -118,7 +118,7 @@ const SettingTab = () => {
   return (
     <div className="w-full h-screen overflow-y-auto  flex flex-col md:border-r ">
       {/* Header Section */}
-      <div className="relative w-full h-40 2xl:h-56  flex-shrink-0">
+      <div className="relative w-full h-40 2xl:h-56  shrink-0">
         <img
           src={formData.backgroundPic || authUser?.backgroundPic || bgImage}
           alt="cover"
@@ -149,7 +149,7 @@ const SettingTab = () => {
       </div>
 
       {/* User Info (Static - Not Scrollable) */}
-      <div className="mt-20 flex flex-col items-center px-4 text-center flex-shrink-0 pb-4">
+      <div className="mt-20 flex flex-col items-center px-4 text-center shrink-0 pb-4">
         <h2 className="text-2xl font-semibold ">
           {authUser?.fullName || "Tonia Clay"}
         </h2>
@@ -163,7 +163,7 @@ const SettingTab = () => {
       <div className="flex-1 lg:overflow-y-auto pb-10">
         <div className="mt-2">
           {/* 1️⃣ Personal Info */}
-          <div className="border-b-[1px]  px-4">
+          <div className="border-b-  px-4">
             <button
               onClick={() => {
                 setOpen({ ...open, personal: !open.personal });
@@ -177,10 +177,10 @@ const SettingTab = () => {
                 Personal Info
               </h3>
               {open.personal ? (
-                <ChevronUp className="text-green-600 transition-transform duration-300" />
-              ) : (
-                <ChevronDown className="text-gray-500 transition-transform duration-300" />
-              )}
+                 <ChevronUp className=" transition-transform duration-300" />
+            ) : (
+              <ChevronDown className="text-base-300 transition-transform duration-300" />
+            )}
             </button>
           </div>
           <div
@@ -206,7 +206,7 @@ const SettingTab = () => {
                   // Use type="submit" when in editing mode, and type="button" otherwise
                   type={isEditing ? "submit" : "button"}
                   onClick={isEditing ? handleSubmit : handleEditToggle}
-                  className="flex items-center cursor-pointer gap-2 px-3 py-1.5 text-sm rounded-lg border-[1px] transition-all duration-200
+                  className="flex items-center cursor-pointer gap-2 px-3 py-1.5 text-sm rounded-lg border transition-all duration-200
             hover:scale-105 shadow-md  font-medium"
                 >
                   {isEditing ? (
@@ -222,7 +222,7 @@ const SettingTab = () => {
                 {isEditing && (
                   <div
                     onClick={resetData}
-                    className="bg-gradient-to-r cursor-pointer flex items-center gap-2 px-3 py-1.5 text-sm rounded-lg transition-all duration-200 border-[1px] hover:scale-105 shadow-md font-medium"
+                    className="bg-linear-to-r cursor-pointer flex items-center gap-2 px-3 py-1.5 text-sm rounded-lg transition-all duration-200 border hover:scale-105 shadow-md font-medium"
                   >
                     <X size={16} /> Cancel
                   </div>
@@ -231,7 +231,7 @@ const SettingTab = () => {
               {/* Form Fields */}
               <div className="space-y-4">
                 {/* Name */}
-                <div className="flex flex-col border-b-[1px] pb-1">
+                <div className="flex flex-col border-b pb-1">
                   <label className="text-sm font-medium  mb-1">Full Name</label>
                   <input
                     type="text"
@@ -248,7 +248,7 @@ const SettingTab = () => {
                 </div>
 
                 {/* Profile Pic */}
-                <div className="flex flex-col border-b-[1px] pb-1">
+                <div className="flex flex-col border-b pb-1">
                   <label className="text-sm font-medium  mb-1">
                     Profile Picture
                   </label>
@@ -265,7 +265,7 @@ const SettingTab = () => {
                 </div>
 
                 {/* Cover Image */}
-                <div className="flex flex-col border-b-[1px] pb-1">
+                <div className="flex flex-col border-b pb-1">
                   <label className="text-sm font-medium mb-1">
                     Cover Image
                   </label>
@@ -275,13 +275,12 @@ const SettingTab = () => {
                     disabled={!isEditing}
                     onChange={(e) => handleImageChange(e, "backgroundPic")}
                     // key={isEditing ? "editing" : "not-editing"}
-                    className="file:mr-3 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-sm
-                         file:bg-green-600  hover:file:bg-green-700 hover:file:text-white cursor-pointer text-sm"
+                    className="file:mr-3 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-sm  file:bg-green-600  hover:file:bg-green-700 hover:file:text-white cursor-pointer text-sm"
                   />
                 </div>
 
                 {/* Bio */}
-                <div className="flex flex-col border-b-[1px] pb-1">
+                <div className="flex flex-col border-b pb-1">
                   <label className="text-sm font-medium  mb-1">Bio</label>
                   <textarea
                     rows={3}
@@ -302,7 +301,7 @@ const SettingTab = () => {
         </div>
 
         {/* 2️⃣ Themes */}
-        <div className="border-b-[1px]  px-4">
+        <div className="border-b  px-4">
           <button
             onClick={() => setOpen({ ...open, themes: !open.themes })}
             className="w-full flex items-center justify-between  py-4 text-left  transition-all"
@@ -314,9 +313,9 @@ const SettingTab = () => {
               Themes
             </h3>
             {open.themes ? (
-              <ChevronUp className="text-green-600 transition-transform duration-300" />
+            <ChevronUp className=" transition-transform duration-300" />
             ) : (
-              <ChevronDown className="text-gray-500 transition-transform duration-300" />
+              <ChevronDown className="text-base-300 transition-transform duration-300" />
             )}
           </button>
           <div
@@ -329,7 +328,7 @@ const SettingTab = () => {
         </div>
 
         {/* 3️⃣ Account */}
-        <div className="border-b-[1px]  px-4">
+        <div className="border-b  px-4">
           <button
             onClick={() => setOpen({ ...open, account: !open.account })}
             className="w-full flex items-center justify-between py-4 text-left  transition-all "
@@ -343,7 +342,7 @@ const SettingTab = () => {
             {open.account ? (
               <ChevronUp className=" transition-transform duration-300" />
             ) : (
-              <ChevronDown className="text-gray-500 transition-transform duration-300" />
+              <ChevronDown className="text-base-300 transition-transform duration-300" />
             )}
           </button>
           <div
@@ -373,9 +372,9 @@ const SettingTab = () => {
               Help
             </h3>
             {open.help ? (
-              <ChevronUp className=" transition-transform duration-300" />
+         <ChevronUp className=" transition-transform duration-300" />
             ) : (
-              <ChevronDown className="text-gray-500 transition-transform duration-300" />
+              <ChevronDown className="text-base-300 transition-transform duration-300" />
             )}
           </button>
           <div

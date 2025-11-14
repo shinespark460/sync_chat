@@ -547,10 +547,13 @@ const ChatTab = () => {
 
             <button
               onClick={handleSubmit}
-              className="flex justify-center items-center p-2 hover:opacity-60 cursor-pointer border btn border-base-300 outline-none bg-base-200"
+              disabled={input.trim() === "" || msgSendLoading}
+              className={`flex justify-center items-center p-2 border btn border-base-300 outline-none bg-base-200
+    ${input.trim() === "" || msgSendLoading ? "opacity-50 cursor-not-allowed" : "hover:opacity-60 cursor-pointer"}`}
             >
-              <Send size={22} className="" />
+              <Send size={22} />
             </button>
+
           </div>
           {previewImage && (
             <div className="fixed inset-0 bg-base-100 flex flex-col p-4  justify-center items-center z-100">
