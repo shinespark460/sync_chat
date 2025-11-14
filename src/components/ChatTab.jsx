@@ -228,7 +228,7 @@ const ChatTab = () => {
         <>
           {/* Header */}
           <div
-            className={`top-0 left-0 w-full z-10  flex items-center justify-between  px-4 py-4 shadow-[0_4px_30px_rgba(0,0,0,0.1)] backdrop-blur-sm border-b border-base-200 bg-base-100/80 md:border-base-300`}
+            className={`top-0 left-0 w-full z-10 fixed md:relative  flex items-center justify-between  px-4 py-4 shadow-[0_4px_30px_rgba(0,0,0,0.1)] backdrop-blur-sm border-b border-base-200 bg-base-100/80 md:border-base-300`}
           >
             {/* ===== Left Section (Profile Info) ===== */}
             <div
@@ -359,7 +359,7 @@ const ChatTab = () => {
               </p>
             </div>
           ) : (
-            <div className="flex-1 overflow-y-auto px-6 py-4 relative z-0 space-y-5 scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-transparent">
+            <div className="flex-1 overflow-y-auto lg:px-6 px-3 py-4 relative z-0 space-y-5  scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-transparent">
               <div className="w-full h-5"></div>
               {/* Note: Applying a subtle background pattern look based on your request */}
 
@@ -409,7 +409,7 @@ const ChatTab = () => {
                         className="chat-bubble shadow-md max-w-[70%]"
                       >
                         {" "}
-                        {sendingIndex === index  ? (
+                        {sendingIndex === index ? (
                           <CircularProgress size="20px" />
                         ) : (
                           <span>{msg.text}</span>
@@ -426,9 +426,11 @@ const ChatTab = () => {
               })}
               <div ref={scrollEnd}></div>
             </div>
+            
           )}
+          <div className="w-full pb-12"></div>
           {/* Input Area */}
-          <div className="relative z-20   shadow-[0_4px_30px_rgba(0,0,0,0.1)] backdrop-blur-sm border-b   px-1 lg:px-3 py-2.5 flex items-center gap-3 border-base-200 bg-base-100/80 md:border-base-300">
+          <div className="absolute bottom-0 w-full z-20   shadow-[0_4px_30px_rgba(0,0,0,0.1)] backdrop-blur-sm border-b   px-1 lg:px-3 py-2.5 flex items-center gap-3 border-base-200 bg-base-100/80 md:border-base-300">
             {/* Plus Button */}
             <div
               ref={attachMentRef}
@@ -568,7 +570,7 @@ const ChatTab = () => {
                   alt="Preview"
                   className="max-h-72 w-full object-contain rounded mb-4"
                 />
-                <div className="flex justify-between">
+                <div className="flex justify-between gap-4">
                   <button
                     onClick={handleCancelPreview}
                     className="px-4 py-2 border-[1px] rounded cursor-pointer hover:bg-gray-400"

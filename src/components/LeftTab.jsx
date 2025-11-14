@@ -22,8 +22,8 @@ import assets from "../assets/assets";
 import logo from "../assets/images/login/logo-01.png";
 const LeftTab = () => {
   const [activeTab, setActiveTab] = React.useState(2);
-  const { archivedUsers } = useContext(ChatContext);
-  const { authUser, logout } = useContext(AppContext);
+  const { archivedUsers} = useContext(ChatContext);
+  const { authUser, logout,setOpenProfileUser  } = useContext(AppContext);
   const [profileBox, setProfileBox] = useState(false);
   const tabs = [
     { id: 1, icon: CircleUser, title: "Porfile" },
@@ -62,7 +62,10 @@ const LeftTab = () => {
           {tabs.map(({ id, icon: Icon, title }) => (
             <div
               key={id}
-              onClick={() => setActiveTab(id)}
+              onClick={() => {
+                setActiveTab(id);
+                setOpenProfileUser(false);
+              }}
               className={`flex justify-center items-center 2xl:py-2 cursor-pointer relative transition group`}
             >
               <div
@@ -99,7 +102,6 @@ const LeftTab = () => {
 
         {/* Bottom icons */}
         <div className="flex flex-col items-center gap-4 ">
-        
           <div
             className="relative py-2 cursor-pointer"
             onClick={() => setProfileBox(!profileBox)}
