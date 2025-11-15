@@ -275,7 +275,7 @@ const ChatTab = () => {
             {/* ===== Right Section (Icons + Dropdowns) ===== */}
             <div className="flex items-center gap-6 relative">
               {/* 🔍 Search Icon */}
-              <span className="relative">
+              <div className="relative">
                 <Search
                   size={22}
                   fontWeight={600}
@@ -292,11 +292,11 @@ const ChatTab = () => {
                       placeholder="Search message..."
                       value={search}
                       onChange={handleSearchChange}
-                      className="px-3 py-1.5 border  rounded-md text-[16px] outline-none"
+                      className="px-3 py-1.5 border  input w-44 text-[16px] outline-none"
                     />
                   </div>
                 )}
-              </span>
+              </div>
 
               {/* ℹ️ Info Icon */}
               <span>

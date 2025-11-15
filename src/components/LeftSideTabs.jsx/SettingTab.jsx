@@ -126,8 +126,8 @@ const SettingTab = () => {
         />
 
         {/* Overlay Title */}
-        <div className="absolute top-0 cursor-pointer left-0 w-full h-full bg-black/20 flex items-start justify-between px-4 py-3">
-          <h2 className="text-white text-xl font-semibold tracking-wide drop-shadow">
+        <div className="absolute top-0 cursor-pointer left-0 w-full h-full bg-black/30 flex items-start justify-between px-4 py-3">
+          <h2 className="text-base-500 text-xl font-semibold tracking-wide drop-shadow">
             Settings
           </h2>
         </div>
@@ -163,7 +163,7 @@ const SettingTab = () => {
       <div className="flex-1 lg:overflow-y-auto pb-10">
         <div className="mt-2">
           {/* 1️⃣ Personal Info */}
-          <div className="border-b-  px-4">
+          <div className="border-b  px-4">
             <button
               onClick={() => {
                 setOpen({ ...open, personal: !open.personal });

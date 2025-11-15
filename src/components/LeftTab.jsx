@@ -48,7 +48,7 @@ const LeftTab = () => {
   return (
     <div className="flex flex-row">
       {/* Left sidebar */}
-      <div className=" h-screen flex flex-col justify-between items-center py-6 w-[70px] md:border-r-[1px]">
+      <div className=" h-screen flex flex-col justify-between items-center py-6 w-[70px] md:border-r">
         {/* Top icons */}
         <div className="flex flex-col gap-4 w-full">
           {/* App Icon */}
@@ -72,14 +72,14 @@ const LeftTab = () => {
                   activeTab === id ? "bg-green-400" : "bg-transparent"
                 }`}
               />
-              <div className="absolute top-0 -right-16 rounded-lg bg-black p-1 w-20 text-center hidden group-hover:block transition-all group-hover:duration-200 text-white z-50">
+              <div className="absolute top-0.5 -right-20 rounded-lg bg-base-300 p-1 w-24 text-center hidden group-hover:block transition-all group-hover:duration-200  font-semibold z-50">
                 {title}
               </div>
               <Icon
                 size={26}
                 className={`m-2 transition-all duration-200 ${
                   activeTab === id
-                    ? "text-green-400"
+                    ? "text-base-1000"
                     : "text-[#878a92] group-hover:text-green-300"
                 }`}
               />
@@ -87,7 +87,7 @@ const LeftTab = () => {
                 <span
                   className={`absolute ${
                     activeTab === id
-                      ? "text-green-400"
+                      ? "text-base-400"
                       : "text-[#878a92] group-hover:text-green-300"
                   } right-3 bottom-2 text-sm`}
                 >
@@ -111,7 +111,7 @@ const LeftTab = () => {
             {profileBox && (
               <div
                 ref={profileDropDown}
-                className="absolute  bottom-12 z-50  rounded-[8px] bg-base-100 shadow-lg border "
+                className="absolute  bottom-12 z-50  rounded-lg bg-base-100 shadow-lg border "
               >
                 <ul>
                   <li
@@ -134,7 +134,7 @@ const LeftTab = () => {
                   </li>
                   <li
                     onClick={() => logout()}
-                    className="flex  hover:text-green-400 justify-between gap-4 py-1.5 m-1 text-[16px] px-4 items-center border-t-[1px]  cursor-pointer"
+                    className="flex  hover:text-green-400 justify-between gap-4 py-1.5 m-1 text-[16px] px-4 items-center border-t  cursor-pointer"
                   >
                     <span>Loagout</span>
                     <span className="">

@@ -30,22 +30,22 @@ const UsersTab = () => {
   );
   return (
     <div className=" w-full  h-screen overflow-y-auto flex flex-col pt-4 pb-16 md:border-r ">
-        <div className="w-full md:hidden block fixed top-0 z-[999] shadow-[0_0px_0px_rgba(0,0,0,0.1)] backdrop-blur-sm border-b border-base-200 bg-base-100">
+        <div className="w-full md:hidden block fixed top-0 z-999 shadow-[0_0px_0px_rgba(0,0,0,0.1)] backdrop-blur-sm border-b border-base-200 bg-base-100">
           <img src={logo} className="w-36" alt="logo"/>
         </div>
       {/* Header */}
       <div className="flex justify-between items-center px-4 mb-3 mt-16 md:mt-0">
-        <h2 className="text-green-600 text-xl font-semibold">Chats</h2>
-        <button className="w-8 h-8 flex justify-center items-center bg-base-100 border-[1px] rounded-full hover:bg-green-200 transition">
-          <UserPlus className="text-green-600" size={16} />
+        <h2 className="text-base-600 text-xl font-semibold">Chats</h2>
+        <button className="w-8 h-8 flex justify-center items-center bg-base-100 border-2 rounded-full hover:bg-base-300 cursor-pointer transition">
+          <UserPlus className="" size={16} />
         </button>
       </div>
       {/* Search Bar */}
-      <div className="px-4">
+      <div className="px-2">
         <div className="relative my-3">
           {/* Search Icon */}
           <Search
-            className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"
+            className="absolute left-3 top-1/2 -translate-y-1/2 z-10 text-base-500"
             size={16}
           />
 
@@ -55,7 +55,7 @@ const UsersTab = () => {
             placeholder="Search chat"
             onChange={(e) => setInput(e.target.value)}
             value={input}
-            className="w-full pl-9 pr-3 py-2.5 border-[1px]  outline-none focus:ring-1 focus:ring-green-400 transition"
+            className="w-full pl-9 pr-3 py-2.5 border input  outline-none focus:ring-1 focus:ring-base-400 transition"
           />
         </div>
       </div>

@@ -50,9 +50,9 @@ const ProfileTab = () => {
         {/* Overlay Title */}
         <div
           onClick={() => openImageDialog(authUser?.backgroundPic || bgImage)}
-          className="absolute top-0 cursor-pointer left-0 w-full h-full bg-black/20 flex items-start justify-between px-4 py-3"
+          className="absolute top-0 cursor-pointer left-0 w-full h-full bg-black/30 flex items-start justify-between px-4 py-3"
         >
-          <h2 className="text-white text-xl font-semibold tracking-wide drop-shadow">
+          <h2 className="text-base-500 text-xl font-semibold tracking-wide drop-shadow">
             My Profile
           </h2>
         </div>

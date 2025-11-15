@@ -45,7 +45,7 @@ const BookMarkTab = () => {
       <div className=" w-full  h-screen overflow-y-auto flex flex-col pb-16 ">
         {/* Header */}
         <div className="flex justify-between items-center px-4 mb-8">
-          <h2 className="text-green-600 text-xl font-semibold">Bookmark</h2>
+          <h2 className="text-base-600 text-xl font-semibold">Bookmark</h2>
         </div>
         {/* Search Bar */}
 

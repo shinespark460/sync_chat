@@ -42,17 +42,17 @@ const ContactsTab = () => {
     <div className="w-full  h-screen overflow-y-auto flex flex-col py-4 md:border-r ">
       {/* Header */}
       <div className="flex justify-between items-center px-4 mb-3">
-        <h2 className="text-green-600 text-xl font-semibold">Contacts</h2>
+        <h2 className="text-base-600 text-xl font-semibold">Contacts</h2>
         <button className="w-8 h-8 flex justify-center items-center bg-base-100 rounded-full hover:bg-green-200 border-[1px] transition">
           <UserPlus className="" size={16} />
         </button>
       </div>
 
       {/* Search Bar */}
-      <div className="px-4">
+      <div className="px-2">
         <div className="relative my-3">
           <Search
-            className="absolute left-3 top-1/2 -translate-y-1/2 "
+            className="absolute left-3 top-1/2 z-10 -translate-y-1/2 "
             size={16}
           />
           <input
@@ -60,7 +60,7 @@ const ContactsTab = () => {
             placeholder="Search contacts"
             onChange={(e) => setInput(e.target.value)}
             value={input}
-            className="w-full pl-9 pr-3 py-2.5  border-[1px] outline-none focus:ring-1 focus:ring-green-400 transition"
+            className="w-full pl-9 pr-3 py-2.5  border outline-none focus:ring-1 input focus:ring-base-400 transition"
           />
         </div>
       </div>
@@ -69,7 +69,7 @@ const ContactsTab = () => {
       {loading ? (
         <div className="flex flex-col justify-center items-center gap-3 w-full mt-20">
           <CircularProgress color="success" />
-          <p className="text-[#4eac6d] text-xl">Fetching Users...</p>
+          <p className="text-base-500 font-semibold  text-xl">Fetching Users...</p>
         </div>
       ) : (
         <div className="flex flex-col">
