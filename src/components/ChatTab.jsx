@@ -41,7 +41,12 @@ const ChatTab = () => {
     toggleArchiveUser,
     isUserArchived,
     msgSendLoading,
+ 
   } = useContext(ChatContext);
+
+     // fetchPreview,
+    // preview,
+    // setPreview,
   const { authUser, onlineUsers, openProfileUser, setOpenProfileUser } =
     useContext(AppContext);
   const [input, setInput] = useState("");
@@ -51,9 +56,9 @@ const ChatTab = () => {
   const [openSearchBox, setOpenSearchBox] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
   const [search, setSearch] = useState("");
-
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedImageUrl, setSelectedImageUrl] = useState(null);
+  // const [linkString, setLinkString] = useState("");
   const openImageDialog = (url) => {
     setSelectedImageUrl(url); // Set the URL of the clicked image
     setDialogOpen(true); // Open the dialog
@@ -79,6 +84,25 @@ const ChatTab = () => {
 
     await sendMessage({ text: messageText }); // 👈 Send the saved text
   };
+
+  // const urlRegex = /(https?:\/\/[^\s]+)/g;
+
+  // const handleInputChange = (e) => {
+  //   const value = e.target.value;
+  //   setLinkString(value);
+
+  //   const detectedUrl = value.match(urlRegex)?.[0];
+
+  //   // if URL exists & not same as last preview
+  //   if (detectedUrl && detectedUrl !== preview?.url) {
+  //     fetchPreview(detectedUrl);
+  //   }
+
+  //   // if URL removed → hide preview
+  //   if (!detectedUrl) {
+  //     setPreview(null);
+  //   }
+  // };
 
   const [open, setOpen] = React.useState(false);
 
@@ -418,6 +442,36 @@ const ChatTab = () => {
                       </div>
                     )}
 
+                    {/* LINK PREVIEW CARD */}
+                    {/* {msg.linkPreview && (
+                      <div className="border rounded-xl overflow-hidden bg-base-100 shadow">
+                        {msg.linkPreview.image && (
+                          <img
+                            src={msg.linkPreview.image}
+                            className="w-full"
+                            alt="preview"
+                          />
+                        )}
+
+                        <div className="p-2">
+                          <h4 className="font-semibold">
+                            {msg.linkPreview.title}
+                          </h4>
+                          <p className="text-sm opacity-70">
+                            {msg.linkPreview.description}
+                          </p>
+                          <a
+                            href={msg.linkPreview.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-500 text-sm break-all"
+                          >
+                            {msg.linkPreview.url}
+                          </a>
+                        </div>
+                      </div>
+                    )} */}
+
                     {/* Footer */}
                     <div className="chat-footer opacity-50 text-xs">
                       {isSentByMe ? "Delivered" : ""}
@@ -446,14 +500,14 @@ const ChatTab = () => {
                         handleClickOpen(e);
                         setOpenAttachment(false);
                       }}
-                      className="flex hover:bg-green-200 justify-start gap-4 py-1.5 my-1 text-lg ps-4 pe-8 items-center cursor-pointer"
+                      className="flex hover:bg-base-300 justify-start gap-4 py-1.5 my-1 text-lg ps-4 pe-8 items-center cursor-pointer"
                     >
                       <span className="">
                         <FileText size={20} />
                       </span>{" "}
                       <span>Document</span>
                     </li>
-                    <li className="flex hover:bg-green-200 justify-start gap-4 py-1.5 my-1 text-lg ps-4 pe-8 items-center cursor-pointer">
+                    <li className="flex hover:bg-base-300 justify-start gap-4 py-1.5 my-1 text-lg ps-4 pe-8 items-center cursor-pointer">
                       {/* The hidden input must stay */}
 
                       {/* Wrap BOTH the icon and the text inside the <label> */}
@@ -478,7 +532,7 @@ const ChatTab = () => {
                     </li>
                     <li
                       onClick={handleClickOpen}
-                      className="flex hover:bg-green-200 justify-start gap-4 py-1.5 my-1 text-lg ps-4 pe-8 items-center cursor-pointer"
+                      className="flex hover:bg-base-300 justify-start gap-4 py-1.5 my-1 text-lg ps-4 pe-8 items-center cursor-pointer"
                     >
                       <span className="">
                         <Headphones size={20} />
@@ -487,7 +541,7 @@ const ChatTab = () => {
                     </li>
                     <li
                       onClick={handleClickOpen}
-                      className="flex hover:bg-green-200 justify-start gap-4 py-1.5 my-1 text-lg ps-4 pe-8 items-center cursor-pointer"
+                      className="flex hover:bg-base-300 justify-start gap-4 py-1.5 my-1 text-lg ps-4 pe-8 items-center cursor-pointer"
                     >
                       <span className="">
                         <Link size={20} />
@@ -496,7 +550,7 @@ const ChatTab = () => {
                     </li>
                     <li
                       onClick={handleClickOpen}
-                      className="flex hover:bg-green-200 justify-start gap-4 py-1.5 my-1 text-lg ps-4 pe-8 items-center cursor-pointer"
+                      className="flex hover:bg-base-300 justify-start gap-4 py-1.5 my-1 text-lg ps-4 pe-8 items-center cursor-pointer"
                     >
                       <span className="">
                         <MapPin size={20} />
@@ -549,11 +603,14 @@ const ChatTab = () => {
               onClick={handleSubmit}
               disabled={input.trim() === "" || msgSendLoading}
               className={`flex justify-center items-center p-2 border btn border-base-300 outline-none bg-base-200
-    ${input.trim() === "" || msgSendLoading ? "opacity-50 cursor-not-allowed" : "hover:opacity-60 cursor-pointer"}`}
+    ${
+      input.trim() === "" || msgSendLoading
+        ? "opacity-50 cursor-not-allowed"
+        : "hover:opacity-60 cursor-pointer"
+    }`}
             >
               <Send size={22} />
             </button>
-
           </div>
           {previewImage && (
             <div className="fixed inset-0 bg-base-100 flex flex-col p-4  justify-center items-center z-100">
@@ -604,6 +661,12 @@ const ChatTab = () => {
               <DialogContentText id="alert-dialog-description">
                 This option isn’t available yet. I am working to roll it out
                 soon. Stay tuned for updates.
+                {/* <input
+                  type="text"
+                  onChange={handleInputChange}
+                  value={linkString}
+                  className="w-full p-3"
+                /> */}
               </DialogContentText>
             </DialogContent>
             <DialogActions>

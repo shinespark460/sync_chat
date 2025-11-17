@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import assets from "../assets/assets";
 import { ChatContext } from "../context/ChatContext";
 import { AppContext } from "../context/AppContext";
+import bgImage from "../assets/images/chatBox/bg_img.jpg";
 import {
   X, // For the close button
   MessageSquare,
@@ -66,41 +67,59 @@ const SenderProfleTab = () => {
       <div
         // Match the clean, white background look of the reference image
         className={` z-20 overflow-y-auto h-screen relative 
-                shadow-2xl border-l 
+                shadow-2xl md:border-l 
                 transition-all duration-300`}
       >
         {/* Profile Header Image and Info */}
-        <div className="relative w-full h-52 sm:h-64 ">
-          {/* Background Image (Replace with a dynamic image if available) */}
-          <img
-            src={selectedUser?.profilePic || assets.avatar_icon} // Assuming coverPhoto exists or use a default
-            className="w-full h-full object-cover "
-            alt="cover"
-          />
-
-          {/* Close Button (X) */}
+        <div className="relative w-full h-52 sm:h-72 ">
           <button
             onClick={() => setOpenProfileUser(!openProfileUser)}
-            className="absolute top-4 left-4 p-2 rounded-full cursor-pointer hover:bg-black/10 hover:text-white transition"
+            className="absolute top-4 left-4 p-2 z-10 bg-base-300 rounded-full cursor-pointer hover:text-white-100 transition"
           >
             <X className="w-5 h-5" />
           </button>
-          {/* Name and Active Status Overlay */}
-          <div className="absolute bottom-0 left-0 p-4 bg-gradient-to-t from-black/70 to-transparent w-full">
-            <h2 className="text-xl font-bold ">
-              {selectedUser?.fullName || "Tonia Clay"}
-            </h2>
 
-            <div className="flex items-center gap-1 mt-1">
-              <span
-                className={`w-2 h-2 rounded-full ${
-                  isUserOnline ? "bg-green-500" : ""
-                }`}
-              ></span>
-              <span className="text-sm text-white/90">
-                {isUserOnline ? "Active" : "Offline"}
-              </span>
+          <div className="relative w-full h-40 2xl:h-56 flex-shrink-0">
+            <img
+              onClick={() =>
+                openImageDialog(selectedUser?.backgroundPic || bgImage)
+              }
+              src={selectedUser?.backgroundPic || bgImage}
+              alt="cover"
+              className="w-full h-full object-cover cursor-pointer"
+            />
+
+            {/* Profile Picture */}
+            <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2">
+              <div className="w-32 h-32 rounded-full border-4  shadow-md overflow-hidden  cursor-pointer">
+                <img
+                  src={selectedUser?.profilePic || assets.avatar_icon}
+                  alt="profile"
+                  className="w-full h-full object-cover"
+                  onClick={() =>
+                    openImageDialog(
+                      selectedUser?.profilePic || assets.avatar_icon
+                    )
+                  }
+                />
+              </div>
             </div>
+          </div>
+        </div>
+        <div className=" left-0 w-full  flex items-start justify-start flex-col px-4 py-3">
+          <h2 className="text-xl font-bold ">
+            {selectedUser?.fullName || "Tonia Clay"}
+          </h2>
+
+          <div className="flex items-center gap-1 mt-1">
+            <span
+              className={`w-2 h-2 rounded-full ${
+                isUserOnline ? "bg-green-500" : "bg-red-500"
+              }`}
+            ></span>
+            <span className="text-sm ">
+              {isUserOnline ? "Active" : "Offline"}
+            </span>
           </div>
         </div>
 
@@ -260,10 +279,10 @@ const SenderProfleTab = () => {
                     ))}
                   </div>
                 ) : ( */}
-                  <div className="flex justify-center items-center flex-col gap-2">
-                    <img src={noData} alt="no data" className="w-16" />
-                    <p className=" text-lg">No Documents Shared</p>
-                  </div>
+                <div className="flex justify-center items-center flex-col gap-2">
+                  <img src={noData} alt="no data" className="w-16" />
+                  <p className=" text-lg">No Documents Shared</p>
+                </div>
                 {/* )} */}
               </div>
             )}
@@ -281,15 +300,15 @@ const SenderProfleTab = () => {
                     ))}
                   </div>
                 ) : ( */}
-                  <div className="flex justify-center items-center flex-col gap-2">
-                    <img src={noData} alt="no data" className="w-16" />
-                    <p className=" text-lg">No Audio Shared</p>
-                  </div>
+                <div className="flex justify-center items-center flex-col gap-2">
+                  <img src={noData} alt="no data" className="w-16" />
+                  <p className=" text-lg">No Audio Shared</p>
+                </div>
                 {/* )} */}
               </div>
             )}
             {activeTab === 4 && (
-               <div className="w-full p-1">
+              <div className="w-full p-1">
                 {/* {msgImages.length > 0 ? (
                   <div className="grid grid-cols-2">
                     {msgImages.map((url, index) => (
@@ -302,15 +321,15 @@ const SenderProfleTab = () => {
                     ))}
                   </div>
                 ) : ( */}
-                  <div className="flex justify-center items-center flex-col gap-2">
-                    <img src={noData} alt="no data" className="w-16" />
-                    <p className=" text-lg">No Link Shared</p>
-                  </div>
+                <div className="flex justify-center items-center flex-col gap-2">
+                  <img src={noData} alt="no data" className="w-16" />
+                  <p className=" text-lg">No Link Shared</p>
+                </div>
                 {/* )} */}
               </div>
             )}
             {activeTab === 5 && (
-               <div className="w-full p-1">
+              <div className="w-full p-1">
                 {/* {msgImages.length > 0 ? (
                   <div className="grid grid-cols-2">
                     {msgImages.map((url, index) => (
@@ -323,10 +342,10 @@ const SenderProfleTab = () => {
                     ))}
                   </div>
                 ) : ( */}
-                  <div className="flex justify-center items-center flex-col gap-2">
-                    <img src={noData} alt="no data" className="w-16" />
-                    <p className=" text-lg">No Locations Shared</p>
-                  </div>
+                <div className="flex justify-center items-center flex-col gap-2">
+                  <img src={noData} alt="no data" className="w-16" />
+                  <p className=" text-lg">No Locations Shared</p>
+                </div>
                 {/* )} */}
               </div>
             )}

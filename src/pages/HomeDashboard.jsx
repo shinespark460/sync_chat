@@ -24,7 +24,6 @@ const HomeDashboard = () => {
         {openProfileUser && <SenderProfleTab />}
       </div>
       <div className="block md:hidden">
-      
         {!selectedUser && <BottomTabMobile />}
 
         {selectedUser && !openProfileUser && <ChatTab />}

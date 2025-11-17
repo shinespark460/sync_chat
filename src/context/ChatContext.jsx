@@ -188,6 +188,25 @@ export const ChatProvider = ({ children }) => {
   // Check if item is bookmarked
   const isBookMarked = (url) => bookMarks.includes(url);
 
+  // URL Preview
+
+  // const [preview, setPreview] = useState(null);
+  // const [previewLoading, setPreviewLoading] = useState(false);
+
+  // const fetchPreview = async (url) => {
+  //   setPreviewLoading(true);
+  //   try {
+  //     const { data } = await axios.post("/api/link-preview", { url });
+  //     if (data.success) {
+  //       setPreview(data);
+  //     }
+  //   } catch (err) {
+  //     console.log("preview err", err);
+  //   } finally {
+  //     setPreviewLoading(false);
+  //   }
+  // };
+
   useEffect(() => {
     const unsubscribe = subscribeToMessages();
     return unsubscribe;
@@ -218,7 +237,12 @@ export const ChatProvider = ({ children }) => {
     toggleBookmark,
     bookMarks,
     msgSendLoading,
+  
   };
 
   return <ChatContext.Provider value={value}>{children}</ChatContext.Provider>;
 };
+  // preview,
+  //   setPreview,
+  //   fetchPreview,
+  //   previewLoading,

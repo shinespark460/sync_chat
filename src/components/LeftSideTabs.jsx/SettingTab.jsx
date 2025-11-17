@@ -12,7 +12,7 @@ import {
   Pencil,
   Save,
   MessageCircleQuestionMark,
-  X,
+  X,LogOut
 } from "lucide-react";
 import { CircularProgress } from "@mui/material";
 const fileToBase64 = (file) =>
@@ -24,7 +24,8 @@ const fileToBase64 = (file) =>
     reader.onerror = (error) => reject(error);
   });
 const SettingTab = () => {
-  const { authUser, updateProfile, loadingUpdate } = useContext(AppContext);
+  const { authUser, updateProfile, loadingUpdate, logout } =
+    useContext(AppContext);
 
   const [isEditing, setIsEditing] = useState(false);
 
@@ -163,12 +164,12 @@ const SettingTab = () => {
       <div className="flex-1 lg:overflow-y-auto pb-10">
         <div className="mt-2">
           {/* 1️⃣ Personal Info */}
-          <div className="border-b  px-4">
+          <div className="border-b   px-4">
             <button
               onClick={() => {
                 setOpen({ ...open, personal: !open.personal });
               }}
-              className="w-full flex items-center justify-between  py-4 text-left  transition-all duration-200"
+              className="w-full flex items-center justify-between cursor-pointer py-4 text-left  transition-all duration-200"
             >
               <h3 className="font-medium  flex flex-row items-center gap-2">
                 <span>
@@ -177,10 +178,10 @@ const SettingTab = () => {
                 Personal Info
               </h3>
               {open.personal ? (
-                 <ChevronUp className=" transition-transform duration-300" />
-            ) : (
-              <ChevronDown className="text-base-300 transition-transform duration-300" />
-            )}
+                <ChevronUp className=" transition-transform duration-300" />
+              ) : (
+                <ChevronDown className="text-base-300 transition-transform duration-300" />
+              )}
             </button>
           </div>
           <div
@@ -304,7 +305,7 @@ const SettingTab = () => {
         <div className="border-b  px-4">
           <button
             onClick={() => setOpen({ ...open, themes: !open.themes })}
-            className="w-full flex items-center justify-between  py-4 text-left  transition-all"
+            className="w-full flex items-center justify-between cursor-pointer py-4 text-left  transition-all"
           >
             <h3 className="font-medium  flex flex-row items-center gap-2">
               <span>
@@ -313,7 +314,7 @@ const SettingTab = () => {
               Themes
             </h3>
             {open.themes ? (
-            <ChevronUp className=" transition-transform duration-300" />
+              <ChevronUp className=" transition-transform duration-300" />
             ) : (
               <ChevronDown className="text-base-300 transition-transform duration-300" />
             )}
@@ -331,7 +332,7 @@ const SettingTab = () => {
         <div className="border-b  px-4">
           <button
             onClick={() => setOpen({ ...open, account: !open.account })}
-            className="w-full flex items-center justify-between py-4 text-left  transition-all "
+            className="w-full flex items-center justify-between py-4 cursor-pointer text-left  transition-all "
           >
             <h3 className="font-medium flex flex-row items-center gap-2">
               <span>
@@ -350,12 +351,15 @@ const SettingTab = () => {
               open.account ? "max-h-40 opacity-100 py-3" : "max-h-0 opacity-0"
             }`}
           >
-            <p className="text-sm text-gray-600">
-              Manage login sessions, password, and privacy settings.
-            </p>
-            <p className="text-sm text-gray-600">
-              Enable two-step verification for enhanced security.
-            </p>
+            <div
+              onClick={() => logout()}
+              className="flex  hover:text-green-400 justify-between gap-4 px-8 text-[16px] items-center  cursor-pointer"
+            >
+              <span className="font-bold">Loagout</span>
+              <span className="">
+                <LogOut size={24} />
+              </span>{" "}
+            </div>
           </div>
         </div>
 
@@ -363,7 +367,7 @@ const SettingTab = () => {
         <div className="px-4">
           <button
             onClick={() => setOpen({ ...open, help: !open.help })}
-            className="w-full flex items-center justify-between  py-4 text-left transition-all"
+            className="w-full flex items-center justify-between cursor-pointer  py-4 text-left transition-all"
           >
             <h3 className="font-medium flex flex-row items-center gap-2">
               <span>
@@ -372,7 +376,7 @@ const SettingTab = () => {
               Help
             </h3>
             {open.help ? (
-         <ChevronUp className=" transition-transform duration-300" />
+              <ChevronUp className=" transition-transform duration-300" />
             ) : (
               <ChevronDown className="text-base-300 transition-transform duration-300" />
             )}
@@ -382,10 +386,8 @@ const SettingTab = () => {
               open.help ? "max-h-40 opacity-100 py-3" : "max-h-0 opacity-0"
             }`}
           >
-            <p className="text-sm text-gray-600">Find answers to FAQs.</p>
-            <p className="text-sm text-gray-600">
-              Contact our support team for more help.
-            </p>
+            <p className="text-sm ">Find answers to FAQs.</p>
+            <p className="text-sm">Contact our support team for more help.</p>
           </div>
         </div>
       </div>
