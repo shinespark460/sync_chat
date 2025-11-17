@@ -144,7 +144,7 @@ const SenderProfleTab = () => {
             {showOptions && (
               <div
                 ref={optionref}
-                className="z-50 absolute top-full right-0 mt-3 p-3 rounded-lg bg-base-100 shadow-lg border-[1px] w-36"
+                className="z-50 absolute top-full right-0 mt-3 p-3 rounded-lg bg-base-100 shadow-lg border w-36"
               >
                 <ul className="flex flex-col gap-2 px-2 text-sm">
                   <li

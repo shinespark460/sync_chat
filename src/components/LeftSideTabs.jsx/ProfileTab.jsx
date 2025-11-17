@@ -73,7 +73,7 @@ const ProfileTab = () => {
       </div>
 
       {/* User Info (Static - Not Scrollable) */}
-      <div className="mt-20 flex flex-col items-center px-4 text-center flex-shrink-0 border-b-[1px]  pb-4">
+      <div className="mt-20 flex flex-col items-center px-4 text-center shrink-0 border-b  pb-4">
         <h2 className="text-2xl font-semibold ">
           {authUser?.fullName.split(" ")[0] || "Tonia Clay"}
         </h2>
