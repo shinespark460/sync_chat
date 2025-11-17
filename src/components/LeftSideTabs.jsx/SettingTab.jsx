@@ -127,7 +127,7 @@ const SettingTab = () => {
         />
 
         {/* Overlay Title */}
-        <div className="absolute top-0 cursor-pointer left-0 w-full h-full bg-black/30 flex items-start justify-between px-4 py-3">
+        <div className="absolute top-0 cursor-pointer left-0 w-full h-full flex items-start justify-between px-4 py-3">
           <h2 className="text-base-500 text-xl font-semibold tracking-wide drop-shadow">
             Settings
           </h2>
@@ -196,7 +196,7 @@ const SettingTab = () => {
               {loadingUpdate && (
                 <div className="top-0 left-0 w-full h-full bg-[#ffffffa8] absolute flex justify-center flex-col items-center  z-50">
                   <CircularProgress color="success" />
-                  <p className="text-[#4eac6d] text-xl font-bold">
+                  <p className="text-base-500 text-xl font-bold">
                     Updating Details....
                   </p>
                 </div>

@@ -43,7 +43,7 @@ const ArchiveTab = () => {
         <div className="relative my-3">
           {/* Search Icon */}
           <Search
-            className="absolute left-3 top-1/2 -translate-y-1/2 text-base-300 bg-red-500 "
+            className="absolute left-3 top-1/2 -translate-y-1/2 text-base-300 z-10 bg-base-500 "
             size={16}
           />
 

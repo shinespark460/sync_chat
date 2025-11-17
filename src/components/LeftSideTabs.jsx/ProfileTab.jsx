@@ -40,7 +40,7 @@ const ProfileTab = () => {
   return (
     <div className="w-full h-screen  overflow-y-auto flex flex-col md:border-r lg:pb-0 pb-20">
       {/* Header Section */}
-      <div className="relative w-full h-40 2xl:h-56 flex-shrink-0">
+      <div className="relative w-full h-40 2xl:h-56 shrink-0">
         <img
           src={authUser?.backgroundPic || bgImage}
           alt="cover"
@@ -50,7 +50,7 @@ const ProfileTab = () => {
         {/* Overlay Title */}
         <div
           onClick={() => openImageDialog(authUser?.backgroundPic || bgImage)}
-          className="absolute top-0 cursor-pointer left-0 w-full h-full bg-black/30 flex items-start justify-between px-4 py-3"
+          className="absolute top-0 cursor-pointer left-0 w-full h-full flex items-start justify-between px-4 py-3"
         >
           <h2 className="text-base-500 text-xl font-semibold tracking-wide drop-shadow">
             My Profile
@@ -84,7 +84,7 @@ const ProfileTab = () => {
       </div>
 
       {/* Scrollable Section */}
-      <div className="flex-1 lg:overflow-y-auto px-6 mt-3 pb-10">
+      <div className="flex-1 lg:overflow-y-auto 2xl:px-6 px-4 mt-3 pb-10">
         <h3 className="text-lg font-semibold mb-2">About</h3>
         <p className="text-sm t leading-relaxed">
           {authUser?.bio || "Hey there! I am using Synk"}
@@ -140,7 +140,7 @@ const ProfileTab = () => {
                 key={index}
                 onClick={() => setActiveTab(index + 1)}
                 className={`flex flex-col items-center gap-1 cursor-pointer ${
-                  activeTab === index + 1 ? "text-green-400" : ""
+                  activeTab === index + 1 ? "text-base-1000" : "text-[#878a92]"
                 }  hover:text-green-400 transition`}
               >
                 <item.icon className="w-5 h-5" />
@@ -150,7 +150,7 @@ const ProfileTab = () => {
           </div>
           <div>
             {activeTab === 1 && (
-              <div className="w-full p-1">
+              <div className="w-full py-1">
                 {msgImages.length > 0 ? (
                   <div className="grid grid-cols-2">
                     {msgImages.map((url, index) => (

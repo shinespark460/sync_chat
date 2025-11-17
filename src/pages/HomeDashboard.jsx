@@ -15,7 +15,7 @@ const HomeDashboard = () => {
         className={`md:grid hidden ${
           openProfileUser
             ? "2xl:grid-cols-[2.5fr_7fr_2.5fr] xl:grid-cols-[3fr_6fr_3fr] lg:grid-cols-[3.5fr_5fr_3.5fr] md:grid-cols-[5fr_7fr] transition-all duration-200"
-            : "xl:grid-cols-[3fr_9fr] lg:grid-cols0[4fr_8fr] md:grid-cols-[5fr_7fr]"
+            : "xl:grid-cols-[3.5fr_8.5fr] lg:grid-cols0[4fr_8fr] md:grid-cols-[5fr_7fr]"
         } `}
       >
         <LeftTab />

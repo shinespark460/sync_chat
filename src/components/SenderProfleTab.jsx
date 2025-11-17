@@ -79,7 +79,7 @@ const SenderProfleTab = () => {
             <X className="w-5 h-5" />
           </button>
 
-          <div className="relative w-full h-40 2xl:h-56 flex-shrink-0">
+          <div className="relative w-full h-40 2xl:h-56 shrink-0">
             <img
               onClick={() =>
                 openImageDialog(selectedUser?.backgroundPic || bgImage)
@@ -117,7 +117,7 @@ const SenderProfleTab = () => {
                 isUserOnline ? "bg-green-500" : "bg-red-500"
               }`}
             ></span>
-            <span className="text-sm ">
+            <span className="text-sm text-base-1000 font-medium ">
               {isUserOnline ? "Active" : "Offline"}
             </span>
           </div>
@@ -233,7 +233,7 @@ const SenderProfleTab = () => {
                 key={index}
                 onClick={() => setActiveTab(index + 1)}
                 className={`flex flex-col items-center gap-1 cursor-pointer ${
-                  activeTab === index + 1 ? "text-green-400" : ""
+                  activeTab === index + 1 ? "text-base-1000" : "text-[#878a92]"
                 }  hover:text-green-400 transition`}
               >
                 <item.icon className="w-5 h-5" />
