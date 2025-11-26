@@ -156,11 +156,6 @@ Dark Mode View
 
 🔗 Links
 
-Live Demo: [Your deployed application URL]
-GitHub Repository: [Your repository URL]
-Portfolio: [Your portfolio website]
+Live Demo: https://synk-chat-five.vercel.app
+Portfolio: https://hemanshu-mishra.vercel.app/
 
-
-Developed by: [Your Name]
-Contact: [Your Email]
-Date: [Project Completion Date]
