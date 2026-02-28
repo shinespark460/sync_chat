@@ -154,8 +154,4 @@ User Profile
 Chat Rooms List
 Dark Mode View
 
-🔗 Links
-
-Live Demo: https://synk-chat-five.vercel.app
-Portfolio: https://hemanshu-mishra.vercel.app/
 

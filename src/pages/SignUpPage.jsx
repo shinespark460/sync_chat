@@ -232,15 +232,7 @@ const App = () => {
 
             <div className="border-t border-gray-100 pt-4 mt-auto">
               <p className="lg:text-lg text-sm text-gray-500">
-                Synk 2025 &copy; | All rights reserved. | Crafted By &nbsp;
-                <a
-                  href="https://hemanshu-mishra.vercel.app/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[#4eac6d] font-bold cursor-pointer hover:underline"
-                >
-                  Himanshu
-                </a>
+                Synk 2025 &copy; | All rights reserved.
               </p>
             </div>
           </div>
